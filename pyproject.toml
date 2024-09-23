@@ -1,0 +1,41 @@
+[project]
+name = "judge0-py"
+version = "0.0.1-dev"
+description = "Python client library for Judge0."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Herman Zvonimir Došilović", email = "hermanz.dosilovic@gmail.com" },
+    { name = "Filip Karlo Došilović", email = "filipk.dosilovic@gmail.com" },
+]
+maintainers = [
+    { name = "Filip Karlo Došilović", email = "filipk.dosilovic@gmail.com" },
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+
+    "License :: OSI Approved :: MIT License",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = []
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/judge0/judge0-py"
+Repository = "https://github.com/judge0/judge0-py.git"
+Issues = "https://github.com/judge0/judge0-py/issues"
+
+[project.optional-dependencies]
+test = ["pytest", "mkdocs"]
