@@ -1,0 +1,8 @@
+repos:
+  - repo: https://github.com/omnilib/ufmt
+    rev: v2.7.3
+    hooks:
+      - id: ufmt
+        additional_dependencies:
+          - black == 24.8.0
+          - usort == 1.0.8.post1
