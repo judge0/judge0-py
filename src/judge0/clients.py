@@ -45,12 +45,15 @@ class BaseSuluClient:
         self._session.headers.update(headers)
         return r.json()
 
-    def get_languages(self, *, language_id: Union[int, None] = None) -> list[dict]:
+    def get_languages(
+        self, *, language_id: Union[int, None] = None
+    ) -> Union[dict, list[dict]]:
         # TODO: Potentially think about caching the successful return.
         headers = {"Authorization": f"Bearer {self.auth_token}"}
         request_url = f"{self.endpoint}/languages"
         if language_id is not None:
             request_url = f"{request_url}/{language_id}"
+            headers.update({"Accept": "application/json"})
         r = requests.get(request_url, headers=headers)
         r.raise_for_status()
         self._session.headers.update(headers)
