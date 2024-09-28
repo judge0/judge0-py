@@ -13,19 +13,22 @@ class BaseSuluClient:
         *,
         endpoint: Union[str, None] = None,
         auth_token: Union[str, None] = None,
+        wait: bool = False,
     ):
         if endpoint is None:
             endpoint = self.default_endpoint
+
         self.endpoint = endpoint
         self.auth_token = auth_token
-        self._session = requests.Session()
+        self.wait = wait
+        self.session = requests.Session()
 
     def get_about(self) -> dict:
         # TODO: Potentially think about caching the successful return.
         headers = {"Authorization": f"Bearer {self.auth_token}"}
         r = requests.get(f"{self.endpoint}/about", headers=headers)
         r.raise_for_status()
-        self._session.headers.update(headers)
+        self.session.headers.update(headers)
         return r.json()
 
     def get_config_info(self) -> dict:
@@ -33,7 +36,7 @@ class BaseSuluClient:
         headers = {"Authorization": f"Bearer {self.auth_token}"}
         r = requests.get(f"{self.endpoint}/config_info", headers=headers)
         r.raise_for_status()
-        self._session.headers.update(headers)
+        self.session.headers.update(headers)
         return r.json()
 
     def get_statuses(self) -> list[dict]:
@@ -42,7 +45,7 @@ class BaseSuluClient:
         headers = {"Authorization": f"Bearer {self.auth_token}"}
         r = requests.get(f"{self.endpoint}/statuses", headers=headers)
         r.raise_for_status()
-        self._session.headers.update(headers)
+        self.session.headers.update(headers)
         return r.json()
 
     def get_languages(
@@ -56,7 +59,7 @@ class BaseSuluClient:
             headers.update({"Accept": "application/json"})
         r = requests.get(request_url, headers=headers)
         r.raise_for_status()
-        self._session.headers.update(headers)
+        self.session.headers.update(headers)
         return r.json()
 
     @property
