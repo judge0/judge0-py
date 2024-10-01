@@ -1,8 +1,5 @@
 from enum import IntEnum
 
-DEFAULT_SULU_CE_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
-DEFAULT_SULU_EXTRA_CE_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
-
 
 class Status(IntEnum):
     IN_QUEUE = 1

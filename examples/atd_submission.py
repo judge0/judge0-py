@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("SULU_API_KEY")
+api_key = os.getenv("ATD_API_KEY")
 
 
 def run_example(client_class, language_id):
@@ -27,8 +27,8 @@ def run_example(client_class, language_id):
 
 
 def main():
-    run_example(judge0.SuluJudge0CE, 100)
-    run_example(judge0.SuluJudge0ExtraCE, 25)
+    run_example(judge0.ATDJudge0CE, 100)
+    run_example(judge0.ATDJudge0ExtraCE, 25)
 
 
 if __name__ == "__main__":

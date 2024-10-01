@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "==2.32.3"
+
+[dev-packages]
+ufmt = "==2.7.3"
+pre-commit = "==3.8.0"
+pytest = "==8.3.3"
+python-dotenv = "==1.0.1"
+
+[requires]
+python_version = "3.9"
+python_full_version = "3.9.20"

@@ -1,4 +1,6 @@
 from base64 import b64decode, b64encode
+from dataclasses import dataclass
+from typing import Union
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -42,6 +44,7 @@ RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
 
 
+@dataclass
 class Submission:
     """
     Stores a representation of a Submission to/from Judge0.
@@ -71,15 +74,15 @@ class Submission:
         number_of_runs=None,
         callback_url=None,
     ):
-        self.source_code = source_code  # stored as bytes internally
+        self.source_code = source_code
         self.language_id = language_id
-        self.additional_files = additional_files  # stored as bytes internally
+        self.additional_files = additional_files
 
         # Extra pre-execution submission attributes.
         self.compiler_options = compiler_options
         self.command_line_arguments = command_line_arguments
-        self.stdin = stdin  # stored as bytes internally
-        self.expected_output = expected_output  # stored as bytes internally
+        self.stdin = stdin
+        self.expected_output = expected_output
         self.cpu_time_limit = cpu_time_limit
         self.cpu_extra_time = cpu_extra_time
         self.wall_time_limit = wall_time_limit
@@ -99,9 +102,9 @@ class Submission:
         self.callback_url = callback_url
 
         # Post-execution submission attributes.
-        self.stdout = None  # stored as bytes internally
-        self.stderr = None  # stored as bytes internally
-        self.compile_output = None  # stored as bytes internally
+        self.stdout = None
+        self.stderr = None
+        self.compile_output = None
         self.message = None
         self.exit_code = None
         self.exit_signal = None
@@ -113,105 +116,42 @@ class Submission:
         self.wall_time = None
         self.memory = None
 
-    def check(self, client, *, fields=None):
-        """Check the submission status."""
-        headers = {
-            "Accept": "application/json",
-            # NOTE: Only valid for Sulu clients.
-            "Authorization": f"Bearer {client.auth_token}",
-        }
-        params = {
-            "base64_encoded": "true",
-        }
+    def encode(self, text: str) -> str:
+        return b64encode(bytes(text, "utf-8")).decode()
 
-        if fields is not None:
-            params["fields"] = ",".join(fields)
+    def decode(self, bytes_string: str) -> str:
+        return b64decode(bytes_string.encode()).decode()
 
-        resp = client.session.get(
-            f"{client.endpoint}/submissions/{self.token}",
-            headers=headers,
-            params=params,
-        )
-        resp.raise_for_status()
-
-        self.set_properties(resp.json())
-
-    def submit(self, client):
-        headers = {
-            "Accept": "application/json",
-            # NOTE: Only valid for Sulu clients.
-            "Authorization": f"Bearer {client.auth_token}",
-        }
-        params = {
-            "base64_encoded": "true",
-            "wait": str(client.wait).lower(),
-        }
-
-        body = {
-            "source_code": b64encode(self.source_code).decode(),
-            "language_id": self.language_id,
-        }
-
-        if self.stdin:
-            body["stdin"] = b64encode(self.stdin).decode()
-        if self.expected_output:
-            body["expected_output"] = b64encode(self.expected_output).decode()
-
+    def update_extra_request_fields(self, body):
         for field in EXTRA_REQUEST_FIELDS:
             value = getattr(self, field)
             if value is not None:
                 body[field] = value
 
-        resp = client.session.post(
-            f"{client.endpoint}/submissions",
-            headers=headers,
-            params=params,
-            json=body,
-        )
-        resp.raise_for_status()
-
-        self.set_properties(resp.json())
-
-    def set_properties(self, d):
-        for key, value in d.items():
-            if key in ENCODED_FIELDS:
-                setattr(self, key, b64decode(value.encode()) if value else None)
+    def set_attributes(self, attributes):
+        for attr, value in attributes.items():
+            if attr in ENCODED_FIELDS:
+                setattr(self, attr, self.decode(value) if value else None)
             else:
-                setattr(self, key, value)
+                setattr(self, attr, value)
 
 
 class SingleFileSubmission(Submission):
     def __init__(
         self,
-        source_code: str = None,
-        language_id: int = None,
-        additional_files=None,
+        source_code: str,
+        language_id: int,
         **kwargs,
     ):
-        if source_code is None:
-            raise ValueError(
-                "Argument source_code should not be None for SingleFileSubmission."
-            )
 
-        if language_id is None:
-            raise ValueError(
-                "Argument language_id should not be None for SingleFileSubmission."
-            )
-
-        super().__init__(source_code, language_id, additional_files, **kwargs)
+        super().__init__(source_code, language_id, None, **kwargs)
 
 
 class MultiFileSubmission(Submission):
     def __init__(
         self,
-        source_code: str = None,
-        language_id: int = 89,
-        additional_files=None,
+        additional_files,
         **kwargs,
     ):
-        if additional_files is None:
-            raise ValueError(
-                "Argument additional_files should not be None for MultiFileSubmission."
-            )
 
-        super().__init__(source_code, language_id, additional_files, **kwargs)
+        super().__init__(None, 89, additional_files, **kwargs)
