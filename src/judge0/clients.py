@@ -59,21 +59,11 @@ class Client:
     def create_submission(self, submission: Submission):
         # TODO: check if client supports specified language_id
         params = {
-            "base64_encoded": "true",  # TODO: Make customizable later.
+            "base64_encoded": "true",
             "wait": str(self.wait).lower(),
         }
 
-        body = {
-            "source_code": submission.encode(submission.source_code),
-            "language_id": submission.language_id,
-        }
-
-        if submission.stdin:
-            body["stdin"] = submission.encode(submission.stdin)
-        if submission.expected_output:
-            body["expected_output"] = submission.encode(submission.expected_output)
-
-        submission.update_extra_request_fields(body)
+        body = submission.to_dict()
 
         resp = requests.post(
             f"{self.endpoint}/submissions",

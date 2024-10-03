@@ -1,6 +1,5 @@
 from base64 import b64decode, b64encode
-from dataclasses import dataclass
-from typing import Union
+
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -44,7 +43,14 @@ RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
 
 
-@dataclass
+def encode(text: str) -> str:
+    return b64encode(bytes(text, "utf-8")).decode()
+
+
+def decode(b64_encoded_str: str) -> str:
+    return b64decode(b64_encoded_str.encode()).decode(errors="backslashreplace")
+
+
 class Submission:
     """
     Stores a representation of a Submission to/from Judge0.
@@ -116,24 +122,30 @@ class Submission:
         self.wall_time = None
         self.memory = None
 
-    def encode(self, text: str) -> str:
-        return b64encode(bytes(text, "utf-8")).decode()
+    def set_attributes(self, attributes):
+        for attr, value in attributes.items():
+            if attr in ENCODED_FIELDS:
+                setattr(self, attr, decode(value) if value else None)
+            else:
+                setattr(self, attr, value)
 
-    def decode(self, bytes_string: str) -> str:
-        return b64decode(bytes_string.encode()).decode()
+    def to_dict(self) -> dict:
+        body = {
+            "source_code": encode(self.source_code),
+            "language_id": self.language_id,
+        }
 
-    def update_extra_request_fields(self, body):
+        if self.stdin is not None:
+            body["stdin"] = encode(self.stdin)
+        if self.expected_output is not None:
+            body["expected_output"] = encode(self.expected_output)
+
         for field in EXTRA_REQUEST_FIELDS:
             value = getattr(self, field)
             if value is not None:
                 body[field] = value
 
-    def set_attributes(self, attributes):
-        for attr, value in attributes.items():
-            if attr in ENCODED_FIELDS:
-                setattr(self, attr, self.decode(value) if value else None)
-            else:
-                setattr(self, attr, value)
+        return body
 
 
 class SingleFileSubmission(Submission):
