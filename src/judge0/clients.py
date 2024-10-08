@@ -11,7 +11,7 @@ class Client:
         self.wait = wait
 
         try:
-            self.languages = self.get_languages()
+            self.languages = {lang["id"]: lang for lang in self.get_languages()}
         except Exception:
             raise RuntimeError("Client authentication failed.")
 
@@ -51,8 +51,17 @@ class Client:
         r.raise_for_status()
         return r.json()
 
+    def is_language_supported(self, language_id: int) -> bool:
+        return language_id in self.languages
+
     def create_submission(self, submission: Submission) -> None:
-        # TODO: check if client supports specified language_id
+        # Check if submission contains supported language.
+        if not self.is_language_supported(language_id=submission.language_id):
+            raise RuntimeError(
+                f"Client {type(self).__name__} does not support language with "
+                f"id {submission.language_id}!"
+            )
+
         params = {
             "base64_encoded": "true",
             "wait": str(self.wait).lower(),
@@ -90,6 +99,14 @@ class Client:
         submission.set_attributes(resp.json())
 
     def create_submissions(self, submissions: list[Submission]) -> None:
+        # Check if all submissions contain supported language.
+        for submission in submissions:
+            if not self.is_language_supported(language_id=submission.language_id):
+                raise RuntimeError(
+                    f"Client {type(self).__name__} does not support language with "
+                    f"id {submission.language_id}!"
+                )
+
         params = {
             "base64_encoded": "true",
             "wait": str(self.wait).lower(),
@@ -195,11 +212,11 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submissions: Submission) -> None:
+    def create_submissions(self, submissions: list[Submission]) -> None:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
-    def get_submissions(self, submissions: Submission, *, fields=None) -> None:
+    def get_submissions(self, submissions: list[Submission], *, fields=None) -> None:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
@@ -253,11 +270,11 @@ class ATDJudge0ExtraCE(ATD):
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submission: Submission) -> None:
+    def create_submissions(self, submission: list[Submission]) -> None:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submission)
 
-    def get_submissions(self, submission: Submission, *, fields=None) -> None:
+    def get_submissions(self, submission: list[Submission], *, fields=None) -> None:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submission, fields=fields)
 
