@@ -1,5 +1,7 @@
 from base64 import b64decode, b64encode
 
+from .common import Status
+
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -146,3 +148,9 @@ class Submission:
                 body[field] = value
 
         return body
+
+    def is_done(self) -> bool:
+        if self.status is None:
+            return False
+        else:
+            return self.status not in [Status.IN_QUEUE, Status.ACCEPTED]

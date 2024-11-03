@@ -7,6 +7,7 @@ from .clients import (
     SuluJudge0CE,
     SuluJudge0ExtraCE,
 )
+from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
 
 from .submission import Submission
 
@@ -19,4 +20,7 @@ __all__ = [
     SuluJudge0CE,
     SuluJudge0ExtraCE,
     Submission,
+    RegularPeriodRetry,
+    MaxRetries,
+    MaxWaitTime,
 ]

@@ -1,5 +1,4 @@
 import os
-import time
 
 import judge0
 
@@ -25,8 +24,7 @@ def run_example(client_class, lang_id_python, lang_id_c):
 
     submissions = [submission1, submission2]
     client.create_submissions(submissions)
-    time.sleep(1)
-    client.get_submissions(submissions)
+    client.wait(submissions)
 
     for submission in submissions:
         print(f"{submission.status=}")

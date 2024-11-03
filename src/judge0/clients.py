@@ -1,6 +1,8 @@
-from typing import Iterable, Union
+from typing import Iterable, Optional, Union
 
 import requests
+
+from .retry import RegularPeriodRetry, RetryMechanism
 
 from .submission import Submission
 
@@ -159,6 +161,36 @@ class Client:
 
         for submission, attrs in zip(submissions, resp.json()["submissions"]):
             submission.set_attributes(attrs)
+
+    def wait(
+        self,
+        submissions: Union[Submission, list[Submission]],
+        *,
+        retry_mechanism: Optional[RetryMechanism] = None,
+    ):
+        if retry_mechanism is None:
+            retry_mechanism = RegularPeriodRetry()
+
+        if not isinstance(submissions, (list, tuple)):
+            submissions = [submissions]
+
+        submissions_to_check = {
+            submission.token: submission for submission in submissions
+        }
+
+        while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
+            self.get_submissions(submissions_to_check.values())
+            for token in list(submissions_to_check):
+                submission = submissions_to_check[token]
+                if submission.is_done():
+                    submissions_to_check.pop(token)
+
+            # Don't wait if there is no submissions to check for anymore.
+            if len(submissions_to_check) == 0:
+                break
+
+            retry_mechanism.wait()
+            retry_mechanism.step()
 
 
 class ATD(Client):

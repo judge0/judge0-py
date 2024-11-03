@@ -1,5 +1,4 @@
 import os
-import time
 
 import judge0
 
@@ -19,8 +18,7 @@ def run_example(client_class, language_id):
     )
 
     client.create_submission(submission)
-    time.sleep(1)
-    client.get_submission(submission)
+    client.wait(submission)
 
     print(f"{submission.status=}")
     print(f"{submission.stdout=}")
