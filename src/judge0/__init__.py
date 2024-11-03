@@ -8,7 +8,7 @@ from .clients import (
     SuluJudge0ExtraCE,
 )
 
-from .submission import MultiFileSubmission, SingleFileSubmission, Submission
+from .submission import Submission
 
 __all__ = [
     ATDJudge0CE,
@@ -19,6 +19,4 @@ __all__ = [
     SuluJudge0CE,
     SuluJudge0ExtraCE,
     Submission,
-    SingleFileSubmission,
-    MultiFileSubmission,
 ]

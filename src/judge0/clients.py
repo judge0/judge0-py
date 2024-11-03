@@ -4,12 +4,9 @@ from .submission import Submission
 
 
 class Client:
-
-    def __init__(self, endpoint, auth_headers, *, wait=False) -> None:
+    def __init__(self, endpoint, auth_headers) -> None:
         self.endpoint = endpoint
         self.auth_headers = auth_headers
-        self.wait = wait
-
         try:
             self.languages = {lang["id"]: lang for lang in self.get_languages()}
         except Exception:
@@ -64,7 +61,7 @@ class Client:
 
         params = {
             "base64_encoded": "true",
-            "wait": str(self.wait).lower(),
+            "wait": "false",
         }
 
         body = submission.to_dict()
@@ -107,17 +104,12 @@ class Client:
                     f"id {submission.language_id}!"
                 )
 
-        params = {
-            "base64_encoded": "true",
-            "wait": str(self.wait).lower(),
-        }
-
         submissions_body = [submission.to_dict() for submission in submissions]
 
         resp = requests.post(
             f"{self.endpoint}/submissions/batch",
             headers=self.auth_headers,
-            params=params,
+            params={"base64_encoded": "true"},
             json={"submissions": submissions_body},
         )
         resp.raise_for_status()
@@ -133,7 +125,7 @@ class Client:
         if fields is not None:
             params["fields"] = ",".join(fields)
 
-        tokens = ",".join(submission.token for submission in submissions)
+        tokens = ",".join((submission.token for submission in submissions))
         params["tokens"] = tokens
 
         resp = requests.get(
@@ -148,7 +140,6 @@ class Client:
 
 
 class ATD(Client):
-
     def __init__(self, endpoint, host_header_value, api_key):
         self.api_key = api_key
         super().__init__(
@@ -280,7 +271,6 @@ class ATDJudge0ExtraCE(ATD):
 
 
 class Rapid(Client):
-
     def __init__(self, endpoint, host_header_value, api_key):
         self.api_key = api_key
         super().__init__(
@@ -317,7 +307,6 @@ class RapidJudge0ExtraCE(Rapid):
 
 
 class Sulu(Client):
-
     def __init__(self, endpoint, api_key):
         self.api_key = api_key
         super().__init__(endpoint, {"Authorization": f"Bearer {api_key}"})

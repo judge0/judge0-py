@@ -12,12 +12,12 @@ api_key = os.getenv("SULU_API_KEY")
 
 def run_example(client_class, lang_id_python, lang_id_c):
     client = client_class(api_key=api_key)
-    submission1 = judge0.SingleFileSubmission(
+    submission1 = judge0.Submission(
         source_code="print('Hello Judge0')",
         language_id=lang_id_python,
         expected_output="Hello Judge0",
     )
-    submission2 = judge0.SingleFileSubmission(
+    submission2 = judge0.Submission(
         source_code='#include <stdio.h>\n\nint main() {\n  printf("Hello World!");\n  return 0;\n}',
         language_id=lang_id_c,
         expected_output="Hello World!",

@@ -60,8 +60,8 @@ class Submission:
         self,
         source_code,
         language_id,
-        additional_files,
         *,
+        additional_files=None,
         compiler_options=None,
         command_line_arguments=None,
         stdin=None,
@@ -146,24 +146,3 @@ class Submission:
                 body[field] = value
 
         return body
-
-
-class SingleFileSubmission(Submission):
-    def __init__(
-        self,
-        source_code: str,
-        language_id: int,
-        **kwargs,
-    ):
-
-        super().__init__(source_code, language_id, None, **kwargs)
-
-
-class MultiFileSubmission(Submission):
-    def __init__(
-        self,
-        additional_files,
-        **kwargs,
-    ):
-
-        super().__init__(None, 89, additional_files, **kwargs)
