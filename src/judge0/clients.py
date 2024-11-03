@@ -55,7 +55,7 @@ class Client:
     def is_language_supported(self, language_id: int) -> bool:
         return language_id in self.languages
 
-    def create_submission(self, submission: Submission) -> None:
+    def create_submission(self, submission: Submission) -> Submission:
         # Check if submission contains supported language.
         if not self.is_language_supported(language_id=submission.language_id):
             raise RuntimeError(
@@ -80,12 +80,14 @@ class Client:
 
         submission.set_attributes(resp.json())
 
+        return submission
+
     def get_submission(
         self,
         submission: Submission,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> None:
+    ) -> Submission:
         """Check the submission status."""
 
         params = {
@@ -109,7 +111,9 @@ class Client:
 
         submission.set_attributes(resp.json())
 
-    def create_submissions(self, submissions: list[Submission]) -> None:
+        return submission
+
+    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
         # Check if all submissions contain supported language.
         for submission in submissions:
             if not self.is_language_supported(language_id=submission.language_id):
@@ -131,12 +135,14 @@ class Client:
         for submission, attrs in zip(submissions, resp.json()):
             submission.set_attributes(attrs)
 
+        return submissions
+
     def get_submissions(
         self,
         submissions: list[Submission],
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> None:
+    ) -> list[Submission]:
         params = {
             "base64_encoded": "true",
         }
@@ -162,35 +168,7 @@ class Client:
         for submission, attrs in zip(submissions, resp.json()["submissions"]):
             submission.set_attributes(attrs)
 
-    def wait(
-        self,
-        submissions: Union[Submission, list[Submission]],
-        *,
-        retry_mechanism: Optional[RetryMechanism] = None,
-    ):
-        if retry_mechanism is None:
-            retry_mechanism = RegularPeriodRetry()
-
-        if not isinstance(submissions, (list, tuple)):
-            submissions = [submissions]
-
-        submissions_to_check = {
-            submission.token: submission for submission in submissions
-        }
-
-        while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-            self.get_submissions(submissions_to_check.values())
-            for token in list(submissions_to_check):
-                submission = submissions_to_check[token]
-                if submission.is_done():
-                    submissions_to_check.pop(token)
-
-            # Don't wait if there is no submissions to check for anymore.
-            if len(submissions_to_check) == 0:
-                break
-
-            retry_mechanism.wait()
-            retry_mechanism.step()
+        return submissions
 
 
 class ATD(Client):
@@ -249,7 +227,7 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_STATUSES_ENDPOINT)
         return super().get_statuses()
 
-    def create_submission(self, submission: Submission) -> None:
+    def create_submission(self, submission: Submission) -> Submission:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSION_ENDPOINT)
         return super().create_submission(submission)
 
@@ -258,11 +236,11 @@ class ATDJudge0CE(ATD):
         submission: Submission,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> None:
+    ) -> Submission:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submissions: list[Submission]) -> None:
+    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
@@ -271,7 +249,7 @@ class ATDJudge0CE(ATD):
         submissions: list[Submission],
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> None:
+    ) -> list[Submission]:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
@@ -317,7 +295,7 @@ class ATDJudge0ExtraCE(ATD):
         self._update_endpoint_header(self.DEFAULT_STATUSES_ENDPOINT)
         return super().get_statuses()
 
-    def create_submission(self, submission: Submission):
+    def create_submission(self, submission: Submission) -> Submission:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSION_ENDPOINT)
         return super().create_submission(submission)
 
@@ -326,11 +304,11 @@ class ATDJudge0ExtraCE(ATD):
         submission: Submission,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ):
+    ) -> Submission:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submissions: list[Submission]) -> None:
+    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
@@ -339,7 +317,7 @@ class ATDJudge0ExtraCE(ATD):
         submissions: list[Submission],
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> None:
+    ) -> list[Submission]:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
@@ -398,3 +376,66 @@ class SuluJudge0ExtraCE(Sulu):
 
     def __init__(self, api_key):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
+
+
+def wait(
+    client: Client,
+    submissions: Union[Submission, list[Submission]],
+    *,
+    retry_mechanism: Optional[RetryMechanism] = None,
+) -> Union[Submission, list[Submission]]:
+    if retry_mechanism is None:
+        retry_mechanism = RegularPeriodRetry()
+
+    if not isinstance(submissions, (list, tuple)):
+        submissions_to_check = {
+            submission.token: submission for submission in [submissions]
+        }
+    else:
+        submissions_to_check = {
+            submission.token: submission for submission in submissions
+        }
+
+    while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
+        client.get_submissions(submissions_to_check.values())
+        for token in list(submissions_to_check):
+            submission = submissions_to_check[token]
+            if submission.is_done():
+                submissions_to_check.pop(token)
+
+        # Don't wait if there is no submissions to check for anymore.
+        if len(submissions_to_check) == 0:
+            break
+
+        retry_mechanism.wait()
+        retry_mechanism.step()
+
+    return submissions
+
+
+def async_execute(
+    *,
+    client: Client,
+    submissions: Union[Submission, list[Submission]],
+) -> Union[Submission, list[Submission]]:
+    if isinstance(submissions, (list, tuple)):
+        return client.create_submissions(submissions)
+    else:
+        return client.create_submission(submissions)
+
+
+def sync_execute(
+    *,
+    client: Client,
+    submissions: Union[Submission, list[Submission]],
+) -> Union[Submission, list[Submission]]:
+    submissions = async_execute(client=client, submissions=submissions)
+    return wait(client, submissions)
+
+
+def execute(
+    *,
+    client: Client,
+    submissions: Union[Submission, list[Submission]],
+) -> Union[Submission, list[Submission]]:
+    return sync_execute(client=client, submissions=submissions)

@@ -23,8 +23,7 @@ def run_example(client_class, lang_id_python, lang_id_c):
     )
 
     submissions = [submission1, submission2]
-    client.create_submissions(submissions)
-    client.wait(submissions)
+    judge0.execute(client=client, submissions=submissions)
 
     for submission in submissions:
         print(f"{submission.status=}")

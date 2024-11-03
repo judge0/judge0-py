@@ -1,11 +1,15 @@
 from .clients import (
+    async_execute,
     ATDJudge0CE,
     ATDJudge0ExtraCE,
     Client,
+    execute,
     RapidJudge0CE,
     RapidJudge0ExtraCE,
     SuluJudge0CE,
     SuluJudge0ExtraCE,
+    sync_execute,
+    wait,
 )
 from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
 
@@ -23,4 +27,8 @@ __all__ = [
     RegularPeriodRetry,
     MaxRetries,
     MaxWaitTime,
+    async_execute,
+    sync_execute,
+    execute,
+    wait,
 ]

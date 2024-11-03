@@ -17,8 +17,7 @@ def run_example(client_class, language_id):
         expected_output="Hello Judge0",
     )
 
-    client.create_submission(submission)
-    client.wait(submission)
+    judge0.execute(client=client, submissions=submission)
 
     print(f"{submission.status=}")
     print(f"{submission.stdout=}")
