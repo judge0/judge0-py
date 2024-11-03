@@ -153,4 +153,4 @@ class Submission:
         if self.status is None:
             return False
         else:
-            return self.status not in [Status.IN_QUEUE, Status.ACCEPTED]
+            return self.status["id"] not in [Status.IN_QUEUE, Status.PROCESSING]
