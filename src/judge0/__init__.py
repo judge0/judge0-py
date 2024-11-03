@@ -1,7 +1,5 @@
 import os
 
-from dotenv import load_dotenv
-
 from .clients import (
     async_execute,
     ATDJudge0CE,
@@ -39,10 +37,12 @@ __all__ = [
 
 
 def _create_default_client():
-    if globals().get("judge0_default_client") is not None:
-        return
+    try:
+        from dotenv import load_dotenv
 
-    load_dotenv()
+        load_dotenv()
+    except:  # noqa: E722
+        pass
 
     rapid_api_key = os.getenv("JUDGE0_RAPID_API_KEY")
     sulu_api_key = os.getenv("JUDGE0_SULU_API_KEY")
@@ -53,12 +53,11 @@ def _create_default_client():
     elif sulu_api_key is not None:
         client = SuluJudge0CE(api_key=sulu_api_key)
     elif atd_api_key is not None:
-        client = ATDJudge0CE(api_key=sulu_api_key)
+        client = ATDJudge0CE(api_key=atd_api_key)
     else:
         client = None
 
-    if client is not None:
-        globals()["judge0_default_client"] = client
+    globals()["judge0_default_client"] = client
 
 
 _create_default_client()
