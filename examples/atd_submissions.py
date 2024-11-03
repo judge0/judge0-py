@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("ATD_API_KEY")
+api_key = os.getenv("JUDGE0_ATD_API_KEY")
 
 
 def run_example(client_class, lang_id_python, lang_id_c):

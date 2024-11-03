@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("RAPID_API_KEY")
+api_key = os.getenv("JUDGE0_RAPID_API_KEY")
 
 client_ce = judge0.RapidJudge0CE(api_key=api_key)
 print(client_ce.get_about())

@@ -379,11 +379,23 @@ class SuluJudge0ExtraCE(Sulu):
 
 
 def wait(
-    client: Client,
-    submissions: Union[Submission, list[Submission]],
     *,
+    client: Optional[Client] = None,
+    submissions: Union[Submission, list[Submission], None] = None,
     retry_mechanism: Optional[RetryMechanism] = None,
 ) -> Union[Submission, list[Submission]]:
+    if client is None:
+        from . import judge0_default_client
+
+        if judge0_default_client is None:
+            raise RuntimeError(
+                "Client is not set. Please explicitly set the client argument "
+                "or make sure that one of the implemented client's API keys "
+                "is set as an environment variable."
+            )
+        else:
+            client = judge0_default_client
+
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
@@ -415,9 +427,21 @@ def wait(
 
 def async_execute(
     *,
-    client: Client,
-    submissions: Union[Submission, list[Submission]],
+    client: Optional[Client] = None,
+    submissions: Union[Submission, list[Submission], None] = None,
 ) -> Union[Submission, list[Submission]]:
+    if client is None:
+        from . import judge0_default_client
+
+        if judge0_default_client is None:
+            raise RuntimeError(
+                "Client is not set. Please explicitly set the client argument "
+                "or make sure that one of the implemented client's API keys "
+                "is set as an environment variable."
+            )
+        else:
+            client = judge0_default_client
+
     if isinstance(submissions, (list, tuple)):
         return client.create_submissions(submissions)
     else:
@@ -426,16 +450,16 @@ def async_execute(
 
 def sync_execute(
     *,
-    client: Client,
-    submissions: Union[Submission, list[Submission]],
+    client: Optional[Client] = None,
+    submissions: Union[Submission, list[Submission], None] = None,
 ) -> Union[Submission, list[Submission]]:
     submissions = async_execute(client=client, submissions=submissions)
-    return wait(client, submissions)
+    return wait(client=client, submissions=submissions)
 
 
 def execute(
     *,
-    client: Client,
-    submissions: Union[Submission, list[Submission]],
+    client: Optional[Client] = None,
+    submissions: Union[Submission, list[Submission], None] = None,
 ) -> Union[Submission, list[Submission]]:
     return sync_execute(client=client, submissions=submissions)
