@@ -1,3 +1,5 @@
+from typing import Iterable, Union
+
 import requests
 
 from .submission import Submission
@@ -76,15 +78,25 @@ class Client:
 
         submission.set_attributes(resp.json())
 
-    def get_submission(self, submission: Submission, *, fields=None) -> None:
+    def get_submission(
+        self,
+        submission: Submission,
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> None:
         """Check the submission status."""
 
         params = {
             "base64_encoded": "true",
         }
 
+        if isinstance(fields, str):
+            fields = [fields]
+
         if fields is not None:
             params["fields"] = ",".join(fields)
+        else:
+            params["fields"] = "*"
 
         resp = requests.get(
             f"{self.endpoint}/submissions/{submission.token}",
@@ -117,15 +129,25 @@ class Client:
         for submission, attrs in zip(submissions, resp.json()):
             submission.set_attributes(attrs)
 
-    def get_submissions(self, submissions: list[Submission], *, fields=None) -> None:
+    def get_submissions(
+        self,
+        submissions: list[Submission],
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> None:
         params = {
             "base64_encoded": "true",
         }
 
+        if isinstance(fields, str):
+            fields = [fields]
+
         if fields is not None:
             params["fields"] = ",".join(fields)
+        else:
+            params["fields"] = "*"
 
-        tokens = ",".join((submission.token for submission in submissions))
+        tokens = ",".join(submission.token for submission in submissions)
         params["tokens"] = tokens
 
         resp = requests.get(
@@ -199,7 +221,12 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSION_ENDPOINT)
         return super().create_submission(submission)
 
-    def get_submission(self, submission: Submission, *, fields=None) -> None:
+    def get_submission(
+        self,
+        submission: Submission,
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> None:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
@@ -207,7 +234,12 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
-    def get_submissions(self, submissions: list[Submission], *, fields=None) -> None:
+    def get_submissions(
+        self,
+        submissions: list[Submission],
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> None:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
@@ -257,17 +289,27 @@ class ATDJudge0ExtraCE(ATD):
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSION_ENDPOINT)
         return super().create_submission(submission)
 
-    def get_submission(self, submission: Submission, *, fields=None):
+    def get_submission(
+        self,
+        submission: Submission,
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ):
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submission: list[Submission]) -> None:
+    def create_submissions(self, submissions: list[Submission]) -> None:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
-        return super().create_submissions(submission)
+        return super().create_submissions(submissions)
 
-    def get_submissions(self, submission: list[Submission], *, fields=None) -> None:
+    def get_submissions(
+        self,
+        submissions: list[Submission],
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> None:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
-        return super().get_submissions(submission, fields=fields)
+        return super().get_submissions(submissions, fields=fields)
 
 
 class Rapid(Client):

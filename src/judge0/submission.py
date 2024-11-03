@@ -117,7 +117,7 @@ class Submission:
         self.status = None
         self.created_at = None
         self.finished_at = None
-        self.token = None
+        self.token = ""
         self.time = None
         self.wall_time = None
         self.memory = None
