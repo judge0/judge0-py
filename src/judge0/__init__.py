@@ -1,20 +1,16 @@
 import os
 
+from .api import async_execute, execute, sync_execute, wait
 from .clients import (
-    async_execute,
     ATDJudge0CE,
     ATDJudge0ExtraCE,
     Client,
-    execute,
     RapidJudge0CE,
     RapidJudge0ExtraCE,
     SuluJudge0CE,
     SuluJudge0ExtraCE,
-    sync_execute,
-    wait,
 )
 from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
-
 from .submission import Submission
 
 __all__ = [
@@ -36,7 +32,7 @@ __all__ = [
 ]
 
 
-def _create_default_client():
+def _create_default_ce_client():
     try:
         from dotenv import load_dotenv
 
@@ -55,9 +51,10 @@ def _create_default_client():
     elif atd_api_key is not None:
         client = ATDJudge0CE(api_key=atd_api_key)
     else:
+        # TODO: Create SuluJudge0CE with default client.
         client = None
 
     globals()["judge0_default_client"] = client
 
 
-_create_default_client()
+_create_default_ce_client()
