@@ -1,20 +1,21 @@
-from typing import Iterable, Optional, Union
+from typing import Iterable, Union
 
 import requests
-
-from .retry import RegularPeriodRetry, RetryMechanism
 
 from .submission import Submission
 
 
 class Client:
+    API_KEY_ENV = "JUDGE0_API_KEY"
+
     def __init__(self, endpoint, auth_headers) -> None:
         self.endpoint = endpoint
         self.auth_headers = auth_headers
+
         try:
             self.languages = {lang["id"]: lang for lang in self.get_languages()}
-        except Exception:
-            raise RuntimeError("Client authentication failed.")
+        except Exception as e:
+            raise RuntimeError("Client authentication failed.") from e
 
     def get_about(self) -> dict:
         r = requests.get(
@@ -172,6 +173,8 @@ class Client:
 
 
 class ATD(Client):
+    API_KEY_ENV = "JUDGE0_ATD_API_KEY"
+
     def __init__(self, endpoint, host_header_value, api_key):
         self.api_key = api_key
         super().__init__(
@@ -323,6 +326,8 @@ class ATDJudge0ExtraCE(ATD):
 
 
 class Rapid(Client):
+    API_KEY_ENV = "JUDGE0_RAPID_API_KEY"
+
     def __init__(self, endpoint, host_header_value, api_key):
         self.api_key = api_key
         super().__init__(
@@ -359,6 +364,8 @@ class RapidJudge0ExtraCE(Rapid):
 
 
 class Sulu(Client):
+    API_KEY_ENV = "JUDGE0_SULU_API_KEY"
+
     def __init__(self, endpoint, api_key):
         self.api_key = api_key
         super().__init__(endpoint, {"Authorization": f"Bearer {api_key}"})
@@ -376,3 +383,10 @@ class SuluJudge0ExtraCE(Sulu):
 
     def __init__(self, api_key):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
+
+
+DEFAULT_CE_CLIENT_CLASS = SuluJudge0CE
+DEFAULT_EXTRA_CE_CLASS = SuluJudge0ExtraCE
+
+CE = [RapidJudge0CE, SuluJudge0CE, ATDJudge0CE]
+EXTRA_CE = [RapidJudge0ExtraCE, SuluJudge0ExtraCE, ATDJudge0ExtraCE]
