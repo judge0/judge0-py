@@ -25,8 +25,8 @@ jobs:
           pipenv install -e .
       - name: Test with pytest
         env: # Add necessary api keys as env variables.
-          ATD_API_KEY: ${{ secrets.JUDGE0_ATD_API_KEY }}
-          RAPID_API_KEY: ${{ secrets.JUDGE0_RAPID_API_KEY }}
-          SULU_API_KEY: ${{ secrets.JUDGE0_SULU_API_KEY }}
+          JUDGE0_ATD_API_KEY: ${{ secrets.JUDGE0_ATD_API_KEY }}
+          JUDGE0_RAPID_API_KEY: ${{ secrets.JUDGE0_RAPID_API_KEY }}
+          JUDGE0_SULU_API_KEY: ${{ secrets.JUDGE0_SULU_API_KEY }}
         run: |
           pipenv run pytest -vv
