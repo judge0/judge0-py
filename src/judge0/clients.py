@@ -15,7 +15,9 @@ class Client:
         try:
             self.languages = {lang["id"]: lang for lang in self.get_languages()}
         except Exception as e:
-            raise RuntimeError("Client authentication failed.") from e
+            raise RuntimeError(
+                f"Authentication failed. Visit {self.HOME_URL} to get or review your authentication credentials."
+            ) from e
 
     def get_about(self) -> dict:
         r = requests.get(
@@ -192,6 +194,9 @@ class ATD(Client):
 class ATDJudge0CE(ATD):
     DEFAULT_ENDPOINT: str = "https://judge0-ce.proxy-production.allthingsdev.co"
     DEFAULT_HOST: str = "Judge0-CE.allthingsdev.co"
+    HOME_URL: str = (
+        "https://www.allthingsdev.co/apimarketplace/judge0-ce/66b683c8b7b7ad054eb6ff8f"
+    )
 
     DEFAULT_ABOUT_ENDPOINT: str = "01fc1c98-ceee-4f49-8614-f2214703e25f"
     DEFAULT_CONFIG_INFO_ENDPOINT: str = "b7aab45d-5eb0-4519-b092-89e5af4fc4f3"
@@ -260,6 +265,9 @@ class ATDJudge0CE(ATD):
 class ATDJudge0ExtraCE(ATD):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.proxy-production.allthingsdev.co"
     DEFAULT_HOST: str = "Judge0-Extra-CE.allthingsdev.co"
+    HOME_URL: str = (
+        "https://www.allthingsdev.co/apimarketplace/judge0-extra-ce/66b68838b7b7ad054eb70690"
+    )
 
     DEFAULT_ABOUT_ENDPOINT: str = "1fd631a1-be6a-47d6-bf4c-987e357e3096"
     DEFAULT_CONFIG_INFO_ENDPOINT: str = "46e05354-2a43-436a-9458-5d111456f0ff"
@@ -342,6 +350,7 @@ class Rapid(Client):
 class RapidJudge0CE(Rapid):
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.rapidapi.com"
     DEFAULT_HOST: str = "judge0-ce.p.rapidapi.com"
+    HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-ce"
 
     def __init__(self, api_key):
         super().__init__(
@@ -354,6 +363,7 @@ class RapidJudge0CE(Rapid):
 class RapidJudge0ExtraCE(Rapid):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.rapidapi.com"
     DEFAULT_HOST: str = "judge0-extra-ce.p.rapidapi.com"
+    HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-extra-ce"
 
     def __init__(self, api_key):
         super().__init__(
@@ -373,6 +383,7 @@ class Sulu(Client):
 
 class SuluJudge0CE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
+    HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
 
     def __init__(self, api_key):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
@@ -380,13 +391,11 @@ class SuluJudge0CE(Sulu):
 
 class SuluJudge0ExtraCE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
+    HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
 
     def __init__(self, api_key):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
 
-
-DEFAULT_CE_CLIENT_CLASS = SuluJudge0CE
-DEFAULT_EXTRA_CE_CLASS = SuluJudge0ExtraCE
 
 CE = [RapidJudge0CE, SuluJudge0CE, ATDJudge0CE]
 EXTRA_CE = [RapidJudge0ExtraCE, SuluJudge0ExtraCE, ATDJudge0ExtraCE]
