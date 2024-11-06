@@ -5,6 +5,7 @@ submission = judge0.Submission(
     language_id=100,
 )
 
-judge0.execute(submissions=submission)
+# Run submission on CE flavor of judge0.
+judge0.run(submissions=submission)
 
 print(submission.stdout)

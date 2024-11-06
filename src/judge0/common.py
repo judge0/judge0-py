@@ -1,6 +1,11 @@
 from enum import IntEnum
 
 
+class Flavor(IntEnum):
+    CE = 0
+    EXTRA_CE = 1
+
+
 class Status(IntEnum):
     IN_QUEUE = 1
     PROCESSING = 2
