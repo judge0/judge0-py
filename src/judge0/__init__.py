@@ -85,3 +85,6 @@ JUDGE0_IMPLICIT_CE_CLIENT = _create_default_client(Flavor.CE, SuluJudge0CE)
 JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = _create_default_client(
     Flavor.EXTRA_CE, SuluJudge0ExtraCE
 )
+
+CE = Flavor.CE
+EXTRA_CE = Flavor.EXTRA_CE
