@@ -6,7 +6,6 @@ from judge0 import (
     JUDGE0_IMPLICIT_EXTRA_CE_CLIENT,
     Language,
     Submission,
-    submission,
 )
 from judge0.api import resolve_client
 
