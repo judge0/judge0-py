@@ -2,7 +2,6 @@ from typing import Optional, Union
 
 from .clients import Client
 from .common import Flavor
-from .data import LANGUAGE_TO_LANGUAGE_ID
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission
 
@@ -105,7 +104,7 @@ def async_execute(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Submission, list[Submission]]:
-    client = resolve_client(client)
+    client = resolve_client(client, submissions=submissions)
 
     if isinstance(submissions, (list, tuple)):
         return client.create_submissions(submissions)

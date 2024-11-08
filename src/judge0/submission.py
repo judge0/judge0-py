@@ -1,7 +1,8 @@
 from base64 import b64decode, b64encode
 
-from .common import Status
+from typing import Union
 
+from .common import Language, Status
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -39,10 +40,12 @@ EXTRA_RESPONSE_FIELDS = {
     "time",
     "wall_time",
     "memory",
+    "post_execution_filesystem",
 }
 REQUEST_FIELDS = ENCODED_REQUEST_FIELDS | EXTRA_REQUEST_FIELDS
 RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
+SKIP_FIELDS = {"language_id", "language", "status_id"}
 
 
 def encode(text: str) -> str:
@@ -60,8 +63,8 @@ class Submission:
 
     def __init__(
         self,
-        source_code,
-        language_id,
+        source_code: str,
+        language_id: Union[Language, int],
         *,
         additional_files=None,
         compiler_options=None,
@@ -123,9 +126,13 @@ class Submission:
         self.time = None
         self.wall_time = None
         self.memory = None
+        self.post_execution_filesystem = None
 
     def set_attributes(self, attributes):
         for attr, value in attributes.items():
+            if attr in SKIP_FIELDS:
+                continue
+
             if attr in ENCODED_FIELDS:
                 setattr(self, attr, decode(value) if value else None)
             else:
