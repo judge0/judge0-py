@@ -1,6 +1,15 @@
 from enum import IntEnum
 
 
+class Language(IntEnum):
+    PYTHON = 0
+    CPP = 1
+    JAVA = 2
+    CPP_GCC = 3
+    CPP_CLANG = 4
+    PYTHON_FOR_ML = 5
+
+
 class Flavor(IntEnum):
     CE = 0
     EXTRA_CE = 1

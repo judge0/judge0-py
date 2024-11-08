@@ -2,24 +2,67 @@ from typing import Optional, Union
 
 from .clients import Client
 from .common import Flavor
+from .data import LANGUAGE_TO_LANGUAGE_ID
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission
 
 
-def _resolve_client(client: Union[Client, Flavor]) -> Client:
-    if not isinstance(client, Flavor):
+def resolve_client(
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Optional[Union[Submission, list[Submission]]] = None,
+) -> Union[Client, None]:
+    from . import JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+
+    # User explicitly passed a client.
+    if isinstance(client, Client):
         return client
 
-    if client == Flavor.CE:
-        from . import JUDGE0_IMPLICIT_CE_CLIENT
+    # User explicitly choose the flavor of the client.
+    if isinstance(client, Flavor):
+        if client == Flavor.CE:
+            return JUDGE0_IMPLICIT_CE_CLIENT
+        else:
+            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
-        client = JUDGE0_IMPLICIT_CE_CLIENT
-    else:
-        from . import JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+    # client is None and we have to determine a flavor of the client from the
+    # submissions and the languages.
+    if isinstance(submissions, Submission):
+        submissions = [submissions]
 
-        client = JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+    if submissions is not None and len(submissions) == 0:
+        raise ValueError("Client cannot be determined from empty submissions argument.")
 
-    return client
+    if submissions is None:
+        raise ValueError(
+            "Client cannot be determined from unprovided submissions argument."
+        )
+
+    # Check which client supports all languages from the provided submissions.
+    languages = [submission.language_id for submission in submissions]
+
+    if JUDGE0_IMPLICIT_CE_CLIENT is not None:
+        if all(
+            [
+                JUDGE0_IMPLICIT_CE_CLIENT.is_language_supported(lang)
+                for lang in languages
+            ]
+        ):
+            return JUDGE0_IMPLICIT_CE_CLIENT
+
+    if JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
+        if all(
+            [
+                JUDGE0_IMPLICIT_EXTRA_CE_CLIENT.is_language_supported(lang)
+                for lang in languages
+            ]
+        ):
+            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+
+    raise RuntimeError(
+        "Failed to resolve the client from submissions argument."
+        "None of the implicit clients supports all languages from the submissions."
+        "Please explicitly provide the client argument."
+    )
 
 
 def wait(
@@ -59,10 +102,10 @@ def wait(
 
 def async_execute(
     *,
-    client: Union[Client, Flavor] = Flavor.CE,
-    submissions: Union[Submission, list[Submission], None] = None,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Submission, list[Submission]]:
-    client = _resolve_client(client)
+    client = resolve_client(client)
 
     if isinstance(submissions, (list, tuple)):
         return client.create_submissions(submissions)
@@ -72,10 +115,10 @@ def async_execute(
 
 def sync_execute(
     *,
-    client: Union[Client, Flavor] = Flavor.CE,
+    client: Optional[Union[Client, Flavor]] = None,
     submissions: Union[Submission, list[Submission], None] = None,
 ) -> Union[Submission, list[Submission]]:
-    client = _resolve_client(client)
+    client = resolve_client(client, submissions=submissions)
     submissions = async_execute(client=client, submissions=submissions)
     return wait(client, submissions)
 

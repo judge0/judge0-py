@@ -1,13 +1,13 @@
 import pytest
 
-DEFAULT_CLIENTS = [
+DEFAULT_CLIENTS = (
     "atd_ce_client",
     "atd_extra_ce_client",
     "rapid_ce_client",
     "rapid_extra_ce_client",
     "sulu_ce_client",
     "sulu_extra_ce_client",
-]
+)
 
 
 @pytest.mark.parametrize("client", DEFAULT_CLIENTS)

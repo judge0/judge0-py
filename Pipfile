@@ -11,6 +11,7 @@ ufmt = "==2.7.3"
 pre-commit = "==3.8.0"
 pytest = "==8.3.3"
 python-dotenv = "==1.0.1"
+pytest-cov = "6.0.0"
 
 [requires]
 python_version = "3.9"
