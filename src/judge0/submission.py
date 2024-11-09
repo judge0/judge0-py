@@ -1,8 +1,6 @@
-from base64 import b64decode, b64encode
-
 from typing import Union
 
-from .common import Language, Status
+from .common import decode, encode, Language, Status
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -46,14 +44,6 @@ REQUEST_FIELDS = ENCODED_REQUEST_FIELDS | EXTRA_REQUEST_FIELDS
 RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
 SKIP_FIELDS = {"language_id", "language", "status_id"}
-
-
-def encode(text: str) -> str:
-    return b64encode(bytes(text, "utf-8")).decode()
-
-
-def decode(b64_encoded_str: str) -> str:
-    return b64decode(b64_encoded_str.encode()).decode(errors="backslashreplace")
 
 
 class Submission:
@@ -138,6 +128,7 @@ class Submission:
             else:
                 setattr(self, attr, value)
 
+    # TODO: Rename to as_body that accepts a Client.
     def to_dict(self) -> dict:
         body = {
             "source_code": encode(self.source_code),
@@ -160,4 +151,5 @@ class Submission:
         if self.status is None:
             return False
         else:
-            return self.status["id"] not in [Status.IN_QUEUE, Status.PROCESSING]
+            # TODO: When status is changed to `Status`, refactor this as well.
+            return self.status["id"] not in (Status.IN_QUEUE, Status.PROCESSING)

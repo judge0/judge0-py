@@ -87,6 +87,7 @@ class Client:
             "wait": "false",
         }
 
+        # TODO: Rename to_dict to as_body that accepts the client.
         body = submission.to_dict()
         # We have to resolve language_id because language_id can be Language
         # enumeration.

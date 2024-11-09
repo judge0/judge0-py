@@ -28,6 +28,7 @@ def resolve_client(
     if isinstance(submissions, Submission):
         submissions = [submissions]
 
+    # TODO: Move to async_execute and sync_execute.
     if submissions is not None and len(submissions) == 0:
         raise ValueError("Client cannot be determined from empty submissions argument.")
 

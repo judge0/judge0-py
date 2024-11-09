@@ -1,3 +1,4 @@
+from base64 import b64decode, b64encode
 from enum import IntEnum
 
 
@@ -30,3 +31,11 @@ class Status(IntEnum):
     RUNTIME_ERROR_OTHER = 12
     INTERNAL_ERROR = 13
     EXEC_FORMAT_ERROR = 14
+
+
+def encode(text: str) -> str:
+    return b64encode(bytes(text, "utf-8")).decode()
+
+
+def decode(b64_encoded_str: str) -> str:
+    return b64decode(b64_encoded_str.encode()).decode(errors="backslashreplace")
