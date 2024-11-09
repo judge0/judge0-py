@@ -28,33 +28,24 @@ def resolve_client(
     if isinstance(submissions, Submission):
         submissions = [submissions]
 
-    # TODO: Move to async_execute and sync_execute.
-    if submissions is not None and len(submissions) == 0:
-        raise ValueError("Client cannot be determined from empty submissions argument.")
-
-    if submissions is None:
-        raise ValueError(
-            "Client cannot be determined from unprovided submissions argument."
-        )
-
     # Check which client supports all languages from the provided submissions.
     languages = [submission.language_id for submission in submissions]
 
     if JUDGE0_IMPLICIT_CE_CLIENT is not None:
         if all(
-            [
+            (
                 JUDGE0_IMPLICIT_CE_CLIENT.is_language_supported(lang)
                 for lang in languages
-            ]
+            )
         ):
             return JUDGE0_IMPLICIT_CE_CLIENT
 
     if JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
         if all(
-            [
+            (
                 JUDGE0_IMPLICIT_EXTRA_CE_CLIENT.is_language_supported(lang)
                 for lang in languages
-            ]
+            )
         ):
             return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
@@ -105,6 +96,17 @@ def async_execute(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Submission, list[Submission]]:
+    # Check the edge cases if client is not provided.
+    if client is None:
+        if submissions is None:
+            raise ValueError(
+                "Client cannot be determined from None submissions argument."
+            )
+        if isinstance(submissions, list) and len(submissions) == 0:
+            raise ValueError(
+                "Client cannot be determined from the empty submissions argument."
+            )
+
     client = resolve_client(client, submissions=submissions)
 
     if isinstance(submissions, (list, tuple)):
@@ -116,8 +118,19 @@ def async_execute(
 def sync_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
-    submissions: Union[Submission, list[Submission], None] = None,
+    submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Submission, list[Submission]]:
+    # Check the edge cases if client is not provided.
+    if client is None:
+        if submissions is None:
+            raise ValueError(
+                "Client cannot be determined from None submissions argument."
+            )
+        if isinstance(submissions, list) and len(submissions) == 0:
+            raise ValueError(
+                "Client cannot be determined from the empty submissions argument."
+            )
+
     client = resolve_client(client, submissions=submissions)
     submissions = async_execute(client=client, submissions=submissions)
     return wait(client, submissions)
