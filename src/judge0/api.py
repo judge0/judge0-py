@@ -75,7 +75,15 @@ def wait(
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-        client.get_submissions(submissions_to_check.values())
+        # We differentiate between getting a single submission and multiple
+        # submissions to be consistent with the API, even though the API
+        # allows to get single submission with the same endpoint as for getting
+        # the multiple submissions.
+        if len(submissions_to_check) == 1:
+            client.get_submission(*submissions_to_check.values())
+        else:
+            client.get_submissions(submissions_to_check.values())
+
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
             if submission.is_done():
