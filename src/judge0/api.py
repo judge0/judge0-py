@@ -10,18 +10,15 @@ def resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Client, None]:
-    from . import JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
-
     # User explicitly passed a client.
     if isinstance(client, Client):
         return client
 
+    from . import _get_implicit_client
+
     # User explicitly choose the flavor of the client.
     if isinstance(client, Flavor):
-        if client == Flavor.CE:
-            return JUDGE0_IMPLICIT_CE_CLIENT
-        else:
-            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+        return _get_implicit_client(flavor=client)
 
     # client is None and we have to determine a flavor of the client from the
     # submissions and the languages.
@@ -31,23 +28,10 @@ def resolve_client(
     # Check which client supports all languages from the provided submissions.
     languages = [submission.language_id for submission in submissions]
 
-    if JUDGE0_IMPLICIT_CE_CLIENT is not None:
-        if all(
-            (
-                JUDGE0_IMPLICIT_CE_CLIENT.is_language_supported(lang)
-                for lang in languages
-            )
-        ):
-            return JUDGE0_IMPLICIT_CE_CLIENT
-
-    if JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
-        if all(
-            (
-                JUDGE0_IMPLICIT_EXTRA_CE_CLIENT.is_language_supported(lang)
-                for lang in languages
-            )
-        ):
-            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+    for flavor in Flavor:
+        client = _get_implicit_client(flavor)
+        if client is not None and all((client.is_language_supported(lang) for lang in languages)):
+            return client
 
     raise RuntimeError(
         "Failed to resolve the client from submissions argument."

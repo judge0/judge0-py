@@ -402,16 +402,16 @@ class RapidJudge0ExtraCE(Rapid):
 class Sulu(Client):
     API_KEY_ENV = "JUDGE0_SULU_API_KEY"
 
-    def __init__(self, endpoint, api_key):
+    def __init__(self, endpoint, *, api_key = None):
         self.api_key = api_key
-        super().__init__(endpoint, {"Authorization": f"Bearer {api_key}"})
+        super().__init__(endpoint, {"Authorization": f"Bearer {api_key}"} if api_key else None)
 
 
 class SuluJudge0CE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
 
-    def __init__(self, api_key):
+    def __init__(self, *, api_key = None):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
 
 
@@ -419,7 +419,7 @@ class SuluJudge0ExtraCE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
 
-    def __init__(self, api_key):
+    def __init__(self, *, api_key = None):
         super().__init__(self.DEFAULT_ENDPOINT, api_key=api_key)
 
 
