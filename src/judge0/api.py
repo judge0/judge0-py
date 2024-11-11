@@ -91,11 +91,12 @@ def wait(
     return submissions
 
 
-def async_execute(
+def _execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
     source_code: Optional[str] = None,
+    wait_for_result: bool = False,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     if submissions is not None and source_code is not None:
@@ -119,11 +120,27 @@ def async_execute(
 
     client = resolve_client(client, submissions=submissions)
 
+    result_submissions = None
     if isinstance(submissions, (list, tuple)):
-        return client.create_submissions(submissions)
+        result_submissions = client.create_submissions(submissions)
     else:
-        return client.create_submission(submissions)
+        result_submissions = client.create_submission(submissions)
 
+    if wait_for_result:
+        return wait(client, result_submissions)
+
+    return result_submissions
+
+def async_execute(
+    *,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Optional[Union[Submission, list[Submission]]] = None,
+    source_code: Optional[str] = None,
+    **kwargs,
+) -> Union[Submission, list[Submission]]:
+    return _execute(
+        client=client, submissions=submissions, source_code=source_code, wait_for_result=False, **kwargs
+    )
 
 def sync_execute(
     *,
@@ -132,28 +149,9 @@ def sync_execute(
     source_code: Optional[str] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
-    if submissions is not None and source_code is not None:
-        raise ValueError(
-            "source_code argument cannot be provided if submissions argument is provided."
-        )
-
-    if source_code is not None:
-        submissions = Submission(source_code=source_code, **kwargs)
-
-    # Check the edge cases if client is not provided.
-    if client is None:
-        if submissions is None:
-            raise ValueError(
-                "Client cannot be determined from None submissions argument."
-            )
-        if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError(
-                "Client cannot be determined from the empty submissions argument."
-            )
-
-    client = resolve_client(client, submissions=submissions)
-    submissions = async_execute(client=client, submissions=submissions)
-    return wait(client, submissions)
+    return _execute(
+        client=client, submissions=submissions, source_code=source_code, wait_for_result=True, **kwargs
+    )
 
 
 execute = sync_execute
