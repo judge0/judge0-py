@@ -26,16 +26,18 @@ def resolve_client(
         submissions = [submissions]
 
     # Check which client supports all languages from the provided submissions.
-    languages = [submission.language_id for submission in submissions]
+    languages = (submission.language_id for submission in submissions)
 
     for flavor in Flavor:
         client = _get_implicit_client(flavor)
-        if client is not None and all((client.is_language_supported(lang) for lang in languages)):
+        if client is not None and all(
+            (client.is_language_supported(lang) for lang in languages)
+        ):
             return client
 
     raise RuntimeError(
-        "Failed to resolve the client from submissions argument."
-        "None of the implicit clients supports all languages from the submissions."
+        "Failed to resolve the client from submissions argument. "
+        "None of the implicit clients supports all languages from the submissions. "
         "Please explicitly provide the client argument."
     )
 
@@ -49,13 +51,13 @@ def wait(
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
-    if not isinstance(submissions, (list, tuple)):
+    if isinstance(submissions, (list, tuple)):
         submissions_to_check = {
-            submission.token: submission for submission in [submissions]
+            submission.token: submission for submission in submissions
         }
     else:
         submissions_to_check = {
-            submission.token: submission for submission in submissions
+            submission.token: submission for submission in [submissions]
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
