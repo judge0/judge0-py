@@ -56,7 +56,6 @@ class Submission:
         source_code: str,
         language_id: Union[Language, int] = Language.PYTHON,
         *,
-        language_id: Union[Language, int] = Language.PYTHON,
         additional_files=None,
         compiler_options=None,
         command_line_arguments=None,
