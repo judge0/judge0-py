@@ -1,6 +1,4 @@
 import os
-import warnings
-from typing import Optional, Union
 
 from .api import async_execute, execute, run, sync_execute, wait
 from .clients import (
@@ -47,7 +45,7 @@ JUDGE0_IMPLICIT_CE_CLIENT = None
 JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = None
 
 
-def _get_implicit_client(flavor: Flavor) -> Optional[Client]:
+def _get_implicit_client(flavor: Flavor) -> Client:
     global JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
     # Implicit clients are already set.

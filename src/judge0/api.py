@@ -85,6 +85,47 @@ def wait(
     return submissions
 
 
+def _execute(
+    *,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Optional[Union[Submission, list[Submission]]] = None,
+    source_code: Optional[str] = None,
+    wait_for_result: bool = False,
+    **kwargs,
+) -> Union[Submission, list[Submission]]:
+    if submissions is not None and source_code is not None:
+        raise ValueError(
+            "Both submissions and source_code arguments are provided. "
+            "Provide only one of the two."
+        )
+    if submissions is None and source_code is None:
+        raise ValueError("Neither source_code nor submissions argument are provided.")
+
+    if source_code is not None:
+        submissions = Submission(source_code=source_code, **kwargs)
+
+    # TODO: Since kwargs is ignored if submissions argument is provided, maybe
+    # use warnings if submission and kwargs are provided?
+
+    # There is no need to check for other cases since we are explicitly
+    # checking for submissions and source_code arguments.
+    if client is None:
+        if isinstance(submissions, list) and len(submissions) == 0:
+            raise ValueError("Client cannot be determined from empty submissions.")
+
+    client = resolve_client(client, submissions=submissions)
+
+    if isinstance(submissions, (list, tuple)):
+        submissions = client.create_submissions(submissions)
+    else:
+        submissions = client.create_submission(submissions)
+
+    if wait_for_result:
+        return wait(client, submissions)
+    else:
+        return submissions
+
+
 def async_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
@@ -92,31 +133,13 @@ def async_execute(
     source_code: Optional[str] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
-    if submissions is not None and source_code is not None:
-        raise ValueError(
-            "source_code argument cannot be provided if submissions argument is provided."
-        )
-
-    if source_code is not None:
-        submissions = Submission(source_code=source_code, **kwargs)
-
-    # Check the edge cases if client is not provided.
-    if client is None:
-        if submissions is None:
-            raise ValueError(
-                "Client cannot be determined from None submissions argument."
-            )
-        if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError(
-                "Client cannot be determined from the empty submissions argument."
-            )
-
-    client = resolve_client(client, submissions=submissions)
-
-    if isinstance(submissions, (list, tuple)):
-        return client.create_submissions(submissions)
-    else:
-        return client.create_submission(submissions)
+    return _execute(
+        client=client,
+        submissions=submissions,
+        source_code=source_code,
+        wait_for_result=False,
+        **kwargs,
+    )
 
 
 def sync_execute(
@@ -126,28 +149,13 @@ def sync_execute(
     source_code: Optional[str] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
-    if submissions is not None and source_code is not None:
-        raise ValueError(
-            "source_code argument cannot be provided if submissions argument is provided."
-        )
-
-    if source_code is not None:
-        submissions = Submission(source_code=source_code, **kwargs)
-
-    # Check the edge cases if client is not provided.
-    if client is None:
-        if submissions is None:
-            raise ValueError(
-                "Client cannot be determined from None submissions argument."
-            )
-        if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError(
-                "Client cannot be determined from the empty submissions argument."
-            )
-
-    client = resolve_client(client, submissions=submissions)
-    submissions = async_execute(client=client, submissions=submissions)
-    return wait(client, submissions)
+    return _execute(
+        client=client,
+        submissions=submissions,
+        source_code=source_code,
+        wait_for_result=True,
+        **kwargs,
+    )
 
 
 execute = sync_execute
