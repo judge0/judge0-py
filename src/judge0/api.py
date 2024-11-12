@@ -104,11 +104,11 @@ def _execute(
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 
-    # TODO: Since kwargs are ignore if submissions argument is provided, maybe
-    # use warnings if submission argument is provided and kwargs are passed?
+    # TODO: Since kwargs is ignored if submissions argument is provided, maybe
+    # use warnings if submission and kwargs are provided?
 
     # There is no need to check for other cases since we are explicitly
-    # checking for submissions and source_code arguments
+    # checking for submissions and source_code arguments.
     if client is None:
         if isinstance(submissions, list) and len(submissions) == 0:
             raise ValueError("Client cannot be determined from empty submissions.")

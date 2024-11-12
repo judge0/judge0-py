@@ -60,12 +60,12 @@ def test_resolve_client_empty_submissions_argument(submissions):
 
 def test_resolve_client_no_common_client_for_submissions():
     cpp_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.CPP_GCC,
     )
 
     py_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.PYTHON_FOR_ML,
     )
 
@@ -77,12 +77,12 @@ def test_resolve_client_no_common_client_for_submissions():
 
 def test_resolve_client_common_ce_client():
     cpp_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.CPP_GCC,
     )
 
     py_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.PYTHON,
     )
 
@@ -93,12 +93,12 @@ def test_resolve_client_common_ce_client():
 
 def test_resolve_client_common_extra_ce_client():
     cpp_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.CPP_CLANG,
     )
 
     py_submission = Submission(
-        source_code="",  # source code is not important because in this test
+        source_code="",  # source code is not important in this test
         language_id=Language.PYTHON_FOR_ML,
     )
 
