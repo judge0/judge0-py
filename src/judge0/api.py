@@ -1,4 +1,6 @@
-from typing import Optional, Union
+from calendar import c
+from pydoc import cli
+from typing import Optional, Tuple, Union
 
 from .clients import Client
 from .common import Flavor
@@ -10,18 +12,15 @@ def resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Client, None]:
-    from . import JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
-
     # User explicitly passed a client.
     if isinstance(client, Client):
         return client
 
+    from . import _get_implicit_client
+
     # User explicitly choose the flavor of the client.
     if isinstance(client, Flavor):
-        if client == Flavor.CE:
-            return JUDGE0_IMPLICIT_CE_CLIENT
-        else:
-            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+        return _get_implicit_client(flavor=client)
 
     # client is None and we have to determine a flavor of the client from the
     # submissions and the languages.
@@ -29,29 +28,18 @@ def resolve_client(
         submissions = [submissions]
 
     # Check which client supports all languages from the provided submissions.
-    languages = [submission.language_id for submission in submissions]
+    languages = (submission.language_id for submission in submissions)
 
-    if JUDGE0_IMPLICIT_CE_CLIENT is not None:
-        if all(
-            (
-                JUDGE0_IMPLICIT_CE_CLIENT.is_language_supported(lang)
-                for lang in languages
-            )
+    for flavor in Flavor:
+        client = _get_implicit_client(flavor)
+        if client is not None and all(
+            (client.is_language_supported(lang) for lang in languages)
         ):
-            return JUDGE0_IMPLICIT_CE_CLIENT
-
-    if JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
-        if all(
-            (
-                JUDGE0_IMPLICIT_EXTRA_CE_CLIENT.is_language_supported(lang)
-                for lang in languages
-            )
-        ):
-            return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+            return client
 
     raise RuntimeError(
-        "Failed to resolve the client from submissions argument."
-        "None of the implicit clients supports all languages from the submissions."
+        "Failed to resolve the client from submissions argument. "
+        "None of the implicit clients supports all languages from the submissions. "
         "Please explicitly provide the client argument."
     )
 
@@ -65,17 +53,25 @@ def wait(
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
-    if not isinstance(submissions, (list, tuple)):
-        submissions_to_check = {
-            submission.token: submission for submission in [submissions]
-        }
-    else:
+    if isinstance(submissions, (list, tuple)):
         submissions_to_check = {
             submission.token: submission for submission in submissions
         }
+    else:
+        submissions_to_check = {
+            submission.token: submission for submission in [submissions]
+        }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-        client.get_submissions(submissions_to_check.values())
+        # We differentiate between getting a single submission and multiple
+        # submissions to be consistent with the API, even though the API
+        # allows to get single submission with the same endpoint as for getting
+        # the multiple submissions.
+        if len(submissions_to_check) == 1:
+            client.get_submission(*submissions_to_check.values())
+        else:
+            client.get_submissions(submissions_to_check.values())
+
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
             if submission.is_done():
@@ -101,35 +97,36 @@ def _execute(
 ) -> Union[Submission, list[Submission]]:
     if submissions is not None and source_code is not None:
         raise ValueError(
-            "source_code argument cannot be provided if submissions argument is provided."
+            "Both submissions and source_code arguments are provided. "
+            "Provide only one of the two."
         )
+    if submissions is None and source_code is None:
+        raise ValueError("Neither source_code nor submissions argument are provided.")
 
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 
-    # Check the edge cases if client is not provided.
+    # TODO: Since kwargs are ignore if submissions argument is provided, maybe
+    # use warnings if submission argument is provided and kwargs are passed?
+
+    # There is no need to check for other cases since we are explicitly
+    # checking for submissions and source_code arguments
     if client is None:
-        if submissions is None:
-            raise ValueError(
-                "Client cannot be determined from None submissions argument."
-            )
         if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError(
-                "Client cannot be determined from the empty submissions argument."
-            )
+            raise ValueError("Client cannot be determined from empty submissions.")
 
     client = resolve_client(client, submissions=submissions)
 
-    result_submissions = None
     if isinstance(submissions, (list, tuple)):
-        result_submissions = client.create_submissions(submissions)
+        submissions = client.create_submissions(submissions)
     else:
-        result_submissions = client.create_submission(submissions)
+        submissions = client.create_submission(submissions)
 
     if wait_for_result:
-        return wait(client, result_submissions)
+        return wait(client, submissions)
+    else:
+        return submissions
 
-    return result_submissions
 
 def async_execute(
     *,
@@ -139,8 +136,13 @@ def async_execute(
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     return _execute(
-        client=client, submissions=submissions, source_code=source_code, wait_for_result=False, **kwargs
+        client=client,
+        submissions=submissions,
+        source_code=source_code,
+        wait_for_result=False,
+        **kwargs,
     )
+
 
 def sync_execute(
     *,
@@ -150,9 +152,14 @@ def sync_execute(
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     return _execute(
-        client=client, submissions=submissions, source_code=source_code, wait_for_result=True, **kwargs
+        client=client,
+        submissions=submissions,
+        source_code=source_code,
+        wait_for_result=True,
+        **kwargs,
     )
 
 
 execute = sync_execute
 run = execute
+async_run = async_execute
