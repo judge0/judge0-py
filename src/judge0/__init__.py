@@ -50,6 +50,7 @@ JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = None
 def _get_implicit_client(flavor: Flavor) -> Optional[Client]:
     global JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
+    # Implicit clients are already set.
     if flavor == Flavor.CE and JUDGE0_IMPLICIT_CE_CLIENT is not None:
         return JUDGE0_IMPLICIT_CE_CLIENT
     if flavor == Flavor.EXTRA_CE and JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
@@ -69,6 +70,8 @@ def _get_implicit_client(flavor: Flavor) -> Optional[Client]:
     else:
         client_classes = EXTRA_CE
 
+    # Try to find one of the predefined keys JUDGE0_{SULU,RAPID,ATD}_API_KEY
+    # in environment variables.
     client = None
     for client_class in client_classes:
         api_key = os.getenv(client_class.API_KEY_ENV)
@@ -76,6 +79,8 @@ def _get_implicit_client(flavor: Flavor) -> Optional[Client]:
             client = client_class(api_key)
             break
 
+    # If we didn't find any of the possible predefined keys, initialize
+    # the preview Sulu client based on the flavor.
     if client is None:
         if flavor == Flavor.CE:
             client = SuluJudge0CE()
