@@ -43,11 +43,19 @@ __all__ = [
     "wait",
 ]
 
+JUDGE0_IMPLICIT_CE_CLIENT = None
+JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = None
 
-def _create_default_client(
-    flavor: Flavor,
-    preview_client_class: Union[SuluJudge0CE, SuluJudge0ExtraCE],
-) -> Optional[Client]:
+
+def _get_implicit_client(flavor: Flavor) -> Optional[Client]:
+    global JUDGE0_IMPLICIT_CE_CLIENT, JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+
+    # Implicit clients are already set.
+    if flavor == Flavor.CE and JUDGE0_IMPLICIT_CE_CLIENT is not None:
+        return JUDGE0_IMPLICIT_CE_CLIENT
+    if flavor == Flavor.EXTRA_CE and JUDGE0_IMPLICIT_EXTRA_CE_CLIENT is not None:
+        return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+
     from .clients import CE, EXTRA_CE
 
     try:
@@ -62,30 +70,30 @@ def _create_default_client(
     else:
         client_classes = EXTRA_CE
 
+    # Try to find one of the predefined keys JUDGE0_{SULU,RAPID,ATD}_API_KEY
+    # in environment variables.
     client = None
     for client_class in client_classes:
         api_key = os.getenv(client_class.API_KEY_ENV)
         if api_key is not None:
-            # It is possible for a client to be subscribed to one flavor with
-            # API key.
-            try:
-                client = client_class(api_key)
-                break
-            except Exception as e:
-                warnings.warn(f"Failed to initialize client: {e}")
+            client = client_class(api_key)
+            break
+
+    # If we didn't find any of the possible predefined keys, initialize
+    # the preview Sulu client based on the flavor.
+    if client is None:
+        if flavor == Flavor.CE:
+            client = SuluJudge0CE()
+        else:
+            client = SuluJudge0ExtraCE()
+
+    if flavor == Flavor.CE:
+        JUDGE0_IMPLICIT_CE_CLIENT = client
     else:
-        try:
-            client = preview_client_class("")
-        except Exception as e:
-            warnings.warn(f"Failed to initialize preview client: {e}")
+        JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = client
 
     return client
 
-
-JUDGE0_IMPLICIT_CE_CLIENT = _create_default_client(Flavor.CE, SuluJudge0CE)
-JUDGE0_IMPLICIT_EXTRA_CE_CLIENT = _create_default_client(
-    Flavor.EXTRA_CE, SuluJudge0ExtraCE
-)
 
 CE = Flavor.CE
 EXTRA_CE = Flavor.EXTRA_CE
