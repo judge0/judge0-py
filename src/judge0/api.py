@@ -50,8 +50,8 @@ def resolve_client(
             return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
     raise RuntimeError(
-        "Failed to resolve the client from submissions argument."
-        "None of the implicit clients supports all languages from the submissions."
+        "Failed to resolve the client from submissions argument. "
+        "None of the implicit clients supports all languages from the submissions. "
         "Please explicitly provide the client argument."
     )
 
