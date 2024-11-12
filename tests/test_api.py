@@ -1,12 +1,7 @@
+import judge0
 import pytest
 
-from judge0 import (
-    Flavor,
-    JUDGE0_IMPLICIT_CE_CLIENT,
-    JUDGE0_IMPLICIT_EXTRA_CE_CLIENT,
-    Language,
-    Submission,
-)
+from judge0 import Flavor, Language, Submission
 from judge0.api import resolve_client
 
 DEFAULT_CLIENTS = (
@@ -30,11 +25,11 @@ def test_resolve_client_with_explicit_client(client, request):
     [
         [
             Flavor.CE,
-            JUDGE0_IMPLICIT_CE_CLIENT,
+            "JUDGE0_IMPLICIT_CE_CLIENT",
         ],
         [
             Flavor.EXTRA_CE,
-            JUDGE0_IMPLICIT_EXTRA_CE_CLIENT,
+            "JUDGE0_IMPLICIT_EXTRA_CE_CLIENT",
         ],
     ],
 )
@@ -42,7 +37,8 @@ def test_resolve_client_with_flavor(
     flavor,
     expected_client,
 ):
-    assert resolve_client(client=flavor) is expected_client
+    # We have to use getattr since both implicit clients are initially None.
+    assert resolve_client(client=flavor) is getattr(judge0, expected_client)
 
 
 @pytest.mark.parametrize(
@@ -88,7 +84,7 @@ def test_resolve_client_common_ce_client():
 
     submissions = [cpp_submission, py_submission]
 
-    assert resolve_client(submissions=submissions) is JUDGE0_IMPLICIT_CE_CLIENT
+    assert resolve_client(submissions=submissions) is judge0.JUDGE0_IMPLICIT_CE_CLIENT
 
 
 def test_resolve_client_common_extra_ce_client():
@@ -104,4 +100,7 @@ def test_resolve_client_common_extra_ce_client():
 
     submissions = [cpp_submission, py_submission]
 
-    assert resolve_client(submissions=submissions) is JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+    assert (
+        resolve_client(submissions=submissions)
+        is judge0.JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
+    )
