@@ -50,8 +50,8 @@ def resolve_client(
             return JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
 
     raise RuntimeError(
-        "Failed to resolve the client from submissions argument."
-        "None of the implicit clients supports all languages from the submissions."
+        "Failed to resolve the client from submissions argument. "
+        "None of the implicit clients supports all languages from the submissions. "
         "Please explicitly provide the client argument."
     )
 
@@ -103,7 +103,17 @@ def async_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
+    source_code: Optional[str] = None,
+    **kwargs,
 ) -> Union[Submission, list[Submission]]:
+    if submissions is not None and source_code is not None:
+        raise ValueError(
+            "source_code argument cannot be provided if submissions argument is provided."
+        )
+
+    if source_code is not None:
+        submissions = Submission(source_code=source_code, **kwargs)
+
     # Check the edge cases if client is not provided.
     if client is None:
         if submissions is None:
@@ -127,7 +137,17 @@ def sync_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
+    source_code: Optional[str] = None,
+    **kwargs,
 ) -> Union[Submission, list[Submission]]:
+    if submissions is not None and source_code is not None:
+        raise ValueError(
+            "source_code argument cannot be provided if submissions argument is provided."
+        )
+
+    if source_code is not None:
+        submissions = Submission(source_code=source_code, **kwargs)
+
     # Check the edge cases if client is not provided.
     if client is None:
         if submissions is None:

@@ -54,7 +54,7 @@ class Submission:
     def __init__(
         self,
         source_code: str,
-        language_id: Union[Language, int],
+        language_id: Union[Language, int] = Language.PYTHON,
         *,
         additional_files=None,
         compiler_options=None,
