@@ -1,6 +1,4 @@
-from calendar import c
-from pydoc import cli
-from typing import Optional, Tuple, Union
+from typing import Optional, Union
 
 from .clients import Client
 from .common import Flavor
