@@ -7,6 +7,7 @@ from .submission import Submission
 
 
 def resolve_client(
+    *,
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, list[Submission]]] = None,
 ) -> Union[Client, None]:
@@ -19,6 +20,9 @@ def resolve_client(
     # User explicitly choose the flavor of the client.
     if isinstance(client, Flavor):
         return _get_implicit_client(flavor=client)
+
+    if client is None and isinstance(submissions, list) and len(submissions) == 0:
+            raise ValueError("Client cannot be determined from empty submissions.")
 
     # client is None and we have to determine a flavor of the client from the
     # submissions and the languages.
@@ -43,11 +47,13 @@ def resolve_client(
 
 
 def wait(
-    client: Client,
-    submissions: Union[Submission, list[Submission]],
     *,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Union[Submission, list[Submission]] = None,
     retry_mechanism: Optional[RetryMechanism] = None,
 ) -> Union[Submission, list[Submission]]:
+    client = resolve_client(client=client, submissions=submissions)
+
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
@@ -104,16 +110,7 @@ def _execute(
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 
-    # TODO: Since kwargs is ignored if submissions argument is provided, maybe
-    # use warnings if submission and kwargs are provided?
-
-    # There is no need to check for other cases since we are explicitly
-    # checking for submissions and source_code arguments.
-    if client is None:
-        if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError("Client cannot be determined from empty submissions.")
-
-    client = resolve_client(client, submissions=submissions)
+    client = resolve_client(client=client, submissions=submissions)
 
     if isinstance(submissions, (list, tuple)):
         submissions = client.create_submissions(submissions)
@@ -121,7 +118,7 @@ def _execute(
         submissions = client.create_submission(submissions)
 
     if wait_for_result:
-        return wait(client, submissions)
+        return wait(client=client, submissions=submissions)
     else:
         return submissions
 
