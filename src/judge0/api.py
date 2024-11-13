@@ -159,5 +159,7 @@ def sync_execute(
 
 
 execute = sync_execute
-run = execute
+
+run = sync_execute
+sync_run = sync_execute
 async_run = async_execute
