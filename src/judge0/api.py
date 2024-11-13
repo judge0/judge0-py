@@ -1,4 +1,5 @@
 from typing import Optional, Union
+from collections.abc import Iterable
 
 from .clients import Client
 from .common import Flavor
@@ -46,6 +47,74 @@ def resolve_client(
     )
 
 
+def create_submissions(
+    *,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Union[Submission, list[Submission]] = None,
+) -> Union[Submission, list[Submission]]:
+    client = resolve_client(client=client, submissions=submissions)
+
+    # TODO: This is a temporary solution to avoid the issue with the maximum
+    # number of submissions in a single request. We should implement a more
+    # sophisticated solution in the future.
+    # Client should have a client.config attribute of type Config.
+    # Config should have config.max_submission_batch_size
+    # Use GET /config_info to get the config.
+    BATCH_SIZE = 20
+
+    if isinstance(submissions, (list, tuple)):
+        if len(submissions) == 0:
+            return submissions
+        elif len(submissions) == 1:
+            return [client.create_submission(submissions[0])]
+        else:
+            submissions_left = client.create_submissions(submissions=submissions[:BATCH_SIZE])
+            if not isinstance(submissions_left, list):
+                submissions_left = [submissions_left]
+
+            submissions_right = create_submissions(client=client, submissions=submissions[BATCH_SIZE:])
+            if not isinstance(submissions_right, list):
+                submissions_right = [submissions_right]
+
+            return [*submissions_left, *submissions_right]
+    else:
+        return client.create_submission(submissions)
+
+
+def get_submissions(
+    *,
+    client: Optional[Union[Client, Flavor]] = None,
+    submissions: Union[Submission, list[Submission]] = None,
+) -> Union[Submission, list[Submission]]:
+    client = resolve_client(client=client, submissions=submissions)
+
+    # TODO: This is a temporary solution to avoid the issue with the maximum
+    # number of submissions in a single request. We should implement a more
+    # sophisticated solution in the future.
+    # Client should have a client.config attribute of type Config.
+    # Config should have config.max_submission_batch_size
+    # Use GET /config_info to get the config.
+    BATCH_SIZE = 20
+
+    if isinstance(submissions, (list, tuple)):
+        if len(submissions) == 0:
+            return submissions
+        elif len(submissions) == 1:
+            return [client.get_submission(submissions[0])]
+        else:
+            submissions_left = client.get_submissions(submissions=submissions[:BATCH_SIZE])
+            if not isinstance(submissions_left, list):
+                submissions_left = [submissions_left]
+
+            submissions_right = get_submissions(client=client, submissions=submissions[BATCH_SIZE:])
+            if not isinstance(submissions_right, list):
+                submissions_right = [submissions_right]
+
+            return [*submissions_left, *submissions_right]
+    else:
+        return client.get_submission(submissions)
+
+
 def wait(
     *,
     client: Optional[Union[Client, Flavor]] = None,
@@ -67,15 +136,8 @@ def wait(
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-        # We differentiate between getting a single submission and multiple
-        # submissions to be consistent with the API, even though the API
-        # allows to get single submission with the same endpoint as for getting
-        # the multiple submissions.
-        if len(submissions_to_check) == 1:
-            client.get_submission(*submissions_to_check.values())
-        else:
-            client.get_submissions(submissions_to_check.values())
-
+        # TODO: list should not be needed if use collections.abc.Iterable for isinstance check.
+        get_submissions(client=client, submissions=list(submissions_to_check.values()))
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
             if submission.is_done():
@@ -111,11 +173,7 @@ def _execute(
         submissions = Submission(source_code=source_code, **kwargs)
 
     client = resolve_client(client=client, submissions=submissions)
-
-    if isinstance(submissions, (list, tuple)):
-        submissions = client.create_submissions(submissions)
-    else:
-        submissions = client.create_submission(submissions)
+    submissions = create_submissions(client=client, submissions=submissions)
 
     if wait_for_result:
         return wait(client=client, submissions=submissions)
