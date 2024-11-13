@@ -23,7 +23,7 @@ def resolve_client(
         return _get_implicit_client(flavor=client)
 
     if client is None and isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError("Client cannot be determined from empty submissions.")
+        raise ValueError("Client cannot be determined from empty submissions.")
 
     # client is None and we have to determine a flavor of the client from the
     # submissions and the languages.
@@ -54,13 +54,15 @@ def create_submissions(
 ) -> Union[Submission, list[Submission]]:
     client = resolve_client(client=client, submissions=submissions)
 
-    # TODO: This is a temporary solution to avoid the issue with the maximum
-    # number of submissions in a single request. We should implement a more
-    # sophisticated solution in the future.
-    # Client should have a client.config attribute of type Config.
-    # Config should have config.max_submission_batch_size
-    # Use GET /config_info to get the config.
-    BATCH_SIZE = 20
+    MAX_SUBMISSION_BATCH_SIZE = (
+        20  # TODO: move to client.config.MAX_SUBMISSION_BATCH_SIZE
+    )
+    ENABLE_BATCHED_SUBMISSIONS = (
+        True  # TODO: Move to client.config.ENABLE_BATCHED_SUBMISSIONS
+    )
+    actual_batch_size = (
+        MAX_SUBMISSION_BATCH_SIZE if ENABLE_BATCHED_SUBMISSIONS else 1
+    )  # TODO: Move to client.config.BATCH_SIZE which should be calculated field
 
     if isinstance(submissions, (list, tuple)):
         if len(submissions) == 0:
@@ -68,11 +70,19 @@ def create_submissions(
         elif len(submissions) == 1:
             return [client.create_submission(submissions[0])]
         else:
-            submissions_left = client.create_submissions(submissions=submissions[:BATCH_SIZE])
+            if actual_batch_size > 1:
+                submissions_left = client.create_submissions(
+                    submissions=submissions[:actual_batch_size]
+                )
+            else:
+                submissions_left = client.create_submission(submissions[0])
+
             if not isinstance(submissions_left, list):
                 submissions_left = [submissions_left]
 
-            submissions_right = create_submissions(client=client, submissions=submissions[BATCH_SIZE:])
+            submissions_right = create_submissions(
+                client=client, submissions=submissions[actual_batch_size:]
+            )
             if not isinstance(submissions_right, list):
                 submissions_right = [submissions_right]
 
@@ -88,13 +98,15 @@ def get_submissions(
 ) -> Union[Submission, list[Submission]]:
     client = resolve_client(client=client, submissions=submissions)
 
-    # TODO: This is a temporary solution to avoid the issue with the maximum
-    # number of submissions in a single request. We should implement a more
-    # sophisticated solution in the future.
-    # Client should have a client.config attribute of type Config.
-    # Config should have config.max_submission_batch_size
-    # Use GET /config_info to get the config.
-    BATCH_SIZE = 20
+    MAX_SUBMISSION_BATCH_SIZE = (
+        20  # TODO: move to client.config.MAX_SUBMISSION_BATCH_SIZE
+    )
+    ENABLE_BATCHED_SUBMISSIONS = (
+        True  # TODO: Move to client.config.ENABLE_BATCHED_SUBMISSIONS
+    )
+    actual_batch_size = (
+        MAX_SUBMISSION_BATCH_SIZE if ENABLE_BATCHED_SUBMISSIONS else 1
+    )  # TODO: Move to client.config.BATCH_SIZE which should be calculated field
 
     if isinstance(submissions, (list, tuple)):
         if len(submissions) == 0:
@@ -102,11 +114,19 @@ def get_submissions(
         elif len(submissions) == 1:
             return [client.get_submission(submissions[0])]
         else:
-            submissions_left = client.get_submissions(submissions=submissions[:BATCH_SIZE])
+            if actual_batch_size > 1:
+                submissions_left = client.get_submissions(
+                    submissions=submissions[:actual_batch_size]
+                )
+            else:
+                submissions_left = client.get_submission(submissions[0])
+
             if not isinstance(submissions_left, list):
                 submissions_left = [submissions_left]
 
-            submissions_right = get_submissions(client=client, submissions=submissions[BATCH_SIZE:])
+            submissions_right = get_submissions(
+                client=client, submissions=submissions[actual_batch_size:]
+            )
             if not isinstance(submissions_right, list):
                 submissions_right = [submissions_right]
 
