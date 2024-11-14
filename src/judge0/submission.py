@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Union
 
 from .base_types import LanguageAlias, Status
@@ -125,11 +126,21 @@ class Submission:
                 continue
 
             if attr in ENCODED_FIELDS:
-                setattr(self, attr, decode(value) if value else None)
+                value = decode(value) if value else None
             elif attr == "status":
-                self.status = Status(value["id"])
-            else:
-                setattr(self, attr, value)
+                value = Status(value["id"])
+            elif attr in ("created_at", "finished_at"):
+                value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
+            elif attr in (
+                "wall_time",
+                "wall_time_limit",
+                "cpu_extra_time",
+                "cpu_time_limit",
+                "time",
+            ):
+                value = float(value)
+
+            setattr(self, attr, value)
 
     # TODO: Rename to as_body that accepts a Client.
     def to_dict(self, client: "Client") -> dict:
