@@ -46,6 +46,14 @@ REQUEST_FIELDS = ENCODED_REQUEST_FIELDS | EXTRA_REQUEST_FIELDS
 RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
 SKIP_FIELDS = {"language_id", "language", "status_id"}
+DATETIME_FIELDS = {"created_at", "finished_at"}
+FLOATING_POINT_FIELDS = {
+    "cpu_time_limit",
+    "cpu_extra_time",
+    "time",
+    "wall_time",
+    "wall_time_limit",
+}
 
 
 class Submission:
@@ -129,15 +137,9 @@ class Submission:
                 value = decode(value) if value else None
             elif attr == "status":
                 value = Status(value["id"])
-            elif attr in ("created_at", "finished_at"):
+            elif attr in DATETIME_FIELDS and value is not None:
                 value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
-            elif attr in (
-                "wall_time",
-                "wall_time_limit",
-                "cpu_extra_time",
-                "cpu_time_limit",
-                "time",
-            ):
+            elif attr in FLOATING_POINT_FIELDS and value is not None:
                 value = float(value)
 
             setattr(self, attr, value)
@@ -149,6 +151,7 @@ class Submission:
             "language_id": client.get_language_id(self.language),
         }
 
+        # TODO: Iterate over ENCODED_REQUEST_FIELDS.
         if self.stdin is not None:
             body["stdin"] = encode(self.stdin)
         if self.expected_output is not None:
