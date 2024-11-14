@@ -2,6 +2,8 @@ from base64 import b64decode, b64encode
 from enum import IntEnum
 
 
+# TODO: Consider moving enumerations and other possible future types to separate
+# module (_types.py).
 class Language(IntEnum):
     PYTHON = 0
     CPP = 1

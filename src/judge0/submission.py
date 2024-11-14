@@ -125,6 +125,8 @@ class Submission:
 
             if attr in ENCODED_FIELDS:
                 setattr(self, attr, decode(value) if value else None)
+            elif attr == "status":
+                self.status = Status(value["id"])
             else:
                 setattr(self, attr, value)
 
@@ -151,5 +153,4 @@ class Submission:
         if self.status is None:
             return False
         else:
-            # TODO: When status is changed to `Status`, refactor this as well.
-            return self.status["id"] not in (Status.IN_QUEUE, Status.PROCESSING)
+            return self.status not in (Status.IN_QUEUE, Status.PROCESSING)
