@@ -1,4 +1,4 @@
-from .common import LanguageAlias
+from .base_types import LanguageAlias
 
 LANGUAGE_TO_LANGUAGE_ID = {
     "1.13.1": {

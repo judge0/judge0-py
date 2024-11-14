@@ -1,6 +1,7 @@
 import os
 
 from .api import async_execute, execute, run, sync_execute, wait
+from .base_types import Flavor, Language, LanguageAlias, Status
 from .clients import (
     ATD,
     ATDJudge0CE,
@@ -13,7 +14,6 @@ from .clients import (
     SuluJudge0CE,
     SuluJudge0ExtraCE,
 )
-from .common import Flavor, LanguageAlias, Status
 from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
 from .submission import Submission
 
@@ -22,6 +22,7 @@ __all__ = [
     "ATDJudge0CE",
     "ATDJudge0ExtraCE",
     "Client",
+    "Language",
     "LanguageAlias",
     "MaxRetries",
     "MaxWaitTime",

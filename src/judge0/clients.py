@@ -2,7 +2,7 @@ from typing import Iterable, Union
 
 import requests
 
-from .common import LanguageAlias
+from .base_types import Language, LanguageAlias
 from .data import LANGUAGE_TO_LANGUAGE_ID
 from .submission import Submission
 
@@ -15,7 +15,10 @@ class Client:
         self.auth_headers = auth_headers
 
         try:
-            self.languages = {lang["id"]: lang for lang in self.get_languages()}
+            self.languages = [
+                Language(id=lang["id"], name=lang["name"])
+                for lang in self.get_languages()
+            ]
         except Exception as e:
             raise RuntimeError(
                 f"Authentication failed. Visit {self.HOME_URL} to get or review your authentication credentials."
@@ -64,22 +67,24 @@ class Client:
             setattr(self, "_version", _version)
         return self._version
 
-    def resolve_language_id(self, language_id: Union[LanguageAlias, int]) -> int:
-        if isinstance(language_id, LanguageAlias):
-            languages = LANGUAGE_TO_LANGUAGE_ID[self.version]
-            language_id = languages.get(language_id, -1)
-        return language_id
+    def get_language_id(self, language: Union[LanguageAlias, int]) -> int:
+        """Get language id for the corresponding language alias for the client."""
+        if isinstance(language, LanguageAlias):
+            supported_language_ids = LANGUAGE_TO_LANGUAGE_ID[self.version]
+            language = supported_language_ids.get(language, -1)
+        return language
 
-    def is_language_supported(self, language_id: Union[LanguageAlias, int]) -> bool:
-        language_id = self.resolve_language_id(language_id)
-        return language_id in self.languages
+    def is_language_supported(self, language: Union[LanguageAlias, int]) -> bool:
+        """Check if language is supported by the client."""
+        language_id = self.get_language_id(language)
+        return any(language_id == lang.id for lang in self.languages)
 
     def create_submission(self, submission: Submission) -> Submission:
-        # Check if submission contains supported language.
-        if not self.is_language_supported(language_id=submission.language_id):
+        # Check if the client supports the language specified in the submission.
+        if not self.is_language_supported(language=submission.language):
             raise RuntimeError(
                 f"Client {type(self).__name__} does not support language with "
-                f"id {submission.language_id}!"
+                f"id {submission.language}!"
             )
 
         params = {
@@ -88,10 +93,7 @@ class Client:
         }
 
         # TODO: Rename to_dict to as_body that accepts the client.
-        body = submission.to_dict()
-        # We have to resolve language_id because language_id can be Language
-        # enumeration.
-        body["language_id"] = self.resolve_language_id(submission.language_id)
+        body = submission.to_dict(self)
 
         resp = requests.post(
             f"{self.endpoint}/submissions",
@@ -139,10 +141,10 @@ class Client:
     def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
         # Check if all submissions contain supported language.
         for submission in submissions:
-            if not self.is_language_supported(language_id=submission.language_id):
+            if not self.is_language_supported(language=submission.language):
                 raise RuntimeError(
-                    f"Client {type(self).__name__} does not support language with "
-                    f"id {submission.language_id}!"
+                    f"Client {type(self).__name__} does not support language "
+                    f"{submission.language}!"
                 )
 
         submissions_body = [submission.to_dict() for submission in submissions]

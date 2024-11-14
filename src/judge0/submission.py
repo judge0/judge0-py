@@ -1,6 +1,7 @@
 from typing import Union
 
-from .common import decode, encode, LanguageAlias, Status
+from .base_types import LanguageAlias, Status
+from .common import decode, encode
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -54,7 +55,7 @@ class Submission:
     def __init__(
         self,
         source_code: str,
-        language_id: Union[Language, int] = LanguageAlias.PYTHON,
+        language: Union[LanguageAlias, int] = LanguageAlias.PYTHON,
         *,
         additional_files=None,
         compiler_options=None,
@@ -76,7 +77,7 @@ class Submission:
         callback_url=None,
     ):
         self.source_code = source_code
-        self.language_id = language_id
+        self.language = language
         self.additional_files = additional_files
 
         # Extra pre-execution submission attributes.
@@ -131,10 +132,10 @@ class Submission:
                 setattr(self, attr, value)
 
     # TODO: Rename to as_body that accepts a Client.
-    def to_dict(self) -> dict:
+    def to_dict(self, client: "Client") -> dict:
         body = {
             "source_code": encode(self.source_code),
-            "language_id": self.language_id,
+            "language_id": client.get_language_id(self.language),
         }
 
         if self.stdin is not None:

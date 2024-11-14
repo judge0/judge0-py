@@ -2,7 +2,7 @@ import judge0
 
 submission = judge0.Submission(
     source_code="print('Hello Judge0')",
-    language_id=25,
+    language=25,
 )
 
 # Instead of relying on the CE flavor of judge0, we can use EXTRA_CE.
