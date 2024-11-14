@@ -147,13 +147,7 @@ class Client:
                     f"{submission.language}!"
                 )
 
-        submissions_body = [submission.to_dict() for submission in submissions]
-        # We have to resolve language_id because language_id can be Language
-        # enumeration.
-        for submission_body in submissions_body:
-            submission_body["language_id"] = self.resolve_language_id(
-                submission_body["language_id"]
-            )
+        submissions_body = [submission.to_dict(self) for submission in submissions]
 
         resp = requests.post(
             f"{self.endpoint}/submissions/batch",

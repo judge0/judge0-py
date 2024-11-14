@@ -57,12 +57,12 @@ def test_resolve_client_empty_submissions_argument(submissions):
 def test_resolve_client_no_common_client_for_submissions():
     cpp_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.CPP_GCC,
+        language=LanguageAlias.CPP_GCC,
     )
 
     py_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.PYTHON_FOR_ML,
+        language=LanguageAlias.PYTHON_FOR_ML,
     )
 
     submissions = [cpp_submission, py_submission]
@@ -74,12 +74,12 @@ def test_resolve_client_no_common_client_for_submissions():
 def test_resolve_client_common_ce_client():
     cpp_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.CPP_GCC,
+        language=LanguageAlias.CPP_GCC,
     )
 
     py_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.PYTHON,
+        language=LanguageAlias.PYTHON,
     )
 
     submissions = [cpp_submission, py_submission]
@@ -90,12 +90,12 @@ def test_resolve_client_common_ce_client():
 def test_resolve_client_common_extra_ce_client():
     cpp_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.CPP_CLANG,
+        language=LanguageAlias.CPP_CLANG,
     )
 
     py_submission = Submission(
         source_code="",  # source code is not important in this test
-        language_id=LanguageAlias.PYTHON_FOR_ML,
+        language=LanguageAlias.PYTHON_FOR_ML,
     )
 
     submissions = [cpp_submission, py_submission]
