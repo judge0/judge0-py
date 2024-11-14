@@ -2,7 +2,7 @@ from typing import Iterable, Union
 
 import requests
 
-from .common import Language
+from .common import LanguageAlias
 from .data import LANGUAGE_TO_LANGUAGE_ID
 from .submission import Submission
 
@@ -64,13 +64,13 @@ class Client:
             setattr(self, "_version", _version)
         return self._version
 
-    def resolve_language_id(self, language_id: Union[Language, int]) -> int:
-        if isinstance(language_id, Language):
+    def resolve_language_id(self, language_id: Union[LanguageAlias, int]) -> int:
+        if isinstance(language_id, LanguageAlias):
             languages = LANGUAGE_TO_LANGUAGE_ID[self.version]
             language_id = languages.get(language_id, -1)
         return language_id
 
-    def is_language_supported(self, language_id: Union[Language, int]) -> bool:
+    def is_language_supported(self, language_id: Union[LanguageAlias, int]) -> bool:
         language_id = self.resolve_language_id(language_id)
         return language_id in self.languages
 
