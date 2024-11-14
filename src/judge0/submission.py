@@ -1,6 +1,6 @@
 from typing import Union
 
-from .common import decode, encode, Language, Status
+from .common import decode, encode, LanguageAlias, Status
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -54,7 +54,7 @@ class Submission:
     def __init__(
         self,
         source_code: str,
-        language_id: Union[Language, int] = Language.PYTHON,
+        language_id: Union[Language, int] = LanguageAlias.PYTHON,
         *,
         additional_files=None,
         compiler_options=None,

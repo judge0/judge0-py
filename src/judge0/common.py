@@ -4,7 +4,7 @@ from enum import IntEnum
 
 # TODO: Consider moving enumerations and other possible future types to separate
 # module (_types.py).
-class Language(IntEnum):
+class LanguageAlias(IntEnum):
     PYTHON = 0
     CPP = 1
     JAVA = 2
