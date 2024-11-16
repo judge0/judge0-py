@@ -144,18 +144,16 @@ class Submission:
 
             setattr(self, attr, value)
 
-    # TODO: Rename to as_body that accepts a Client.
-    def to_dict(self, client: "Client") -> dict:
+    def as_body(self, client: "Client") -> dict:
         body = {
             "source_code": encode(self.source_code),
             "language_id": client.get_language_id(self.language),
         }
 
-        # TODO: Iterate over ENCODED_REQUEST_FIELDS.
-        if self.stdin is not None:
-            body["stdin"] = encode(self.stdin)
-        if self.expected_output is not None:
-            body["expected_output"] = encode(self.expected_output)
+        for field in ENCODED_REQUEST_FIELDS:
+            value = getattr(self, field)
+            if value is not None:
+                body[field] = encode(value)
 
         for field in EXTRA_REQUEST_FIELDS:
             value = getattr(self, field)

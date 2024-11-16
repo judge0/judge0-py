@@ -92,8 +92,7 @@ class Client:
             "wait": "false",
         }
 
-        # TODO: Rename to_dict to as_body that accepts the client.
-        body = submission.to_dict(self)
+        body = submission.as_body(self)
 
         resp = requests.post(
             f"{self.endpoint}/submissions",
@@ -147,7 +146,7 @@ class Client:
                     f"{submission.language}!"
                 )
 
-        submissions_body = [submission.to_dict(self) for submission in submissions]
+        submissions_body = [submission.as_body(self) for submission in submissions]
 
         resp = requests.post(
             f"{self.endpoint}/submissions/batch",

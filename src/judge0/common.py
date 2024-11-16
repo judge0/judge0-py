@@ -1,9 +1,20 @@
 from base64 import b64decode, b64encode
+from typing import Union
 
 
-def encode(text: str) -> str:
-    return b64encode(bytes(text, "utf-8")).decode()
+def encode(content: Union[bytes, str]) -> str:
+    if isinstance(content, bytes):
+        return b64encode(content).decode()
+    if isinstance(content, str):
+        return b64encode(content.encode()).decode()
+    raise ValueError(f"Unsupported type. Expected bytes or str, got {type(content)}!")
 
 
-def decode(b64_encoded_str: str) -> str:
-    return b64decode(b64_encoded_str.encode()).decode(errors="backslashreplace")
+def decode(content: Union[bytes, str]) -> str:
+    if isinstance(content, bytes):
+        return b64decode(content.decode(errors="backslashreplace")).decode(
+            errors="backslashreplace"
+        )
+    if isinstance(content, str):
+        return b64decode(content.encode()).decode(errors="backslashreplace")
+    raise ValueError(f"Unsupported type. Expected bytes or str, got {type(content)}!")
