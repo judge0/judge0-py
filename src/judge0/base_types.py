@@ -1,5 +1,12 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
+
+
+class Encodeable(ABC):
+    @abstractmethod
+    def encode(self) -> bytes:
+        pass
 
 
 @dataclass

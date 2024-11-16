@@ -14,6 +14,7 @@ from .clients import (
     SuluJudge0CE,
     SuluJudge0ExtraCE,
 )
+from .filesystem import File, Filesystem
 from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
 from .submission import Submission
 
@@ -22,6 +23,8 @@ __all__ = [
     "ATDJudge0CE",
     "ATDJudge0ExtraCE",
     "Client",
+    "File",
+    "Filesystem",
     "Language",
     "LanguageAlias",
     "MaxRetries",

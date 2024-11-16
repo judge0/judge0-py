@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Union
 
+from judge0.filesystem import Filesystem
+
 from .base_types import LanguageAlias, Status
 from .common import decode, encode
 
@@ -10,7 +12,12 @@ ENCODED_REQUEST_FIELDS = {
     "stdin",
     "expected_output",
 }
-ENCODED_RESPONSE_FIELDS = {"stdout", "stderr", "compile_output"}
+ENCODED_RESPONSE_FIELDS = {
+    "stdout",
+    "stderr",
+    "compile_output",
+    # "post_execution_filesystem",
+}
 ENCODED_FIELDS = ENCODED_REQUEST_FIELDS | ENCODED_RESPONSE_FIELDS
 EXTRA_REQUEST_FIELDS = {
     "compiler_options",
@@ -141,6 +148,8 @@ class Submission:
                 value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
             elif attr in FLOATING_POINT_FIELDS and value is not None:
                 value = float(value)
+            elif attr == "post_execution_filesystem":
+                value = Filesystem(value)
 
             setattr(self, attr, value)
 

@@ -1,11 +1,15 @@
 from base64 import b64decode, b64encode
 from typing import Union
 
+from .base_types import Encodeable
 
-def encode(content: Union[bytes, str]) -> str:
+
+def encode(content: Union[bytes, str, Encodeable]) -> str:
     if isinstance(content, bytes):
         return b64encode(content).decode()
     if isinstance(content, str):
+        return b64encode(content.encode()).decode()
+    if isinstance(content, Encodeable):
         return b64encode(content.encode()).decode()
     raise ValueError(f"Unsupported type. Expected bytes or str, got {type(content)}!")
 
