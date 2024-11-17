@@ -71,7 +71,7 @@ def test_create_submissions_from_test_cases_return_type(
         ],
     ],
 )
-def test_create_submissions_from_test_cases_from_run(
+def test_test_cases_from_run(
     source_code_or_submissions, test_cases, expected_status, request
 ):
     client = request.getfixturevalue("judge0_ce_client")
@@ -90,3 +90,46 @@ def test_create_submissions_from_test_cases_from_run(
         )
 
     assert [submission.status for submission in submissions] == expected_status
+
+
+@pytest.mark.parametrize(
+    "submissions,expected_status",
+    [
+        [
+            Submission(
+                "print(f'Hello, {input()}')",
+                stdin="Judge0",
+                expected_output="Hello, Judge0",
+            ),
+            Status.ACCEPTED,
+        ],
+        [
+            [
+                Submission(
+                    "print(f'Hello, {input()}')",
+                    stdin="Judge0",
+                    expected_output="Hello, Judge0",
+                ),
+                Submission(
+                    "print(f'Hello, {input()}')",
+                    stdin="pytest",
+                    expected_output="Hello, pytest",
+                ),
+            ],
+            [Status.ACCEPTED, Status.ACCEPTED],
+        ],
+    ],
+)
+def test_no_test_cases(submissions, expected_status, request):
+    """This test tests that if no test cases are provided, the submissions are changed in place."""
+    client = request.getfixturevalue("judge0_ce_client")
+
+    judge0.run(
+        client=client,
+        submissions=submissions,
+    )
+
+    if isinstance(submissions, list):
+        assert [submission.status for submission in submissions] == expected_status
+    else:
+        assert submissions.status == expected_status

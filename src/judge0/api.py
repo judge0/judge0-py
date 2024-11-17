@@ -87,7 +87,7 @@ def wait(
 
 def create_submissions_from_test_cases(
     submissions: Union[Submission, list[Submission]],
-    test_cases: Union[TestCase, list[TestCase]],
+    test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
 ):
     """Utility function for creating submissions from the (submission, test_case) pairs.
 
@@ -102,17 +102,19 @@ def create_submissions_from_test_cases(
     | list[Submission] | list[TestCase] | list[Submission] |
 
     """
-    submissions_list = []
+    # Let's deal with the simplest cases where no test cases are provided. We
+    # return original submissions argument as this gives a user an option
+    # to change the original Submission objects, without creating copies of it.
+    if test_cases is None or isinstance(test_cases, list) and len(test_cases) == 0:
+        return submissions
+
     if isinstance(submissions, Submission):
         submissions_list = [submissions]
     else:
         submissions_list = submissions
 
-    test_cases_list = []
     if isinstance(test_cases, list):
         test_cases_list = test_cases
-        if len(test_cases_list) == 0:
-            test_cases_list = [None]
     else:
         test_cases_list = [test_cases]
 
