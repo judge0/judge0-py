@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,5 +28,9 @@ jobs:
           JUDGE0_ATD_API_KEY: ${{ secrets.JUDGE0_ATD_API_KEY }}
           JUDGE0_RAPID_API_KEY: ${{ secrets.JUDGE0_RAPID_API_KEY }}
           JUDGE0_SULU_API_KEY: ${{ secrets.JUDGE0_SULU_API_KEY }}
+          JUDGE0_TEST_API_KEY: ${{ secrets.JUDGE0_TEST_API_KEY }}
+          JUDGE0_TEST_API_KEY_HEADER: ${{ secrets.JUDGE0_TEST_API_KEY_HEADER }}
+          JUDGE0_TEST_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_CE_ENDPOINT }}
+          JUDGE0_TEST_EXTRA_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_EXTRA_CE_ENDPOINT }}
         run: |
           pipenv run pytest -vv

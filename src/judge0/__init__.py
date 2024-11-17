@@ -1,6 +1,7 @@
 import os
 
 from .api import async_execute, execute, run, sync_execute, wait
+from .base_types import Flavor, Language, LanguageAlias, Status
 from .clients import (
     ATD,
     ATDJudge0CE,
@@ -13,7 +14,7 @@ from .clients import (
     SuluJudge0CE,
     SuluJudge0ExtraCE,
 )
-from .common import Flavor, Language, Status
+from .filesystem import File, Filesystem
 from .retry import MaxRetries, MaxWaitTime, RegularPeriodRetry
 from .submission import Submission
 
@@ -22,7 +23,10 @@ __all__ = [
     "ATDJudge0CE",
     "ATDJudge0ExtraCE",
     "Client",
+    "File",
+    "Filesystem",
     "Language",
+    "LanguageAlias",
     "MaxRetries",
     "MaxWaitTime",
     "Rapid",
@@ -96,9 +100,9 @@ def _get_implicit_client(flavor: Flavor) -> Client:
 CE = Flavor.CE
 EXTRA_CE = Flavor.EXTRA_CE
 
-PYTHON = Language.PYTHON
-CPP = Language.CPP
-JAVA = Language.JAVA
-CPP_GCC = Language.CPP_GCC
-CPP_CLANG = Language.CPP_CLANG
-PYTHON_FOR_ML = Language.PYTHON_FOR_ML
+PYTHON = LanguageAlias.PYTHON
+CPP = LanguageAlias.CPP
+JAVA = LanguageAlias.JAVA
+CPP_GCC = LanguageAlias.CPP_GCC
+CPP_CLANG = LanguageAlias.CPP_CLANG
+PYTHON_FOR_ML = LanguageAlias.PYTHON_FOR_ML

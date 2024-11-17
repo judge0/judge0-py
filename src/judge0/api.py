@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
+from .base_types import Flavor
 from .clients import Client
-from .common import Flavor
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission
 
@@ -28,7 +28,7 @@ def resolve_client(
         submissions = [submissions]
 
     # Check which client supports all languages from the provided submissions.
-    languages = [submission.language_id for submission in submissions]
+    languages = [submission.language for submission in submissions]
 
     for flavor in Flavor:
         client = _get_implicit_client(flavor)
