@@ -1,7 +1,7 @@
 import os
 
 from .api import async_execute, execute, run, sync_execute, wait
-from .base_types import Flavor, Language, LanguageAlias, Status
+from .base_types import Flavor, Language, LanguageAlias, Status, TestCase
 from .clients import (
     ATD,
     ATDJudge0CE,
@@ -38,6 +38,7 @@ __all__ = [
     "Sulu",
     "SuluJudge0CE",
     "SuluJudge0ExtraCE",
+    "TestCase",
     "async_execute",
     "execute",
     "run",

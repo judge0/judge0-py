@@ -1,11 +1,9 @@
 from typing import Optional, Union
 
-from .base_types import Flavor
+from .base_types import Flavor, TestCase
 from .clients import Client
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission
-
-TestCase = tuple[Optional[str], Optional[str]]  # TODO: Use NamedTuple or dataclass
 
 
 def resolve_client(
@@ -87,14 +85,52 @@ def wait(
     return submissions
 
 
-# TODO: Type of return value should follow the table below.
-# | submissions      | test_cases     | return           |
-# |------------------|----------------|------------------|
-# | Submission       | TestCase       | Submission       |
-# | Submission       | list[TestCase] | list[Submission] |
-# | list[Submission] | TestCase       | list[Submission] |
-# | list[Submission] | list[TestCase] | list[Submission] |
-# TODO: We should write tests for this table.
+def create_submissions_from_test_cases(
+    submissions: Union[Submission, list[Submission]],
+    test_cases: Union[TestCase, list[TestCase]],
+):
+    """Utility function for creating submissions from the (submission, test_case) pairs.
+
+    The following table contains the return type based on the types of `submissions`
+    and `test_cases` arguments:
+
+    | submissions      | test_cases     | returns          |
+    |:-----------------|:---------------|:-----------------|
+    | Submission       | TestCase       | Submission       |
+    | Submission       | list[TestCase] | list[Submission] |
+    | list[Submission] | TestCase       | list[Submission] |
+    | list[Submission] | list[TestCase] | list[Submission] |
+
+    """
+    submissions_list = []
+    if isinstance(submissions, Submission):
+        submissions_list = [submissions]
+    else:
+        submissions_list = submissions
+
+    test_cases_list = []
+    if isinstance(test_cases, list):
+        test_cases_list = test_cases
+        if len(test_cases_list) == 0:
+            test_cases_list = [None]
+    else:
+        test_cases_list = [test_cases]
+
+    all_submissions = []
+    for submission in submissions_list:
+        for test_case in test_cases_list:
+            submission_copy = submission.copy()
+            if test_case is not None:
+                submission_copy.stdin = test_case.input
+                submission_copy.expected_output = test_case.expected_output
+            all_submissions.append(submission_copy)
+
+    if isinstance(submissions, Submission) and not isinstance(test_cases, list):
+        return all_submissions[0]
+    else:
+        return all_submissions
+
+
 def _execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
@@ -126,50 +162,23 @@ def _execute(
 
     client = resolve_client(client, submissions=submissions)
 
-    test_cases_list = []
-    if isinstance(test_cases, list):
-        test_cases_list = test_cases
-        if len(test_cases_list) == 0:
-            test_cases_list = [None]
-    else:
-        test_cases_list = [test_cases]
-
-    submissions_list = []
-    if isinstance(submissions, Submission):
-        submissions_list = [submissions]
-    else:
-        submissions_list = submissions
-
-    result_submissions = []
-    for submission in submissions_list:
-        for test_case in test_cases_list:
-            submission_copy = submission.copy()
-            if test_case is not None:
-                if len(test_case) > 0:
-                    submission_copy.stdin = test_case[0]
-
-                if len(test_case) > 1:
-                    submission_copy.expected_output = test_case[1]
-            result_submissions.append(submission_copy)
+    all_submissions = create_submissions_from_test_cases(submissions, test_cases)
 
     # We differentiate between creating a single submission and multiple
     # submissions to be consistent with the API, even though the API
     # allows to create single submission with the same endpoint as for
     # creating the multiple submissions.
-    if isinstance(result_submissions, Submission):
-        result_submissions = client.create_submission(result_submissions)
-    elif len(result_submissions) == 1:
-        result_submissions = [client.create_submission(result_submissions[0])]
+    if isinstance(all_submissions, Submission):
+        all_submissions = client.create_submission(all_submissions)
+    elif len(all_submissions) == 1:
+        all_submissions = [client.create_submission(all_submissions[0])]
     else:
-        result_submissions = client.create_submissions(result_submissions)
+        all_submissions = client.create_submissions(all_submissions)
 
     if wait_for_result:
-        result_submissions = wait(client, result_submissions)
+        all_submissions = wait(client, all_submissions)
 
-    if isinstance(submissions, Submission) and not isinstance(test_cases, list):
-        return result_submissions[0]
-    else:
-        return result_submissions
+    return all_submissions
 
 
 def async_execute(
