@@ -1,3 +1,4 @@
+import copy
 from datetime import datetime
 from typing import Union
 
@@ -176,3 +177,6 @@ class Submission:
             return False
         else:
             return self.status not in (Status.IN_QUEUE, Status.PROCESSING)
+
+    def copy(self) -> "Submission":
+        return copy.deepcopy(self)

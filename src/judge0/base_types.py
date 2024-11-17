@@ -1,6 +1,16 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
+from typing import Optional
+
+
+@dataclass(frozen=True)
+class TestCase:
+    # Needed to disable pytest from recognizing it as a class containing different test cases.
+    __test__ = False
+
+    input: Optional[str] = None
+    expected_output: Optional[str] = None
 
 
 class Encodeable(ABC):
@@ -9,7 +19,7 @@ class Encodeable(ABC):
         pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Language:
     id: int
     name: str
