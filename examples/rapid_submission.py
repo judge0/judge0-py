@@ -13,7 +13,7 @@ def run_example(client_class, language_id):
     client = client_class(api_key=api_key)
     submission = judge0.Submission(
         source_code="print('Hello Judge0')",
-        language_id=language_id,
+        language=language_id,
         expected_output="Hello Judge0",
     )
 

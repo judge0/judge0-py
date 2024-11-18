@@ -1,6 +1,11 @@
+import copy
+from datetime import datetime
 from typing import Union
 
-from .common import decode, encode, Language, Status
+from judge0.filesystem import Filesystem
+
+from .base_types import LanguageAlias, Status
+from .common import decode, encode
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -8,7 +13,12 @@ ENCODED_REQUEST_FIELDS = {
     "stdin",
     "expected_output",
 }
-ENCODED_RESPONSE_FIELDS = {"stdout", "stderr", "compile_output"}
+ENCODED_RESPONSE_FIELDS = {
+    "stdout",
+    "stderr",
+    "compile_output",
+    # "post_execution_filesystem",
+}
 ENCODED_FIELDS = ENCODED_REQUEST_FIELDS | ENCODED_RESPONSE_FIELDS
 EXTRA_REQUEST_FIELDS = {
     "compiler_options",
@@ -44,6 +54,14 @@ REQUEST_FIELDS = ENCODED_REQUEST_FIELDS | EXTRA_REQUEST_FIELDS
 RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
 FIELDS = REQUEST_FIELDS | RESPONSE_FIELDS
 SKIP_FIELDS = {"language_id", "language", "status_id"}
+DATETIME_FIELDS = {"created_at", "finished_at"}
+FLOATING_POINT_FIELDS = {
+    "cpu_time_limit",
+    "cpu_extra_time",
+    "time",
+    "wall_time",
+    "wall_time_limit",
+}
 
 
 class Submission:
@@ -54,7 +72,7 @@ class Submission:
     def __init__(
         self,
         source_code: str,
-        language_id: Union[Language, int] = Language.PYTHON,
+        language: Union[LanguageAlias, int] = LanguageAlias.PYTHON,
         *,
         additional_files=None,
         compiler_options=None,
@@ -76,7 +94,7 @@ class Submission:
         callback_url=None,
     ):
         self.source_code = source_code
-        self.language_id = language_id
+        self.language = language
         self.additional_files = additional_files
 
         # Extra pre-execution submission attributes.
@@ -124,21 +142,28 @@ class Submission:
                 continue
 
             if attr in ENCODED_FIELDS:
-                setattr(self, attr, decode(value) if value else None)
-            else:
-                setattr(self, attr, value)
+                value = decode(value) if value else None
+            elif attr == "status":
+                value = Status(value["id"])
+            elif attr in DATETIME_FIELDS and value is not None:
+                value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
+            elif attr in FLOATING_POINT_FIELDS and value is not None:
+                value = float(value)
+            elif attr == "post_execution_filesystem":
+                value = Filesystem(value)
 
-    # TODO: Rename to as_body that accepts a Client.
-    def to_dict(self) -> dict:
+            setattr(self, attr, value)
+
+    def as_body(self, client: "Client") -> dict:
         body = {
             "source_code": encode(self.source_code),
-            "language_id": self.language_id,
+            "language_id": client.get_language_id(self.language),
         }
 
-        if self.stdin is not None:
-            body["stdin"] = encode(self.stdin)
-        if self.expected_output is not None:
-            body["expected_output"] = encode(self.expected_output)
+        for field in ENCODED_REQUEST_FIELDS:
+            value = getattr(self, field)
+            if value is not None:
+                body[field] = encode(value)
 
         for field in EXTRA_REQUEST_FIELDS:
             value = getattr(self, field)
@@ -151,5 +176,7 @@ class Submission:
         if self.status is None:
             return False
         else:
-            # TODO: When status is changed to `Status`, refactor this as well.
-            return self.status["id"] not in (Status.IN_QUEUE, Status.PROCESSING)
+            return self.status not in (Status.IN_QUEUE, Status.PROCESSING)
+
+    def copy(self) -> "Submission":
+        return copy.deepcopy(self)
