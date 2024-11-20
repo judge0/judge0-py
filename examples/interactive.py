@@ -68,6 +68,13 @@ result = judge0.run(
 )
 
 print(f"Submission status: {result.status}")
-print(f"Producer stdout: {result.stdout}")
-print(f'User stdout:\n{result.post_execution_filesystem.find("user.stdout")}')
+print()
+
+print(f"Producer stdin:\n{result.stdin}")
+print(f"Producer stdout:\n{result.stdout}")
+print(f"Producer stderr:\n{result.stderr}")
+print()
+
 print(f'User stdin:\n{result.post_execution_filesystem.find("user.stdin")}')
+print(f'User stdout:\n{result.post_execution_filesystem.find("user.stdout")}')
+print(f'User stderr:\n{result.post_execution_filesystem.find("user.stderr")}')
