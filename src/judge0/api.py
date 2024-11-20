@@ -1,15 +1,16 @@
 from typing import Optional, Union
 
-from .base_types import Flavor, TestCase
+from .base_types import Flavor, TestCase, TestCases
 from .clients import Client
+
 from .retry import RegularPeriodRetry, RetryMechanism
-from .submission import Submission
+from .submission import Submission, Submissions
 
 
 def resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
-    submissions: Optional[Union[Submission, list[Submission]]] = None,
-) -> Union[Client, None]:
+    submissions: Optional[Union[Submission, Submissions]] = None,
+) -> Client:
     # User explicitly passed a client.
     if isinstance(client, Client):
         return client
@@ -19,6 +20,9 @@ def resolve_client(
     # User explicitly choose the flavor of the client.
     if isinstance(client, Flavor):
         return _get_implicit_client(flavor=client)
+
+    if client is None and isinstance(submissions, list) and len(submissions) == 0:
+        raise ValueError("Client cannot be determined from empty submissions.")
 
     # client is None and we have to determine a flavor of the client from the
     # submissions and the languages.
@@ -44,10 +48,9 @@ def resolve_client(
 
 def wait(
     client: Client,
-    submissions: Union[Submission, list[Submission]],
-    *,
+    submissions: Union[Submission, Submissions],
     retry_mechanism: Optional[RetryMechanism] = None,
-) -> Union[Submission, list[Submission]]:
+) -> Union[Submission, Submissions]:
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
@@ -61,15 +64,7 @@ def wait(
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-        # We differentiate between getting a single submission and multiple
-        # submissions to be consistent with the API, even though the API
-        # allows to get single submission with the same endpoint as for getting
-        # the multiple submissions.
-        if len(submissions_to_check) == 1:
-            client.get_submission(*submissions_to_check.values())
-        else:
-            client.get_submissions(submissions_to_check.values())
-
+        client.check_submissions(list(submissions_to_check.values()))
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
             if submission.is_done():
@@ -86,20 +81,20 @@ def wait(
 
 
 def create_submissions_from_test_cases(
-    submissions: Union[Submission, list[Submission]],
-    test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    submissions: Union[Submission, Submissions],
+    test_cases: Optional[Union[TestCase, TestCases]] = None,
 ):
     """Utility function for creating submissions from the (submission, test_case) pairs.
 
     The following table contains the return type based on the types of `submissions`
     and `test_cases` arguments:
 
-    | submissions      | test_cases     | returns          |
-    |:-----------------|:---------------|:-----------------|
-    | Submission       | TestCase       | Submission       |
-    | Submission       | list[TestCase] | list[Submission] |
-    | list[Submission] | TestCase       | list[Submission] |
-    | list[Submission] | list[TestCase] | list[Submission] |
+    | submissions | test_cases | returns     |
+    |:------------|:-----------|:------------|
+    | Submission  | TestCase   | Submission  |
+    | Submission  | TestCases  | Submissions |
+    | Submissions | TestCase   | Submissions |
+    | Submissions | TestCases  | Submissions |
 
     """
     # Let's deal with the simplest cases where no test cases are provided. We
@@ -127,7 +122,7 @@ def create_submissions_from_test_cases(
                 submission_copy.expected_output = test_case.expected_output
             all_submissions.append(submission_copy)
 
-    if isinstance(submissions, Submission) and not isinstance(test_cases, list):
+    if isinstance(submissions, Submission) and isinstance(test_cases, TestCase):
         return all_submissions[0]
     else:
         return all_submissions
@@ -136,12 +131,12 @@ def create_submissions_from_test_cases(
 def _execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
-    submissions: Optional[Union[Submission, list[Submission]]] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
+    test_cases: Optional[Union[TestCase, TestCases]] = None,
     wait_for_result: bool = False,
-    test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
     **kwargs,
-) -> Union[Submission, list[Submission]]:
+) -> Union[Submission, Submissions]:
     if submissions is not None and source_code is not None:
         raise ValueError(
             "Both submissions and source_code arguments are provided. "
@@ -153,32 +148,12 @@ def _execute(
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 
-    # TODO: Since kwargs is ignored if submissions argument is provided, maybe
-    # use warnings if submission and kwargs are provided?
-
-    # There is no need to check for other cases since we are explicitly
-    # checking for submissions and source_code arguments.
-    if client is None:
-        if isinstance(submissions, list) and len(submissions) == 0:
-            raise ValueError("Client cannot be determined from empty submissions.")
-
-    client = resolve_client(client, submissions=submissions)
-
+    client = resolve_client(client=client, submissions=submissions)
     all_submissions = create_submissions_from_test_cases(submissions, test_cases)
-
-    # We differentiate between creating a single submission and multiple
-    # submissions to be consistent with the API, even though the API
-    # allows to create single submission with the same endpoint as for
-    # creating the multiple submissions.
-    if isinstance(all_submissions, Submission):
-        all_submissions = client.create_submission(all_submissions)
-    elif len(all_submissions) == 1:
-        all_submissions = [client.create_submission(all_submissions[0])]
-    else:
-        all_submissions = client.create_submissions(all_submissions)
+    all_submissions = client.submit(all_submissions)
 
     if wait_for_result:
-        all_submissions = wait(client, all_submissions)
+        all_submissions = wait(client=client, submissions=all_submissions)
 
     return all_submissions
 
@@ -186,17 +161,17 @@ def _execute(
 def async_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
-    submissions: Optional[Union[Submission, list[Submission]]] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
-    test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    test_cases: Optional[Union[TestCase, TestCases]] = None,
     **kwargs,
-) -> Union[Submission, list[Submission]]:
+) -> Union[Submission, Submissions]:
     return _execute(
         client=client,
         submissions=submissions,
         source_code=source_code,
-        wait_for_result=False,
         test_cases=test_cases,
+        wait_for_result=False,
         **kwargs,
     )
 
@@ -204,11 +179,11 @@ def async_execute(
 def sync_execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
-    submissions: Optional[Union[Submission, list[Submission]]] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
-    test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    test_cases: Optional[Union[TestCase, TestCases]] = None,
     **kwargs,
-) -> Union[Submission, list[Submission]]:
+) -> Union[Submission, Submissions]:
     return _execute(
         client=client,
         submissions=submissions,
