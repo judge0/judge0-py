@@ -56,6 +56,16 @@ class Filesystem(Encodeable):
                 zip_file.writestr(file.name, file.content)
         return zip_buffer.getvalue()
 
+    def find(self, name: str) -> Optional[File]:
+        if name.startswith("./"):
+            name = name[2:]
+
+        for file in self.files:
+            if file.name == name:
+                return file
+
+        return None
+
     def __str__(self) -> str:
         return b64encode(self.encode()).decode()
 

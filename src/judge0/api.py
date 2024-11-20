@@ -1,9 +1,12 @@
 from typing import Optional, Union
 
-from .base_types import Flavor, TestCase
+from .base_types import Flavor, TestCase, LanguageAlias
 from .clients import Client
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission
+
+from .filesystem import Filesystem, File
+import textwrap
 
 
 def resolve_client(
@@ -133,6 +136,103 @@ def create_submissions_from_test_cases(
         return all_submissions
 
 
+def safe_format(f, arg):
+    try:
+        return (f or "") % (arg or "")
+    except TypeError:
+        return f or ""
+
+
+def create_fs(client, submission):
+    fs = Filesystem(submission.additional_files)
+    language_id = client.get_language_id(submission.language)
+    if language_id != LanguageAlias.MULTI_FILE:  # Multi-file program
+        language = client.get_language(language_id)
+        fs.files.append(File(language["source_file"], submission.source_code))
+        fs.files.append(
+            File(
+                "compile.sh",
+                safe_format(language["compile_cmd"], submission.compiler_options),
+            )
+        )
+        fs.files.append(
+            File("run.sh", f'{language["run_cmd"]} {submission.command_line_arguments}')
+        )
+    return fs
+
+
+def create_submission_with_interactive_producer(
+    client, submission, interactive_producer
+):
+    interactive_producer.command_line_arguments = "/box/stdin.fifo /box/stdout.fifo"
+
+    consumer_fs = create_fs(client, submission)
+    producer_fs = create_fs(client, interactive_producer)
+
+    final_fs = Filesystem()
+    for f in consumer_fs.files:
+        final_fs.files.append(File(f"./consumer/{f.name}", f.content))
+
+    for f in producer_fs.files:
+        final_fs.files.append(File(f"./producer/{f.name}", f.content))
+
+    final_fs.files.append(
+        File(
+            "compile.sh",
+            textwrap.dedent(
+                """
+        cd /box/consumer && bash compile.sh
+        cd /box/producer && bash compile.sh
+    """
+            ),
+        )
+    )
+
+    final_fs.files.append(
+        File(
+            "run.sh",
+            textwrap.dedent(
+                """
+        mkfifo /box/stdin.fifo /box/stdout.fifo
+
+        cd /box/consumer
+        tee >(bash run.sh 2> /box/user.stderr | tee /box/stdout.fifo /box/user.stdout &> /dev/null) /box/user.stdin < /box/stdin.fifo &> /dev/null &
+
+        cd /box/producer
+        bash run.sh < /dev/stdin &
+        PRODUCER_PID=$!
+
+        wait $PRODUCER_PID
+
+        rm -f /box/stdin.fifo /box/stdout.fifo
+    """
+            ),
+        )
+    )
+
+    return Submission(
+        source_code="",
+        additional_files=final_fs,
+        language=LanguageAlias.MULTI_FILE,
+    )
+
+
+def create_submissions_with_interactive_producer(
+    client, submissions, interactive_producer
+):
+    if isinstance(submissions, Submission):
+        return create_submission_with_interactive_producer(
+            client, submissions, interactive_producer
+        )
+    else:
+        return [
+            create_submission_with_interactive_producer(
+                client, submission, interactive_producer
+            )
+            for submission in submissions
+        ]
+
+
 def _execute(
     *,
     client: Optional[Union[Client, Flavor]] = None,
@@ -140,6 +240,7 @@ def _execute(
     source_code: Optional[str] = None,
     wait_for_result: bool = False,
     test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    interactive_producer: Optional[Submission] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     if submissions is not None and source_code is not None:
@@ -163,6 +264,11 @@ def _execute(
             raise ValueError("Client cannot be determined from empty submissions.")
 
     client = resolve_client(client, submissions=submissions)
+
+    if interactive_producer is not None:
+        submissions = create_submissions_with_interactive_producer(
+            client, submissions, interactive_producer
+        )
 
     all_submissions = create_submissions_from_test_cases(submissions, test_cases)
 
@@ -189,6 +295,7 @@ def async_execute(
     submissions: Optional[Union[Submission, list[Submission]]] = None,
     source_code: Optional[str] = None,
     test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    interactive_producer: Optional[Submission] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     return _execute(
@@ -197,6 +304,7 @@ def async_execute(
         source_code=source_code,
         wait_for_result=False,
         test_cases=test_cases,
+        interactive_producer=interactive_producer,
         **kwargs,
     )
 
@@ -207,6 +315,7 @@ def sync_execute(
     submissions: Optional[Union[Submission, list[Submission]]] = None,
     source_code: Optional[str] = None,
     test_cases: Optional[Union[TestCase, list[TestCase]]] = None,
+    interactive_producer: Optional[Submission] = None,
     **kwargs,
 ) -> Union[Submission, list[Submission]]:
     return _execute(
@@ -215,6 +324,7 @@ def sync_execute(
         source_code=source_code,
         wait_for_result=True,
         test_cases=test_cases,
+        interactive_producer=interactive_producer,
         **kwargs,
     )
 

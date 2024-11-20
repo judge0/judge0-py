@@ -101,9 +101,10 @@ def _get_implicit_client(flavor: Flavor) -> Client:
 CE = Flavor.CE
 EXTRA_CE = Flavor.EXTRA_CE
 
-PYTHON = LanguageAlias.PYTHON
+C = LanguageAlias.C
 CPP = LanguageAlias.CPP
-JAVA = LanguageAlias.JAVA
-CPP_GCC = LanguageAlias.CPP_GCC
 CPP_CLANG = LanguageAlias.CPP_CLANG
+CPP_GCC = LanguageAlias.CPP_GCC
+JAVA = LanguageAlias.JAVA
+PYTHON = LanguageAlias.PYTHON
 PYTHON_FOR_ML = LanguageAlias.PYTHON_FOR_ML

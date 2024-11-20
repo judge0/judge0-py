@@ -7,6 +7,8 @@ LANGUAGE_TO_LANGUAGE_ID = {
         LanguageAlias.JAVA: 62,
         LanguageAlias.CPP_GCC: 54,
         LanguageAlias.CPP_CLANG: 76,
+        LanguageAlias.C: 50,
+        LanguageAlias.MULTI_FILE: 89,
     },
     "1.13.1-extra": {
         LanguageAlias.PYTHON: 10,
@@ -14,6 +16,8 @@ LANGUAGE_TO_LANGUAGE_ID = {
         LanguageAlias.JAVA: 4,
         LanguageAlias.CPP_CLANG: 2,
         LanguageAlias.PYTHON_FOR_ML: 10,
+        LanguageAlias.C: 1,
+        LanguageAlias.MULTI_FILE: 89,
     },
     "1.14.0": {
         LanguageAlias.PYTHON: 100,
@@ -21,6 +25,8 @@ LANGUAGE_TO_LANGUAGE_ID = {
         LanguageAlias.JAVA: 91,
         LanguageAlias.CPP_GCC: 105,
         LanguageAlias.CPP_CLANG: 76,
+        LanguageAlias.C: 103,
+        LanguageAlias.MULTI_FILE: 89,
     },
     "1.14.0-extra": {
         LanguageAlias.PYTHON: 25,
@@ -28,5 +34,7 @@ LANGUAGE_TO_LANGUAGE_ID = {
         LanguageAlias.JAVA: 4,
         LanguageAlias.CPP_CLANG: 2,
         LanguageAlias.PYTHON_FOR_ML: 25,
+        LanguageAlias.C: 1,
+        LanguageAlias.MULTI_FILE: 89,
     },
 }

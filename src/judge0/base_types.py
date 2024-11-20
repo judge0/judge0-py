@@ -32,6 +32,8 @@ class LanguageAlias(IntEnum):
     CPP_GCC = 3
     CPP_CLANG = 4
     PYTHON_FOR_ML = 5
+    C = 6
+    MULTI_FILE = 89
 
 
 class Flavor(IntEnum):
