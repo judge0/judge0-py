@@ -133,3 +133,17 @@ def test_no_test_cases(submissions, expected_status, request):
         assert [submission.status for submission in submissions] == expected_status
     else:
         assert submissions.status == expected_status
+
+
+@pytest.mark.parametrize("n_submissions", [42, 84])
+def test_batched_test_cases(n_submissions, request):
+    client = request.getfixturevalue("judge0_ce_client")
+    submissions = [
+        Submission(source_code=f"print({i})", expected_output=f"{i}")
+        for i in range(n_submissions)
+    ]
+
+    results = judge0.run(client=client, submissions=submissions)
+
+    assert len(results) == n_submissions
+    assert all([result.status == Status.ACCEPTED for result in results])

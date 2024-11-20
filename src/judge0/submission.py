@@ -63,6 +63,8 @@ FLOATING_POINT_FIELDS = {
     "wall_time_limit",
 }
 
+Submissions = Union[list["Submission"], tuple["Submission"]]
+
 
 class Submission:
     """

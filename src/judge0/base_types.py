@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Optional
+from typing import Optional, Union
+
+
+TestCases = Union[list["TestCase"], tuple["TestCase"]]
 
 
 @dataclass(frozen=True)

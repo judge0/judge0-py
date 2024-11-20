@@ -3,12 +3,18 @@ from typing import Iterable, Union
 import requests
 
 from .base_types import Language, LanguageAlias
+from .common import batched
 from .data import LANGUAGE_TO_LANGUAGE_ID
-from .submission import Submission
+from .submission import Submission, Submissions
 
 
 class Client:
     API_KEY_ENV = "JUDGE0_API_KEY"
+    DEFAULT_MAX_SUBMISSION_BATCH_SIZE = 20
+    ENABLED_BATCHED_SUBMISSIONS = True
+    EFFECTIVE_SUBMISSION_BATCH_SIZE = (
+        DEFAULT_MAX_SUBMISSION_BATCH_SIZE if ENABLED_BATCHED_SUBMISSIONS else 1
+    )
 
     def __init__(self, endpoint, auth_headers) -> None:
         self.endpoint = endpoint
@@ -137,7 +143,7 @@ class Client:
 
         return submission
 
-    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
+    def create_submissions(self, submissions: Submissions) -> Submissions:
         # Check if all submissions contain supported language.
         for submission in submissions:
             if not self.is_language_supported(language=submission.language):
@@ -163,10 +169,10 @@ class Client:
 
     def get_submissions(
         self,
-        submissions: list[Submission],
+        submissions: Submissions,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> list[Submission]:
+    ) -> Submissions:
         params = {
             "base64_encoded": "true",
         }
@@ -193,6 +199,51 @@ class Client:
             submission.set_attributes(attrs)
 
         return submissions
+
+    def submit(
+        self,
+        submissions: Union[Submission, Submissions],
+    ) -> Union[Submission, Submissions]:
+
+        if isinstance(submissions, Submission):
+            return self.create_submission(submissions)
+
+        batch_size = self.EFFECTIVE_SUBMISSION_BATCH_SIZE
+        result_submissions = []
+        for submission_batch in batched(submissions, batch_size):
+            if batch_size > 1:
+                result_submissions.extend(
+                    self.create_submissions(list(submission_batch))
+                )
+            else:
+                result_submissions.append(
+                    self.create_submission(list(submission_batch)[0])
+                )
+
+        return result_submissions
+
+    def check_submissions(
+        self,
+        submissions: Union[Submission, Submissions],
+        *,
+        fields: Union[str, Iterable[str], None] = None,
+    ) -> Union[Submission, Submissions]:
+        if isinstance(submissions, Submission):
+            return self.get_submission(submissions, fields=fields)
+
+        batch_size = self.EFFECTIVE_SUBMISSION_BATCH_SIZE
+        result_submissions = []
+        for submission_batch in batched(submissions, batch_size):
+            if batch_size > 1:
+                result_submissions.extend(
+                    self.get_submissions(list(submission_batch), fields=fields)
+                )
+            else:
+                result_submissions.append(
+                    self.get_submission(list(submission_batch)[0], fields=fields)
+                )
+
+        return result_submissions
 
 
 class ATD(Client):
@@ -269,16 +320,16 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
+    def create_submissions(self, submissions: Submissions) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
     def get_submissions(
         self,
-        submissions: list[Submission],
+        submissions: Submissions,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> list[Submission]:
+    ) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
@@ -340,16 +391,16 @@ class ATDJudge0ExtraCE(ATD):
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
 
-    def create_submissions(self, submissions: list[Submission]) -> list[Submission]:
+    def create_submissions(self, submissions: Submissions) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT)
         return super().create_submissions(submissions)
 
     def get_submissions(
         self,
-        submissions: list[Submission],
+        submissions: Submissions,
         *,
         fields: Union[str, Iterable[str], None] = None,
-    ) -> list[Submission]:
+    ) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
 
