@@ -1,5 +1,3 @@
-import pytest
-
 from judge0 import Status, Submission, wait
 
 
@@ -23,6 +21,6 @@ def test_is_done(request):
     assert submission.status is None
 
     client.create_submission(submission)
-    wait(client, submission)
+    wait(client=client, submissions=submission)
 
     assert submission.is_done()

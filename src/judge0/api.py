@@ -7,6 +7,18 @@ from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission, Submissions
 
 
+def get_client(flavor: Flavor = Flavor.CE) -> Client:
+    from . import _get_implicit_client
+
+    if isinstance(flavor, Flavor):
+        return _get_implicit_client(flavor=flavor)
+    else:
+        raise ValueError(
+            "Expected argument flavor to be of of type enum Flavor, "
+            f"got {type(flavor)}."
+        )
+
+
 def resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
@@ -15,11 +27,8 @@ def resolve_client(
     if isinstance(client, Client):
         return client
 
-    from . import _get_implicit_client
-
-    # User explicitly choose the flavor of the client.
     if isinstance(client, Flavor):
-        return _get_implicit_client(flavor=client)
+        return get_client(flavor=client)
 
     if client is None and isinstance(submissions, list) and len(submissions) == 0:
         raise ValueError("Client cannot be determined from empty submissions.")
@@ -33,7 +42,7 @@ def resolve_client(
     languages = [submission.language for submission in submissions]
 
     for flavor in Flavor:
-        client = _get_implicit_client(flavor)
+        client = get_client(flavor)
         if client is not None and all(
             (client.is_language_supported(lang) for lang in languages)
         ):
