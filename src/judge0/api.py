@@ -1,7 +1,8 @@
-from typing import Optional, Union
+from typing import Iterable, Optional, Union
 
 from .base_types import Flavor, TestCase, TestCases
 from .clients import Client
+from .common import batched
 
 from .retry import RegularPeriodRetry, RetryMechanism
 from .submission import Submission, Submissions
@@ -55,6 +56,56 @@ def resolve_client(
     )
 
 
+def create_submissions(
+    client: Optional[Client] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
+) -> Union[Submission, Submissions]:
+    client = resolve_client(client=client, submissions=submissions)
+
+    if isinstance(submissions, Submission):
+        return client.create_submission(submissions)
+
+    # TODO: Use result from get_config.
+    batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+    result_submissions = []
+    for submission_batch in batched(submissions, batch_size):
+        submissions_list = list(submission_batch)
+        if batch_size > 1:
+            result_submissions.extend(client.create_submissions(submissions_list))
+        else:
+            result_submissions.append(client.create_submission(submissions_list[0]))
+
+    return result_submissions
+
+
+def get_submissions(
+    *,
+    client: Optional[Client] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
+    fields: Union[str, Iterable[str], None] = None,
+) -> Union[Submission, Submissions]:
+    client = resolve_client(client=client, submissions=submissions)
+
+    if isinstance(submissions, Submission):
+        return client.get_submission(submissions, fields=fields)
+
+    # TODO: Use result from get_config.
+    batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+    result_submissions = []
+    for submission_batch in batched(submissions, batch_size):
+        submissions_list = list(submission_batch)
+        if batch_size > 1:
+            result_submissions.extend(
+                client.get_submissions(submissions_list, fields=fields)
+            )
+        else:
+            result_submissions.append(
+                client.get_submission(submissions_list[0], fields=fields)
+            )
+
+    return result_submissions
+
+
 def wait(
     *,
     client: Optional[Client] = None,
@@ -76,7 +127,7 @@ def wait(
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
-        client.check_submissions(list(submissions_to_check.values()))
+        get_submissions(client=client, submissions=list(submissions_to_check.values()))
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
             if submission.is_done():
@@ -162,12 +213,12 @@ def _execute(
 
     client = resolve_client(client=client, submissions=submissions)
     all_submissions = create_submissions_from_test_cases(submissions, test_cases)
-    all_submissions = client.submit(all_submissions)
+    all_submissions = create_submissions(client=client, submissions=all_submissions)
 
     if wait_for_result:
-        all_submissions = wait(client=client, submissions=all_submissions)
-
-    return all_submissions
+        return wait(client=client, submissions=all_submissions)
+    else:
+        return all_submissions
 
 
 def async_execute(

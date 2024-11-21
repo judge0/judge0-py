@@ -3,7 +3,6 @@ from typing import Iterable, Union
 import requests
 
 from .base_types import Language, LanguageAlias
-from .common import batched
 from .data import LANGUAGE_TO_LANGUAGE_ID
 from .submission import Submission, Submissions
 
@@ -199,51 +198,6 @@ class Client:
             submission.set_attributes(attrs)
 
         return submissions
-
-    def submit(
-        self,
-        submissions: Union[Submission, Submissions],
-    ) -> Union[Submission, Submissions]:
-
-        if isinstance(submissions, Submission):
-            return self.create_submission(submissions)
-
-        batch_size = self.EFFECTIVE_SUBMISSION_BATCH_SIZE
-        result_submissions = []
-        for submission_batch in batched(submissions, batch_size):
-            if batch_size > 1:
-                result_submissions.extend(
-                    self.create_submissions(list(submission_batch))
-                )
-            else:
-                result_submissions.append(
-                    self.create_submission(list(submission_batch)[0])
-                )
-
-        return result_submissions
-
-    def check_submissions(
-        self,
-        submissions: Union[Submission, Submissions],
-        *,
-        fields: Union[str, Iterable[str], None] = None,
-    ) -> Union[Submission, Submissions]:
-        if isinstance(submissions, Submission):
-            return self.get_submission(submissions, fields=fields)
-
-        batch_size = self.EFFECTIVE_SUBMISSION_BATCH_SIZE
-        result_submissions = []
-        for submission_batch in batched(submissions, batch_size):
-            if batch_size > 1:
-                result_submissions.extend(
-                    self.get_submissions(list(submission_batch), fields=fields)
-                )
-            else:
-                result_submissions.append(
-                    self.get_submission(list(submission_batch)[0], fields=fields)
-                )
-
-        return result_submissions
 
 
 class ATD(Client):
