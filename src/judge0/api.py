@@ -69,11 +69,10 @@ def create_submissions(
     batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
     result_submissions = []
     for submission_batch in batched(submissions, batch_size):
-        submissions_list = list(submission_batch)
         if batch_size > 1:
-            result_submissions.extend(client.create_submissions(submissions_list))
+            result_submissions.extend(client.create_submissions(submission_batch))
         else:
-            result_submissions.append(client.create_submission(submissions_list[0]))
+            result_submissions.append(client.create_submission(submission_batch[0]))
 
     return result_submissions
 
@@ -93,14 +92,14 @@ def get_submissions(
     batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
     result_submissions = []
     for submission_batch in batched(submissions, batch_size):
-        submissions_list = list(submission_batch)
+
         if batch_size > 1:
             result_submissions.extend(
-                client.get_submissions(submissions_list, fields=fields)
+                client.get_submissions(submission_batch, fields=fields)
             )
         else:
             result_submissions.append(
-                client.get_submission(submissions_list[0], fields=fields)
+                client.get_submission(submission_batch[0], fields=fields)
             )
 
     return result_submissions
