@@ -47,20 +47,23 @@ def resolve_client(
 
 
 def wait(
-    client: Client,
-    submissions: Union[Submission, Submissions],
+    *,
+    client: Optional[Client] = None,
+    submissions: Optional[Union[Submission, Submissions]] = None,
     retry_mechanism: Optional[RetryMechanism] = None,
 ) -> Union[Submission, Submissions]:
+    client = resolve_client(client, submissions)
+
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
 
-    if isinstance(submissions, (list, tuple)):
+    if isinstance(submissions, Submission):
         submissions_to_check = {
-            submission.token: submission for submission in submissions
+            submission.token: submission for submission in [submissions]
         }
     else:
         submissions_to_check = {
-            submission.token: submission for submission in [submissions]
+            submission.token: submission for submission in submissions
         }
 
     while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
