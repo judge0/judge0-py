@@ -29,7 +29,7 @@ def resolve_client(
         return client
 
     if isinstance(client, Flavor):
-        return get_client(flavor=client)
+        return get_client(client)
 
     if client is None and isinstance(submissions, list) and len(submissions) == 0:
         raise ValueError("Client cannot be determined from empty submissions.")
@@ -66,10 +66,11 @@ def create_submissions(
         return client.create_submission(submissions)
 
     # TODO: Use result from get_config.
-    batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
     result_submissions = []
-    for submission_batch in batched(submissions, batch_size):
-        if batch_size > 1:
+    for submission_batch in batched(
+        submissions, client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+    ):
+        if len(submission_batch) > 1:
             result_submissions.extend(client.create_submissions(submission_batch))
         else:
             result_submissions.append(client.create_submission(submission_batch[0]))
@@ -89,11 +90,11 @@ def get_submissions(
         return client.get_submission(submissions, fields=fields)
 
     # TODO: Use result from get_config.
-    batch_size = client.EFFECTIVE_SUBMISSION_BATCH_SIZE
     result_submissions = []
-    for submission_batch in batched(submissions, batch_size):
-
-        if batch_size > 1:
+    for submission_batch in batched(
+        submissions, client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+    ):
+        if len(submission_batch) > 1:
             result_submissions.extend(
                 client.get_submissions(submission_batch, fields=fields)
             )
