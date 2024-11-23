@@ -182,3 +182,13 @@ class Submission:
 
     def copy(self) -> "Submission":
         return copy.deepcopy(self)
+
+    def __repr__(self) -> str:
+        arguments = ", ".join(f"{field}={getattr(self, field)!r}" for field in FIELDS)
+        return f"{self.__class__.__name__}({arguments})"
+
+    def __iter__(self):
+        if self.post_execution_filesystem is None:
+            return iter([])
+        else:
+            return iter(self.post_execution_filesystem)

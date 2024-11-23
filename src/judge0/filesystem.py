@@ -49,6 +49,10 @@ class Filesystem(Encodeable):
         elif isinstance(content, Filesystem):
             self.files = copy.deepcopy(content.files)
 
+    def __repr__(self) -> str:
+        content_encoded = b64encode(self.encode()).decode()
+        return f"{self.__class__.__name__}(content={content_encoded!r})"
+
     def encode(self) -> bytes:
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, "w") as zip_file:

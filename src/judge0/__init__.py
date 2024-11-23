@@ -1,6 +1,15 @@
 import os
 
-from .api import async_execute, execute, get_client, run, sync_execute, wait
+from .api import (
+    async_execute,
+    async_run,
+    execute,
+    get_client,
+    run,
+    sync_execute,
+    sync_run,
+    wait,
+)
 from .base_types import Flavor, Language, LanguageAlias, Status, TestCase
 from .clients import (
     ATD,
@@ -42,6 +51,8 @@ __all__ = [
     "async_execute",
     "execute",
     "get_client",
+    "async_run",
+    "sync_run",
     "run",
     "sync_execute",
     "wait",
