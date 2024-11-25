@@ -121,10 +121,9 @@ def test_test_cases_from_run(
     ],
 )
 def test_no_test_cases(submissions, expected_status, request):
-    """This test tests that if no test cases are provided, the submissions are changed in place."""
     client = request.getfixturevalue("judge0_ce_client")
 
-    judge0.run(
+    submissions = judge0.run(
         client=client,
         submissions=submissions,
     )

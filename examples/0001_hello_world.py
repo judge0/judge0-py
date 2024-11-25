@@ -6,6 +6,6 @@ submission = judge0.Submission(
 )
 
 # Run submission on CE flavor of judge0.
-judge0.run(submissions=submission)
+submission = judge0.run(submissions=submission)
 
 print(submission.stdout)

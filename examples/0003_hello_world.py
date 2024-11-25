@@ -5,6 +5,6 @@ submission = judge0.Submission(
     language=judge0.PYTHON,
 )
 
-judge0.run(submissions=submission)
+submission = judge0.run(submissions=submission)
 
 print(submission.stdout)

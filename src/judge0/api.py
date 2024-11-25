@@ -160,12 +160,6 @@ def create_submissions_from_test_cases(
     | Submissions | TestCases  | Submissions |
 
     """
-    # Let's deal with the simplest cases where no test cases are provided. We
-    # return original submissions argument as this gives a user an option
-    # to change the original Submission objects, without creating copies of it.
-    if test_cases is None or isinstance(test_cases, list) and len(test_cases) == 0:
-        return submissions
-
     if isinstance(submissions, Submission):
         submissions_list = [submissions]
     else:
@@ -185,7 +179,9 @@ def create_submissions_from_test_cases(
                 submission_copy.expected_output = test_case.expected_output
             all_submissions.append(submission_copy)
 
-    if isinstance(submissions, Submission) and isinstance(test_cases, TestCase):
+    if isinstance(submissions, Submission) and (
+        isinstance(test_cases, TestCase) or test_cases is None
+    ):
         return all_submissions[0]
     else:
         return all_submissions
