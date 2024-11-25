@@ -4,7 +4,16 @@ from enum import IntEnum
 from typing import Optional, Union
 
 
-TestCases = Union[list["TestCase"], tuple["TestCase"]]
+TestCases = Union[
+    list["TestCase"],
+    tuple["TestCase"],
+    list[dict],
+    tuple[dict],
+    list[list],
+    list[tuple],
+    tuple[list],
+    tuple[tuple],
+]
 
 
 @dataclass(frozen=True)
@@ -14,6 +23,26 @@ class TestCase:
 
     input: Optional[str] = None
     expected_output: Optional[str] = None
+
+    @staticmethod
+    def from_record(
+        test_case: Optional[Union[tuple, list, dict, "TestCase"]] = None
+    ) -> "TestCase":
+        if isinstance(test_case, (tuple, list)):
+            test_case = {
+                field: value
+                for field, value in zip(("input", "expected_output"), test_case)
+            }
+        if isinstance(test_case, dict):
+            return TestCase(
+                input=test_case.get("input", None),
+                expected_output=test_case.get("expected_output", None),
+            )
+        if isinstance(test_case, TestCase) or test_case is None:
+            return test_case
+        raise ValueError(
+            f"Cannot create TestCase object from object of type {type(test_case)}."
+        )
 
 
 class Encodeable(ABC):

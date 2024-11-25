@@ -165,10 +165,12 @@ def create_submissions_from_test_cases(
     else:
         submissions_list = submissions
 
-    if isinstance(test_cases, list):
-        test_cases_list = test_cases
-    else:
+    if isinstance(test_cases, TestCase) or test_cases is None:
         test_cases_list = [test_cases]
+    else:
+        test_cases_list = test_cases
+
+    test_cases_list = [TestCase.from_record(tc) for tc in test_cases_list]
 
     all_submissions = []
     for submission in submissions_list:
