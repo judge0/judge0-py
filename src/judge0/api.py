@@ -65,10 +65,9 @@ def create_submissions(
     if isinstance(submissions, Submission):
         return client.create_submission(submissions)
 
-    # TODO: Use result from get_config.
     result_submissions = []
     for submission_batch in batched(
-        submissions, client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+        submissions, client.config.max_submission_batch_size
     ):
         if len(submission_batch) > 1:
             result_submissions.extend(client.create_submissions(submission_batch))
@@ -89,10 +88,9 @@ def get_submissions(
     if isinstance(submissions, Submission):
         return client.get_submission(submissions, fields=fields)
 
-    # TODO: Use result from get_config.
     result_submissions = []
     for submission_batch in batched(
-        submissions, client.EFFECTIVE_SUBMISSION_BATCH_SIZE
+        submissions, client.config.max_submission_batch_size
     ):
         if len(submission_batch) > 1:
             result_submissions.extend(

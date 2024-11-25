@@ -2,7 +2,7 @@ from typing import Iterable, Union
 
 import requests
 
-from .base_types import Language, LanguageAlias
+from .base_types import Config, Language, LanguageAlias
 from .data import LANGUAGE_TO_LANGUAGE_ID
 from .submission import Submission, Submissions
 
@@ -20,10 +20,8 @@ class Client:
         self.auth_headers = auth_headers
 
         try:
-            self.languages = [
-                Language(id=lang["id"], name=lang["name"])
-                for lang in self.get_languages()
-            ]
+            self.languages = [Language(**lang) for lang in self.get_languages()]
+            self.config = Config(**self.get_config_info())
         except Exception as e:
             raise RuntimeError(
                 f"Authentication failed. Visit {self.HOME_URL} to get or review your authentication credentials."

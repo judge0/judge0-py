@@ -89,3 +89,46 @@ class Status(IntEnum):
 
     def __str__(self):
         return self.name.lower().replace("_", " ").title()
+
+
+@dataclass(frozen=True)
+class Config:
+    allow_enable_network: bool
+    allow_enable_per_process_and_thread_memory_limit: bool
+    allow_enable_per_process_and_thread_time_limit: bool
+    allowed_languages_for_compile_options: list[str]
+    callbacks_max_tries: int
+    callbacks_timeout: float
+    cpu_extra_time: float
+    cpu_time_limit: float
+    enable_additional_files: bool
+    enable_batched_submissions: bool
+    enable_callbacks: bool
+    enable_command_line_arguments: bool
+    enable_compiler_options: bool
+    enable_network: bool
+    enable_per_process_and_thread_memory_limit: bool
+    enable_per_process_and_thread_time_limit: bool
+    enable_submission_delete: bool
+    enable_wait_result: bool
+    maintenance_mode: bool
+    max_cpu_extra_time: float
+    max_cpu_time_limit: float
+    max_extract_size: int
+    max_file_size: int
+    max_max_file_size: int
+    max_max_processes_and_or_threads: int
+    max_memory_limit: int
+    max_number_of_runs: int
+    max_processes_and_or_threads: int
+    max_queue_size: int
+    max_stack_limit: int
+    max_submission_batch_size: int
+    max_wall_time_limit: float
+    memory_limit: int
+    number_of_runs: int
+    redirect_stderr_to_stdout: bool
+    stack_limit: int
+    submission_cache_duration: float
+    use_docs_as_homepage: bool
+    wall_time_limit: float
