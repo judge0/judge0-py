@@ -175,7 +175,7 @@ def create_submissions_from_test_cases(
     all_submissions = []
     for submission in submissions_list:
         for test_case in test_cases_list:
-            submission_copy = submission.copy()
+            submission_copy = submission.pre_execution_copy()
             if test_case is not None:
                 submission_copy.stdin = test_case.input
                 submission_copy.expected_output = test_case.expected_output

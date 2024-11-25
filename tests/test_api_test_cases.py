@@ -9,10 +9,10 @@ from judge0.api import create_submissions_from_test_cases
 @pytest.mark.parametrize(
     "submissions,test_cases,expected_type",
     [
-        [Submission(""), TestCase(), Submission],
-        [[Submission("")], TestCase(), list],
-        [Submission(""), [TestCase()], list],
-        [[Submission("")], [TestCase()], list],
+        [Submission(source_code=""), TestCase(), Submission],
+        [[Submission(source_code="")], TestCase(), list],
+        [Submission(source_code=""), [TestCase()], list],
+        [[Submission(source_code="")], [TestCase()], list],
     ],
 )
 def test_create_submissions_from_test_cases_return_type(
@@ -39,14 +39,14 @@ def test_create_submissions_from_test_cases_return_type(
             [Status.ACCEPTED, Status.ACCEPTED],
         ],
         [
-            Submission("print(f'Hello, {input()}')"),
+            Submission(source_code="print(f'Hello, {input()}')"),
             [
                 TestCase("Judge0", "Hello, Judge0"),
             ],
             [Status.ACCEPTED],
         ],
         [
-            Submission("print(f'Hello, {input()}')"),
+            Submission(source_code="print(f'Hello, {input()}')"),
             [
                 TestCase("Judge0", "Hello, Judge0"),
                 TestCase("pytest", "Hi, pytest"),
@@ -55,8 +55,8 @@ def test_create_submissions_from_test_cases_return_type(
         ],
         [
             [
-                Submission("print(f'Hello, {input()}')"),
-                Submission("print(f'Hello,  {input()}')"),
+                Submission(source_code="print(f'Hello, {input()}')"),
+                Submission(source_code="print(f'Hello,  {input()}')"),
             ],
             [
                 TestCase("Judge0", "Hello, Judge0"),
@@ -97,7 +97,7 @@ def test_test_cases_from_run(
     [
         [
             Submission(
-                "print(f'Hello, {input()}')",
+                source_code="print(f'Hello, {input()}')",
                 stdin="Judge0",
                 expected_output="Hello, Judge0",
             ),
@@ -106,12 +106,12 @@ def test_test_cases_from_run(
         [
             [
                 Submission(
-                    "print(f'Hello, {input()}')",
+                    source_code="print(f'Hello, {input()}')",
                     stdin="Judge0",
                     expected_output="Hello, Judge0",
                 ),
                 Submission(
-                    "print(f'Hello, {input()}')",
+                    source_code="print(f'Hello, {input()}')",
                     stdin="pytest",
                     expected_output="Hello, pytest",
                 ),

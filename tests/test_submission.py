@@ -3,7 +3,7 @@ from judge0 import Status, Submission, wait
 
 def test_status_before_and_after_submission(request):
     client = request.getfixturevalue("judge0_ce_client")
-    submission = Submission('print("Hello World!")')
+    submission = Submission(source_code='print("Hello World!")')
 
     assert submission.status is None
 
@@ -16,7 +16,7 @@ def test_status_before_and_after_submission(request):
 
 def test_is_done(request):
     client = request.getfixturevalue("judge0_ce_client")
-    submission = Submission('print("Hello World!")')
+    submission = Submission(source_code='print("Hello World!")')
 
     assert submission.status is None
 

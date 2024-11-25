@@ -1,6 +1,6 @@
 import copy
 from datetime import datetime
-from typing import Union
+from typing import Optional, Union
 
 from judge0.filesystem import Filesystem
 
@@ -73,9 +73,9 @@ class Submission:
 
     def __init__(
         self,
-        source_code: str,
-        language: Union[LanguageAlias, int] = LanguageAlias.PYTHON,
         *,
+        source_code: Optional[str] = None,
+        language: Union[LanguageAlias, int] = LanguageAlias.PYTHON,
         additional_files=None,
         compiler_options=None,
         command_line_arguments=None,
@@ -180,8 +180,11 @@ class Submission:
         else:
             return self.status not in (Status.IN_QUEUE, Status.PROCESSING)
 
-    def copy(self) -> "Submission":
-        return copy.deepcopy(self)
+    def pre_execution_copy(self) -> "Submission":
+        new_submission = Submission()
+        for attr in REQUEST_FIELDS:
+            setattr(new_submission, attr, copy.deepcopy(getattr(self, attr)))
+        return new_submission
 
     def __repr__(self) -> str:
         arguments = ", ".join(f"{field}={getattr(self, field)!r}" for field in FIELDS)
