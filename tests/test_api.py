@@ -2,7 +2,7 @@ import judge0
 import pytest
 
 from judge0 import Flavor, LanguageAlias, Submission
-from judge0.api import resolve_client
+from judge0.api import _resolve_client
 
 DEFAULT_CLIENTS = (
     "atd_ce_client",
@@ -17,7 +17,7 @@ DEFAULT_CLIENTS = (
 @pytest.mark.parametrize("client", DEFAULT_CLIENTS)
 def test_resolve_client_with_explicit_client(client, request):
     client = request.getfixturevalue(client)
-    assert resolve_client(client) is client
+    assert _resolve_client(client) is client
 
 
 @pytest.mark.parametrize(
@@ -38,7 +38,7 @@ def test_resolve_client_with_flavor(
     expected_client,
 ):
     # We have to use getattr since both implicit clients are initially None.
-    assert resolve_client(client=flavor) is getattr(judge0, expected_client)
+    assert _resolve_client(client=flavor) is getattr(judge0, expected_client)
 
 
 @pytest.mark.parametrize(
@@ -51,7 +51,7 @@ def test_resolve_client_with_flavor(
 @pytest.mark.skip
 def test_resolve_client_empty_submissions_argument(submissions):
     with pytest.raises(ValueError):
-        resolve_client(submissions=submissions)
+        _resolve_client(submissions=submissions)
 
 
 def test_resolve_client_no_common_client_for_submissions():
@@ -68,7 +68,7 @@ def test_resolve_client_no_common_client_for_submissions():
     submissions = [cpp_submission, py_submission]
 
     with pytest.raises(RuntimeError):
-        resolve_client(submissions=submissions)
+        _resolve_client(submissions=submissions)
 
 
 def test_resolve_client_common_ce_client():
@@ -84,7 +84,7 @@ def test_resolve_client_common_ce_client():
 
     submissions = [cpp_submission, py_submission]
 
-    assert resolve_client(submissions=submissions) is judge0.JUDGE0_IMPLICIT_CE_CLIENT
+    assert _resolve_client(submissions=submissions) is judge0.JUDGE0_IMPLICIT_CE_CLIENT
 
 
 def test_resolve_client_common_extra_ce_client():
@@ -101,6 +101,6 @@ def test_resolve_client_common_extra_ce_client():
     submissions = [cpp_submission, py_submission]
 
     assert (
-        resolve_client(submissions=submissions)
+        _resolve_client(submissions=submissions)
         is judge0.JUDGE0_IMPLICIT_EXTRA_CE_CLIENT
     )

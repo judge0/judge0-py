@@ -20,7 +20,7 @@ def get_client(flavor: Flavor = Flavor.CE) -> Client:
         )
 
 
-def resolve_client(
+def _resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Client:
@@ -60,7 +60,7 @@ def create_submissions(
     client: Optional[Client] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Union[Submission, Submissions]:
-    client = resolve_client(client=client, submissions=submissions)
+    client = _resolve_client(client=client, submissions=submissions)
 
     if isinstance(submissions, Submission):
         return client.create_submission(submissions)
@@ -83,7 +83,7 @@ def get_submissions(
     submissions: Optional[Union[Submission, Submissions]] = None,
     fields: Union[str, Iterable[str], None] = None,
 ) -> Union[Submission, Submissions]:
-    client = resolve_client(client=client, submissions=submissions)
+    client = _resolve_client(client=client, submissions=submissions)
 
     if isinstance(submissions, Submission):
         return client.get_submission(submissions, fields=fields)
@@ -110,7 +110,7 @@ def wait(
     submissions: Optional[Union[Submission, Submissions]] = None,
     retry_mechanism: Optional[RetryMechanism] = None,
 ) -> Union[Submission, Submissions]:
-    client = resolve_client(client, submissions)
+    client = _resolve_client(client, submissions)
 
     if retry_mechanism is None:
         retry_mechanism = RegularPeriodRetry()
@@ -207,7 +207,7 @@ def _execute(
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 
-    client = resolve_client(client=client, submissions=submissions)
+    client = _resolve_client(client=client, submissions=submissions)
     all_submissions = create_submissions_from_test_cases(submissions, test_cases)
     all_submissions = create_submissions(client=client, submissions=all_submissions)
 
