@@ -1,22 +1,13 @@
 [project]
-name = "judge0-py"
+name = "judge0"
 version = "0.0.1-rc1"
-description = "Python client library for Judge0."
+description = "The official Python library for Judge0."
 readme = "README.md"
 requires-python = ">=3.9"
-authors = [
-    { name = "Herman Zvonimir Došilović", email = "hermanz.dosilovic@gmail.com" },
-    { name = "Filip Karlo Došilović", email = "filipk.dosilovic@gmail.com" },
-]
-maintainers = [
-    { name = "Filip Karlo Došilović", email = "filipk.dosilovic@gmail.com" },
-]
+authors = [{ name = "Judge0", email = "support@judge0.com" }]
 license = { file = "LICENSE" }
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-
     "Intended Audience :: Developers",
-    "Topic :: Software Development :: Build Tools",
 
     "License :: OSI Approved :: MIT License",
 
@@ -25,8 +16,17 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
-dependencies = []
+dependencies = ["requests>=2.32.3"]
 
 [build-system]
 requires = ["setuptools>=70.0"]
