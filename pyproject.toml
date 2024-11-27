@@ -1,6 +1,6 @@
 [project]
 name = "judge0-py"
-version = "0.0.1-dev"
+version = "0.0.1-rc1"
 description = "Python client library for Judge0."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -29,7 +29,7 @@ classifiers = [
 dependencies = []
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=70.0"]
 build-backend = "setuptools.build_meta"
 
 [project.urls]

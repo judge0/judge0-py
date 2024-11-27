@@ -1,0 +1,49 @@
+name: Publish to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: "Target repository (pypi or test)"
+        required: true
+        default: "pypi"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Set up Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    # Install build and twine
+    - name: Install Build Tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+
+    # Build the package
+    - name: Build the Package
+      run: python -m build
+
+    - name: Publish to Test PyPI
+      if: github.event.inputs.repository == 'test'
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+      run: twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+    - name: Publish to Regular PyPI
+      if: github.event.inputs.repository == 'pypi'
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: twine upload dist/*
+
