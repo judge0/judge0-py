@@ -1,4 +1,4 @@
-name: Test judge0-py
+name: Test judge0-python
 
 on:
   push:
