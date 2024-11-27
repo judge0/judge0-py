@@ -1,3 +1,3 @@
-# judge0-py
+# Judge0 Python SDK
 
-Python client library for Judge0
+The official Python library for Judge0.
