@@ -33,4 +33,4 @@ jobs:
           JUDGE0_TEST_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_CE_ENDPOINT }}
           JUDGE0_TEST_EXTRA_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_EXTRA_CE_ENDPOINT }}
         run: |
-          pipenv run pytest -vv
+          pipenv run pytest -vv tests/
