@@ -1,19 +1,11 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Optional, Union
+from typing import Optional, Sequence, Union
 
+Iterable = Sequence
 
-TestCases = Union[
-    list["TestCase"],
-    tuple["TestCase"],
-    list[dict],
-    tuple[dict],
-    list[list],
-    list[tuple],
-    tuple[list],
-    tuple[tuple],
-]
+TestCases = Iterable["TestCase"]
 
 
 @dataclass(frozen=True)

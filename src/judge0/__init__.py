@@ -98,9 +98,9 @@ def _get_implicit_client(flavor: Flavor) -> Client:
     # the preview Sulu client based on the flavor.
     if client is None:
         if flavor == Flavor.CE:
-            client = SuluJudge0CE()
+            client = SuluJudge0CE(retry_strategy=RegularPeriodRetry(0.5))
         else:
-            client = SuluJudge0ExtraCE()
+            client = SuluJudge0ExtraCE(retry_strategy=RegularPeriodRetry(0.5))
 
     if flavor == Flavor.CE:
         JUDGE0_IMPLICIT_CE_CLIENT = client

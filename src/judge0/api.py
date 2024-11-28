@@ -1,10 +1,10 @@
-from typing import Iterable, Optional, Union
+from typing import Optional, Union
 
-from .base_types import Flavor, TestCase, TestCases
+from .base_types import Flavor, Iterable, TestCase, TestCases
 from .clients import Client
 from .common import batched
 
-from .retry import RegularPeriodRetry, RetryMechanism
+from .retry import RegularPeriodRetry, RetryStrategy
 from .submission import Submission, Submissions
 
 
@@ -31,7 +31,7 @@ def _resolve_client(
     if isinstance(client, Flavor):
         return get_client(client)
 
-    if client is None and isinstance(submissions, list) and len(submissions) == 0:
+    if client is None and isinstance(submissions, Iterable) and len(submissions) == 0:
         raise ValueError("Client cannot be determined from empty submissions.")
 
     # client is None and we have to determine a flavor of the client from the
@@ -57,6 +57,7 @@ def _resolve_client(
 
 
 def create_submissions(
+    *,
     client: Optional[Client] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Union[Submission, Submissions]:
@@ -81,7 +82,7 @@ def get_submissions(
     *,
     client: Optional[Client] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
-    fields: Union[str, Iterable[str], None] = None,
+    fields: Optional[Union[str, Iterable[str]]] = None,
 ) -> Union[Submission, Submissions]:
     client = _resolve_client(client=client, submissions=submissions)
 
@@ -108,12 +109,15 @@ def wait(
     *,
     client: Optional[Client] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
-    retry_mechanism: Optional[RetryMechanism] = None,
+    retry_strategy: Optional[RetryStrategy] = None,
 ) -> Union[Submission, Submissions]:
     client = _resolve_client(client, submissions)
 
-    if retry_mechanism is None:
-        retry_mechanism = RegularPeriodRetry()
+    if retry_strategy is None:
+        if client.retry_strategy is None:
+            retry_strategy = RegularPeriodRetry()
+        else:
+            retry_strategy = client.retry_strategy
 
     if isinstance(submissions, Submission):
         submissions_to_check = {
@@ -124,7 +128,7 @@ def wait(
             submission.token: submission for submission in submissions
         }
 
-    while len(submissions_to_check) > 0 and not retry_mechanism.is_done():
+    while len(submissions_to_check) > 0 and not retry_strategy.is_done():
         get_submissions(client=client, submissions=list(submissions_to_check.values()))
         for token in list(submissions_to_check):
             submission = submissions_to_check[token]
@@ -135,8 +139,8 @@ def wait(
         if len(submissions_to_check) == 0:
             break
 
-        retry_mechanism.wait()
-        retry_mechanism.step()
+        retry_strategy.wait()
+        retry_strategy.step()
 
     return submissions
 
@@ -204,6 +208,7 @@ def _execute(
     if submissions is None and source_code is None:
         raise ValueError("Neither source_code nor submissions argument are provided.")
 
+    # Internally, let's rely on Submission's dataclass.
     if source_code is not None:
         submissions = Submission(source_code=source_code, **kwargs)
 

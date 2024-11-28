@@ -3,10 +3,9 @@ import io
 import zipfile
 
 from base64 import b64decode, b64encode
-from collections import abc
-from typing import Iterable, Optional, Union
+from typing import Optional, Union
 
-from .base_types import Encodeable
+from .base_types import Encodeable, Iterable
 
 
 class File:
@@ -42,7 +41,7 @@ class Filesystem(Encodeable):
                 for file_name in zip_file.namelist():
                     with zip_file.open(file_name) as fp:
                         self.files.append(File(file_name, fp.read()))
-        elif isinstance(content, abc.Iterable):
+        elif isinstance(content, Iterable):
             self.files = list(content)
         elif isinstance(content, File):
             self.files = [content]

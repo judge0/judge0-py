@@ -2,7 +2,7 @@ import time
 from abc import ABC, abstractmethod
 
 
-class RetryMechanism(ABC):
+class RetryStrategy(ABC):
     @abstractmethod
     def is_done(self) -> bool:
         pass
@@ -11,12 +11,11 @@ class RetryMechanism(ABC):
     def wait(self) -> None:
         pass
 
-    @abstractmethod
     def step(self) -> None:
         pass
 
 
-class MaxRetries(RetryMechanism):
+class MaxRetries(RetryStrategy):
     """Check for submissions status every 100 ms and retry a maximum of
     `max_retries` times."""
 
@@ -34,7 +33,7 @@ class MaxRetries(RetryMechanism):
         return self.n_retries >= self.max_retries
 
 
-class MaxWaitTime(RetryMechanism):
+class MaxWaitTime(RetryStrategy):
     """Check for submissions status every 100 ms and wait for all submissions
     a maximum of `max_wait_time` (seconds)."""
 
@@ -52,14 +51,11 @@ class MaxWaitTime(RetryMechanism):
         return self.total_wait_time >= self.max_wait_time_sec
 
 
-class RegularPeriodRetry(RetryMechanism):
+class RegularPeriodRetry(RetryStrategy):
     """Check for submissions status periodically for indefinite amount of time."""
 
     def __init__(self, wait_time_sec: float = 0.1):
         self.wait_time_sec = wait_time_sec
-
-    def step(self):
-        pass
 
     def wait(self):
         time.sleep(self.wait_time_sec)

@@ -1,10 +1,10 @@
 import copy
 from datetime import datetime
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from judge0.filesystem import Filesystem
 
-from .base_types import LanguageAlias, Status
+from .base_types import Iterable, LanguageAlias, Status
 from .common import decode, encode
 
 ENCODED_REQUEST_FIELDS = {
@@ -63,7 +63,7 @@ FLOATING_POINT_FIELDS = {
     "wall_time_limit",
 }
 
-Submissions = Union[list["Submission"], tuple["Submission"]]
+Submissions = Iterable["Submission"]
 
 
 class Submission:
@@ -138,7 +138,7 @@ class Submission:
         self.memory = None
         self.post_execution_filesystem = None
 
-    def set_attributes(self, attributes):
+    def set_attributes(self, attributes: dict[str, Any]) -> None:
         for attr, value in attributes.items():
             if attr in SKIP_FIELDS:
                 continue

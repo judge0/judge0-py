@@ -1,26 +1,29 @@
-from typing import Iterable, Union
+from typing import Optional, Union
 
 import requests
 
-from .base_types import Config, Language, LanguageAlias
+from .base_types import Config, Iterable, Language, LanguageAlias
 from .data import LANGUAGE_TO_LANGUAGE_ID
+from .retry import RetryStrategy
 from .submission import Submission, Submissions
 
 
 class Client:
-    API_KEY_ENV = "JUDGE0_API_KEY"
-    DEFAULT_MAX_SUBMISSION_BATCH_SIZE = 20
-    ENABLED_BATCHED_SUBMISSIONS = True
-    EFFECTIVE_SUBMISSION_BATCH_SIZE = (
-        DEFAULT_MAX_SUBMISSION_BATCH_SIZE if ENABLED_BATCHED_SUBMISSIONS else 1
-    )
+    API_KEY_ENV = None
 
-    def __init__(self, endpoint, auth_headers) -> None:
+    def __init__(
+        self,
+        endpoint,
+        auth_headers,
+        *,
+        retry_strategy: Optional[RetryStrategy] = None,
+    ) -> None:
         self.endpoint = endpoint
         self.auth_headers = auth_headers
+        self.retry_strategy = retry_strategy
 
         try:
-            self.languages = [Language(**lang) for lang in self.get_languages()]
+            self.languages = tuple(Language(**lang) for lang in self.get_languages())
             self.config = Config(**self.get_config_info())
         except Exception as e:
             raise RuntimeError(
@@ -113,7 +116,7 @@ class Client:
         self,
         submission: Submission,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submission:
         """Check the submission status."""
 
@@ -168,7 +171,7 @@ class Client:
         self,
         submissions: Submissions,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submissions:
         params = {
             "base64_encoded": "true",
@@ -201,7 +204,7 @@ class Client:
 class ATD(Client):
     API_KEY_ENV = "JUDGE0_ATD_API_KEY"
 
-    def __init__(self, endpoint, host_header_value, api_key):
+    def __init__(self, endpoint, host_header_value, api_key, **kwargs):
         self.api_key = api_key
         super().__init__(
             endpoint,
@@ -209,6 +212,7 @@ class ATD(Client):
                 "x-apihub-host": host_header_value,
                 "x-apihub-key": api_key,
             },
+            **kwargs,
         )
 
     def _update_endpoint_header(self, header_value):
@@ -232,11 +236,12 @@ class ATDJudge0CE(ATD):
     DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: str = "402b857c-1126-4450-bfd8-22e1f2cbff2f"
     DEFAULT_GET_SUBMISSIONS_ENDPOINT: str = "e42f2a26-5b02-472a-80c9-61c4bdae32ec"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, **kwargs):
         super().__init__(
             self.DEFAULT_ENDPOINT,
             self.DEFAULT_HOST,
             api_key,
+            **kwargs,
         )
 
     def get_about(self) -> dict:
@@ -267,7 +272,7 @@ class ATDJudge0CE(ATD):
         self,
         submission: Submission,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submission:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
@@ -280,7 +285,7 @@ class ATDJudge0CE(ATD):
         self,
         submissions: Submissions,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
@@ -303,11 +308,12 @@ class ATDJudge0ExtraCE(ATD):
     DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: str = "c64df5d3-edfd-4b08-8687-561af2f80d2f"
     DEFAULT_GET_SUBMISSIONS_ENDPOINT: str = "5d173718-8e6a-4cf5-9d8c-db5e6386d037"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, **kwargs):
         super().__init__(
             self.DEFAULT_ENDPOINT,
             self.DEFAULT_HOST,
             api_key,
+            **kwargs,
         )
 
     def get_about(self) -> dict:
@@ -338,7 +344,7 @@ class ATDJudge0ExtraCE(ATD):
         self,
         submission: Submission,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submission:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSION_ENDPOINT)
         return super().get_submission(submission, fields=fields)
@@ -351,7 +357,7 @@ class ATDJudge0ExtraCE(ATD):
         self,
         submissions: Submissions,
         *,
-        fields: Union[str, Iterable[str], None] = None,
+        fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submissions:
         self._update_endpoint_header(self.DEFAULT_GET_SUBMISSIONS_ENDPOINT)
         return super().get_submissions(submissions, fields=fields)
@@ -360,7 +366,7 @@ class ATDJudge0ExtraCE(ATD):
 class Rapid(Client):
     API_KEY_ENV = "JUDGE0_RAPID_API_KEY"
 
-    def __init__(self, endpoint, host_header_value, api_key):
+    def __init__(self, endpoint, host_header_value, api_key, **kwargs):
         self.api_key = api_key
         super().__init__(
             endpoint,
@@ -368,6 +374,7 @@ class Rapid(Client):
                 "x-rapidapi-host": host_header_value,
                 "x-rapidapi-key": api_key,
             },
+            **kwargs,
         )
 
 
@@ -376,11 +383,12 @@ class RapidJudge0CE(Rapid):
     DEFAULT_HOST: str = "judge0-ce.p.rapidapi.com"
     HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-ce"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, **kwargs):
         super().__init__(
             self.DEFAULT_ENDPOINT,
             self.DEFAULT_HOST,
             api_key,
+            **kwargs,
         )
 
 
@@ -389,22 +397,24 @@ class RapidJudge0ExtraCE(Rapid):
     DEFAULT_HOST: str = "judge0-extra-ce.p.rapidapi.com"
     HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-extra-ce"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, **kwargs):
         super().__init__(
             self.DEFAULT_ENDPOINT,
             self.DEFAULT_HOST,
             api_key,
+            **kwargs,
         )
 
 
 class Sulu(Client):
     API_KEY_ENV = "JUDGE0_SULU_API_KEY"
 
-    def __init__(self, endpoint, api_key=None):
+    def __init__(self, endpoint, api_key=None, **kwargs):
         self.api_key = api_key
         super().__init__(
             endpoint,
             {"Authorization": f"Bearer {api_key}"} if api_key else None,
+            **kwargs,
         )
 
 
@@ -412,17 +422,21 @@ class SuluJudge0CE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
 
-    def __init__(self, api_key=None):
-        super().__init__(self.DEFAULT_ENDPOINT, api_key)
+    def __init__(self, api_key=None, **kwargs):
+        super().__init__(
+            self.DEFAULT_ENDPOINT,
+            api_key,
+            **kwargs,
+        )
 
 
 class SuluJudge0ExtraCE(Sulu):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
 
-    def __init__(self, api_key=None):
-        super().__init__(self.DEFAULT_ENDPOINT, api_key)
+    def __init__(self, api_key=None, **kwargs):
+        super().__init__(self.DEFAULT_ENDPOINT, api_key, **kwargs)
 
 
-CE = [RapidJudge0CE, SuluJudge0CE, ATDJudge0CE]
-EXTRA_CE = [RapidJudge0ExtraCE, SuluJudge0ExtraCE, ATDJudge0ExtraCE]
+CE = (RapidJudge0CE, SuluJudge0CE, ATDJudge0CE)
+EXTRA_CE = (RapidJudge0ExtraCE, SuluJudge0ExtraCE, ATDJudge0ExtraCE)
