@@ -6,6 +6,7 @@ from .base_types import Config, Iterable, Language, LanguageAlias
 from .data import LANGUAGE_TO_LANGUAGE_ID
 from .retry import RetryStrategy
 from .submission import Submission, Submissions
+from .utils import handle_too_many_requests_error_for_preview_client
 
 
 class Client:
@@ -22,6 +23,7 @@ class Client:
         self.auth_headers = auth_headers
         self.retry_strategy = retry_strategy
 
+        # TODO: Should be handled differently.
         try:
             self.languages = tuple(Language(**lang) for lang in self.get_languages())
             self.config = Config(**self.get_config_info())
@@ -30,6 +32,7 @@ class Client:
                 f"Authentication failed. Visit {self.HOME_URL} to get or review your authentication credentials."
             ) from e
 
+    @handle_too_many_requests_error_for_preview_client
     def get_about(self) -> dict:
         r = requests.get(
             f"{self.endpoint}/about",
@@ -38,6 +41,7 @@ class Client:
         r.raise_for_status()
         return r.json()
 
+    @handle_too_many_requests_error_for_preview_client
     def get_config_info(self) -> dict:
         r = requests.get(
             f"{self.endpoint}/config_info",
@@ -46,18 +50,21 @@ class Client:
         r.raise_for_status()
         return r.json()
 
+    @handle_too_many_requests_error_for_preview_client
     def get_language(self, language_id) -> dict:
         request_url = f"{self.endpoint}/languages/{language_id}"
         r = requests.get(request_url, headers=self.auth_headers)
         r.raise_for_status()
         return r.json()
 
+    @handle_too_many_requests_error_for_preview_client
     def get_languages(self) -> list[dict]:
         request_url = f"{self.endpoint}/languages"
         r = requests.get(request_url, headers=self.auth_headers)
         r.raise_for_status()
         return r.json()
 
+    @handle_too_many_requests_error_for_preview_client
     def get_statuses(self) -> list[dict]:
         r = requests.get(
             f"{self.endpoint}/statuses",
@@ -74,7 +81,7 @@ class Client:
         return self._version
 
     def get_language_id(self, language: Union[LanguageAlias, int]) -> int:
-        """Get language id for the corresponding language alias for the client."""
+        """Get language id corresponding to the language alias for the client."""
         if isinstance(language, LanguageAlias):
             supported_language_ids = LANGUAGE_TO_LANGUAGE_ID[self.version]
             language = supported_language_ids.get(language, -1)
@@ -85,6 +92,7 @@ class Client:
         language_id = self.get_language_id(language)
         return any(language_id == lang.id for lang in self.languages)
 
+    @handle_too_many_requests_error_for_preview_client
     def create_submission(self, submission: Submission) -> Submission:
         # Check if the client supports the language specified in the submission.
         if not self.is_language_supported(language=submission.language):
@@ -112,6 +120,7 @@ class Client:
 
         return submission
 
+    @handle_too_many_requests_error_for_preview_client
     def get_submission(
         self,
         submission: Submission,
@@ -143,6 +152,7 @@ class Client:
 
         return submission
 
+    @handle_too_many_requests_error_for_preview_client
     def create_submissions(self, submissions: Submissions) -> Submissions:
         # Check if all submissions contain supported language.
         for submission in submissions:
@@ -167,6 +177,7 @@ class Client:
 
         return submissions
 
+    @handle_too_many_requests_error_for_preview_client
     def get_submissions(
         self,
         submissions: Submissions,

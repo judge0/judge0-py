@@ -113,6 +113,8 @@ def _get_implicit_client(flavor: Flavor) -> Client:
 CE = Flavor.CE
 EXTRA_CE = Flavor.EXTRA_CE
 
+# TODO: Let's use getattr and setattr for this language ALIASES and raise an
+# exception if a value already exists.
 PYTHON = LanguageAlias.PYTHON
 CPP = LanguageAlias.CPP
 JAVA = LanguageAlias.JAVA
