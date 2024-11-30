@@ -41,5 +41,5 @@ test = ["pytest", "mkdocs"]
 
 [tool.flake8]
 docstring-convention = "numpy"
-extend-ignore = ["D205", "D400", "D105", "D100", "D101", "D102", "F821"]
+extend-ignore = ["D205", "D400", "D105", "D100", "D101", "D102", "D103", "F821"]
 max-line-length = 88

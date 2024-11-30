@@ -5,21 +5,17 @@ from typing import Optional, Sequence, Union
 
 Iterable = Sequence
 
-TestCases = Iterable["TestCase"]
+TestCaseType = Union["TestCase", list, tuple, dict]
+TestCases = Iterable[TestCaseType]
 
 
 @dataclass(frozen=True)
 class TestCase:
-    # Needed to disable pytest from recognizing it as a class containing different test cases.
-    __test__ = False
-
     input: Optional[str] = None
     expected_output: Optional[str] = None
 
     @staticmethod
-    def from_record(
-        test_case: Optional[Union[tuple, list, dict, "TestCase"]] = None
-    ) -> "TestCase":
+    def from_record(test_case: Optional[TestCaseType] = None) -> "TestCase":
         if isinstance(test_case, (tuple, list)):
             test_case = {
                 field: value

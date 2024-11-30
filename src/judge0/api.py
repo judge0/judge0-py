@@ -1,9 +1,9 @@
 from typing import Optional, Union
 
-from .base_types import Flavor, Iterable, TestCase, TestCases
+from .base_types import Flavor, Iterable, TestCase, TestCases, TestCaseType
 from .clients import Client
 from .common import batched
-
+from .errors import ClientResolutionError
 from .retry import RegularPeriodRetry, RetryStrategy
 from .submission import Submission, Submissions
 
@@ -24,6 +24,13 @@ def _resolve_client(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Client:
+    """Resolve a client from flavor or submission(s) arguments.
+
+    Raises
+    ------
+    ClientResolutionError
+        Raised if client resolution fails.
+    """
     # User explicitly passed a client.
     if isinstance(client, Client):
         return client
@@ -49,7 +56,7 @@ def _resolve_client(
         ):
             return client
 
-    raise RuntimeError(
+    raise ClientResolutionError(
         "Failed to resolve the client from submissions argument. "
         "None of the implicit clients supports all languages from the submissions. "
         "Please explicitly provide the client argument."
@@ -61,6 +68,21 @@ def create_submissions(
     client: Optional[Client] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Union[Submission, Submissions]:
+    """Create submissions to a client.
+
+    Parameters
+    ----------
+    client : Client, optional
+        A Client where submissions should be created. If None, will try to
+        be automatically resolved.
+    submissions: Submission, Submissions
+        A submission or submissions to create.
+
+    Raises
+    ------
+    ClientResolutionError
+        Raised if client resolution fails.
+    """
     client = _resolve_client(client=client, submissions=submissions)
 
     if isinstance(submissions, Submission):
@@ -84,6 +106,21 @@ def get_submissions(
     submissions: Optional[Union[Submission, Submissions]] = None,
     fields: Optional[Union[str, Iterable[str]]] = None,
 ) -> Union[Submission, Submissions]:
+    """Create submissions to a client.
+
+    Parameters
+    ----------
+    client : Client, optional
+        A Client where submissions should be created. If None, will try to
+        be automatically resolved.
+    submissions: Submission, Submissions
+        A submission or submissions to create.
+
+    Raises
+    ------
+    ClientResolutionError
+        Raised if client resolution fails.
+    """
     client = _resolve_client(client=client, submissions=submissions)
 
     if isinstance(submissions, Submission):
@@ -120,20 +157,23 @@ def wait(
             retry_strategy = client.retry_strategy
 
     if isinstance(submissions, Submission):
-        submissions_to_check = {
-            submission.token: submission for submission in [submissions]
-        }
+        submissions_list = [submissions]
     else:
-        submissions_to_check = {
-            submission.token: submission for submission in submissions
-        }
+        submissions_list = submissions
+
+    submissions_to_check = {
+        submission.token: submission for submission in submissions_list
+    }
 
     while len(submissions_to_check) > 0 and not retry_strategy.is_done():
         get_submissions(client=client, submissions=list(submissions_to_check.values()))
-        for token in list(submissions_to_check):
-            submission = submissions_to_check[token]
-            if submission.is_done():
-                submissions_to_check.pop(token)
+        finished_submissions = [
+            token
+            for token, submission in submissions_to_check.items()
+            if submission.is_done()
+        ]
+        for token in finished_submissions:
+            submissions_to_check.pop(token)
 
         # Don't wait if there is no submissions to check for anymore.
         if len(submissions_to_check) == 0:
@@ -147,12 +187,12 @@ def wait(
 
 def create_submissions_from_test_cases(
     submissions: Union[Submission, Submissions],
-    test_cases: Optional[Union[TestCase, TestCases]] = None,
+    test_cases: Optional[Union[TestCaseType, TestCases]] = None,
 ):
-    """Utility function for creating submissions from the (submission, test_case) pairs.
+    """Create submissions from the (submission, test_case) pairs.
 
-    The following table contains the return type based on the types of `submissions`
-    and `test_cases` arguments:
+    The following table contains the return type based on the types of
+    `submissions` and `test_cases` arguments:
 
     | submissions | test_cases | returns     |
     |:------------|:-----------|:------------|
@@ -196,10 +236,11 @@ def _execute(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
-    test_cases: Optional[Union[TestCase, TestCases]] = None,
+    test_cases: Optional[Union[TestCaseType, TestCases]] = None,
     wait_for_result: bool = False,
     **kwargs,
 ) -> Union[Submission, Submissions]:
+
     if submissions is not None and source_code is not None:
         raise ValueError(
             "Both submissions and source_code arguments are provided. "
@@ -227,9 +268,45 @@ def async_execute(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
-    test_cases: Optional[Union[TestCase, TestCases]] = None,
+    test_cases: Optional[Union[TestCaseType, TestCases]] = None,
     **kwargs,
 ) -> Union[Submission, Submissions]:
+    """Create submission(s).
+
+    Parameters
+    ----------
+    client : Client or Flavor, optional
+        A client where submissions should be created. If None, will try to be
+        resolved.
+    submissions : Submission or Submissions, optional
+        Submission or submissions for execution.
+    source_code: str, optional
+        A source code of a program.
+    test_cases: TestCaseType or TestCases, optional
+        A single test or a list of test cases
+
+    Returns
+    -------
+    Submission or Submissions
+        A single submission or a list of submissions.
+
+    The following table contains the return type based on the types of
+    `submissions` (or `source_code`) and `test_cases` arguments:
+
+    | submissions | test_cases | returns     |
+    |:------------|:-----------|:------------|
+    | Submission  | TestCase   | Submission  |
+    | Submission  | TestCases  | Submissions |
+    | Submissions | TestCase   | Submissions |
+    | Submissions | TestCases  | Submissions |
+
+    Raises
+    ------
+    ClientResolutionError
+        If client cannot be resolved from the submissions or the flavor.
+    ValueError
+        If both or neither submissions and source_code arguments are provided.
+    """
     return _execute(
         client=client,
         submissions=submissions,
@@ -245,9 +322,45 @@ def sync_execute(
     client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
     source_code: Optional[str] = None,
-    test_cases: Optional[Union[TestCase, TestCases]] = None,
+    test_cases: Optional[Union[TestCaseType, TestCases]] = None,
     **kwargs,
 ) -> Union[Submission, Submissions]:
+    """Create submission(s) and wait for their finish.
+
+    Parameters
+    ----------
+    client : Client or Flavor, optional
+        A client where submissions should be created. If None, will try to be
+        resolved.
+    submissions : Submission or Submissions, optional
+        Submission or submissions for execution.
+    source_code: str, optional
+        A source code of a program.
+    test_cases: TestCaseType or TestCases, optional
+        A single test or a list of test cases
+
+    Returns
+    -------
+    Submission or Submissions
+        A single submission or a list of submissions.
+
+    The following table contains the return type based on the types of
+    `submissions` (or `source_code`) and `test_cases` arguments:
+
+    | submissions | test_cases | returns     |
+    |:------------|:-----------|:------------|
+    | Submission  | TestCase   | Submission  |
+    | Submission  | TestCases  | Submissions |
+    | Submissions | TestCase   | Submissions |
+    | Submissions | TestCases  | Submissions |
+
+    Raises
+    ------
+    ClientResolutionError
+        If client cannot be resolved from the submissions or the flavor.
+    ValueError
+        If both or neither submissions and source_code arguments are provided.
+    """
     return _execute(
         client=client,
         submissions=submissions,

@@ -5,6 +5,8 @@ from http import HTTPStatus
 
 from requests import HTTPError
 
+from .errors import PreviewClientLimitError
+
 
 def is_http_too_many_requests_error(exception: Exception) -> bool:
     return (
@@ -31,11 +33,10 @@ def handle_too_many_requests_error_for_preview_client(func):
                         class_name in ("SuluJudge0CE", "SuluJudge0ExtraCE")
                         and instance.api_key is None
                     ):
-                        raise RuntimeError(
-                            "You are using a preview version of the Sulu "
-                            "clients and you've hit a rate limit on the preview "
-                            f"clients. Visit {instance.HOME_URL} to get or "
-                            "review your authentication credentials."
+                        raise PreviewClientLimitError(
+                            "You are using a preview version of a client and "
+                            f"you've hit a rate limit on it. Visit {instance.HOME_URL} "
+                            "to get your authentication credentials."
                         ) from err
                 else:
                     raise err from None
