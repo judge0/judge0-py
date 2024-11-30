@@ -29,7 +29,8 @@ class Client:
             self.config = Config(**self.get_config_info())
         except Exception as e:
             raise RuntimeError(
-                f"Authentication failed. Visit {self.HOME_URL} to get or review your authentication credentials."
+                f"Authentication failed. Visit {self.HOME_URL} to get or "
+                "review your authentication credentials."
             ) from e
 
     @handle_too_many_requests_error_for_preview_client
@@ -94,6 +95,20 @@ class Client:
 
     @handle_too_many_requests_error_for_preview_client
     def create_submission(self, submission: Submission) -> Submission:
+        """Send submission for execution to a client.
+
+        Directly send a submission to create_submission route for execution.
+
+        Parameters
+        ----------
+        submission : Submission
+            A submission to create.
+
+        Returns
+        -------
+        Submission
+            A submission with updated token attribute.
+        """
         # Check if the client supports the language specified in the submission.
         if not self.is_language_supported(language=submission.language):
             raise RuntimeError(
@@ -127,8 +142,21 @@ class Client:
         *,
         fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submission:
-        """Check the submission status."""
+        """Get submissions status.
 
+        Directly send submission's token to get_submission route for status
+        check. By default, all submissions attributes (fields) are requested.
+
+        Parameters
+        ----------
+        submission : Submission
+            Submission to update.
+
+        Returns
+        -------
+        Submission
+            A Submission with updated attributes.
+        """
         params = {
             "base64_encoded": "true",
         }
@@ -154,13 +182,30 @@ class Client:
 
     @handle_too_many_requests_error_for_preview_client
     def create_submissions(self, submissions: Submissions) -> Submissions:
-        # Check if all submissions contain supported language.
+        """Send submissions for execution to a client.
+
+        Directly send submissions to create_submissions route for execution.
+        Cannot handle more submissions than the client supports.
+
+        Parameters
+        ----------
+        submissions : Submissions
+            A sequence of submissions to create.
+
+        Returns
+        -------
+        Submissions
+            A sequence of submissions with updated token attribute.
+        """
         for submission in submissions:
             if not self.is_language_supported(language=submission.language):
                 raise RuntimeError(
                     f"Client {type(self).__name__} does not support language "
                     f"{submission.language}!"
                 )
+
+        # TODO: Maybe raise an exception if the number of submissions is bigger
+        # than the batch size a client supports?
 
         submissions_body = [submission.as_body(self) for submission in submissions]
 
@@ -184,6 +229,24 @@ class Client:
         *,
         fields: Optional[Union[str, Iterable[str]]] = None,
     ) -> Submissions:
+        """Get submissions status.
+
+        Directly send submissions' tokens to get_submissions route for status
+        check. By default, all submissions attributes (fields) are requested.
+        Cannot handle more submissions than the client supports.
+
+        Parameters
+        ----------
+        submissions : Submissions
+            Submissions to update.
+
+        Returns
+        -------
+        Submissions
+            A sequence of submissions with updated attributes.
+        """
+        # TODO: Maybe raise an exception if the number of submissions is bigger
+        # than the batch size a client supports?
         params = {
             "base64_encoded": "true",
         }
@@ -306,7 +369,8 @@ class ATDJudge0ExtraCE(ATD):
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.proxy-production.allthingsdev.co"
     DEFAULT_HOST: str = "Judge0-Extra-CE.allthingsdev.co"
     HOME_URL: str = (
-        "https://www.allthingsdev.co/apimarketplace/judge0-extra-ce/66b68838b7b7ad054eb70690"
+        "https://www.allthingsdev.co/apimarketplace/judge0-extra-ce/"
+        "66b68838b7b7ad054eb70690"
     )
 
     DEFAULT_ABOUT_ENDPOINT: str = "1fd631a1-be6a-47d6-bf4c-987e357e3096"
