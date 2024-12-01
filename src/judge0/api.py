@@ -273,6 +273,18 @@ def async_execute(
 ) -> Union[Submission, Submissions]:
     """Create submission(s).
 
+    Aliases: `async_run`.
+
+    The following table contains the return type based on the types of
+    `submissions` (or `source_code`) and `test_cases` arguments:
+
+    | submissions | test_cases | returns     |
+    |:------------|:-----------|:------------|
+    | Submission  | TestCase   | Submission  |
+    | Submission  | TestCases  | Submissions |
+    | Submissions | TestCase   | Submissions |
+    | Submissions | TestCases  | Submissions |
+
     Parameters
     ----------
     client : Client or Flavor, optional
@@ -289,16 +301,6 @@ def async_execute(
     -------
     Submission or Submissions
         A single submission or a list of submissions.
-
-    The following table contains the return type based on the types of
-    `submissions` (or `source_code`) and `test_cases` arguments:
-
-    | submissions | test_cases | returns     |
-    |:------------|:-----------|:------------|
-    | Submission  | TestCase   | Submission  |
-    | Submission  | TestCases  | Submissions |
-    | Submissions | TestCase   | Submissions |
-    | Submissions | TestCases  | Submissions |
 
     Raises
     ------
@@ -327,6 +329,18 @@ def sync_execute(
 ) -> Union[Submission, Submissions]:
     """Create submission(s) and wait for their finish.
 
+    Aliases: `execute`, `run`, `sync_run`.
+
+    The following table contains the return type based on the types of
+    `submissions` (or `source_code`) and `test_cases` arguments:
+
+    | submissions | test_cases | returns     |
+    |:------------|:-----------|:------------|
+    | Submission  | TestCase   | Submission  |
+    | Submission  | TestCases  | Submissions |
+    | Submissions | TestCase   | Submissions |
+    | Submissions | TestCases  | Submissions |
+
     Parameters
     ----------
     client : Client or Flavor, optional
@@ -343,16 +357,6 @@ def sync_execute(
     -------
     Submission or Submissions
         A single submission or a list of submissions.
-
-    The following table contains the return type based on the types of
-    `submissions` (or `source_code`) and `test_cases` arguments:
-
-    | submissions | test_cases | returns     |
-    |:------------|:-----------|:------------|
-    | Submission  | TestCase   | Submission  |
-    | Submission  | TestCases  | Submissions |
-    | Submissions | TestCase   | Submissions |
-    | Submissions | TestCases  | Submissions |
 
     Raises
     ------
