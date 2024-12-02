@@ -22,4 +22,5 @@ source venv/bin/activate
 
 ```bash
 pip install -e .[test]
+pre-commit install
 ```
