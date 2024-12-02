@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +19,10 @@ jobs:
           python-version: "3.9"
       - name: Install dependencies
         run: |
+          python -m venv venv
+          source venv/bin/activate
           python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install --dev
-          pipenv install -e .
+          pip install -e .[test]
       - name: Test with pytest
         env: # Add necessary api keys as env variables.
           JUDGE0_ATD_API_KEY: ${{ secrets.JUDGE0_ATD_API_KEY }}
@@ -33,4 +33,5 @@ jobs:
           JUDGE0_TEST_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_CE_ENDPOINT }}
           JUDGE0_TEST_EXTRA_CE_ENDPOINT: ${{ secrets.JUDGE0_TEST_EXTRA_CE_ENDPOINT }}
         run: |
-          pipenv run pytest -vv tests/
+          source venv/bin/activate
+          pytest -vv tests/
