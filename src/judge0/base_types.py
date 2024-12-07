@@ -1,7 +1,6 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Optional, Sequence, Union
+from typing import Optional, Protocol, runtime_checkable, Sequence, Union
 
 Iterable = Sequence
 
@@ -33,10 +32,11 @@ class TestCase:
         )
 
 
-class Encodeable(ABC):
-    @abstractmethod
+@runtime_checkable
+class Encodeable(Protocol):
     def encode(self) -> bytes:
-        pass
+        """Serialize the object to bytes."""
+        ...
 
 
 @dataclass(frozen=True)
@@ -46,6 +46,8 @@ class Language:
 
 
 class LanguageAlias(IntEnum):
+    """Language enumeration."""
+
     PYTHON = 0
     CPP = 1
     JAVA = 2
@@ -55,11 +57,15 @@ class LanguageAlias(IntEnum):
 
 
 class Flavor(IntEnum):
+    """Judge0 flavor enumeration."""
+
     CE = 0
     EXTRA_CE = 1
 
 
 class Status(IntEnum):
+    """Status enumeration."""
+
     IN_QUEUE = 1
     PROCESSING = 2
     ACCEPTED = 3

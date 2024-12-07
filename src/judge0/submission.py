@@ -17,7 +17,7 @@ ENCODED_RESPONSE_FIELDS = {
     "stdout",
     "stderr",
     "compile_output",
-    # "post_execution_filesystem",
+    "post_execution_filesystem",
 }
 ENCODED_FIELDS = ENCODED_REQUEST_FIELDS | ENCODED_RESPONSE_FIELDS
 EXTRA_REQUEST_FIELDS = {
@@ -48,7 +48,6 @@ EXTRA_RESPONSE_FIELDS = {
     "time",
     "wall_time",
     "memory",
-    "post_execution_filesystem",
 }
 REQUEST_FIELDS = ENCODED_REQUEST_FIELDS | EXTRA_REQUEST_FIELDS
 RESPONSE_FIELDS = ENCODED_RESPONSE_FIELDS | EXTRA_RESPONSE_FIELDS
@@ -207,7 +206,7 @@ class Submission:
             if attr in SKIP_FIELDS:
                 continue
 
-            if attr in ENCODED_FIELDS:
+            if attr in ENCODED_FIELDS and attr not in ("post_execution_filesystem",):
                 value = decode(value) if value else None
             elif attr == "status":
                 value = Status(value["id"])
@@ -240,6 +239,43 @@ class Submission:
                 body[field] = value
 
         return body
+
+    def to_dict(self) -> dict:
+        encoded_request_fields = {
+            field_name: encode(getattr(self, field_name))
+            for field_name in ENCODED_REQUEST_FIELDS
+            if getattr(self, field_name) is not None
+        }
+        extra_request_fields = {
+            field_name: getattr(self, field_name)
+            for field_name in EXTRA_REQUEST_FIELDS
+            if getattr(self, field_name) is not None
+        }
+        encoded_response_fields = {
+            field_name: encode(getattr(self, field_name))
+            for field_name in ENCODED_RESPONSE_FIELDS
+            if getattr(self, field_name) is not None
+        }
+        extra_response_fields = {
+            field_name: getattr(self, field_name)
+            for field_name in EXTRA_RESPONSE_FIELDS
+            if getattr(self, field_name) is not None
+        }
+
+        submission_dict = (
+            encoded_request_fields
+            | extra_request_fields
+            | encoded_response_fields
+            | extra_response_fields
+        )
+
+        return submission_dict
+
+    @staticmethod
+    def from_dict(submission_dict) -> "Submission":
+        submission = Submission()
+        submission.set_attributes(submission_dict)
+        return submission
 
     def is_done(self) -> bool:
         """Check if submission is finished processing.

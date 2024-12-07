@@ -5,7 +5,7 @@ import zipfile
 from base64 import b64decode, b64encode
 from typing import Optional, Union
 
-from .base_types import Encodeable, Iterable
+from .base_types import Iterable
 
 
 class File:
@@ -24,7 +24,7 @@ class File:
         return self.content.decode(errors="backslashreplace")
 
 
-class Filesystem(Encodeable):
+class Filesystem:
     def __init__(
         self,
         content: Optional[Union[str, bytes, File, Iterable[File], "Filesystem"]] = None,
@@ -47,6 +47,14 @@ class Filesystem(Encodeable):
             self.files = [content]
         elif isinstance(content, Filesystem):
             self.files = copy.deepcopy(content.files)
+        elif content is None:
+            pass
+        else:
+            raise ValueError(
+                "Unsupported type for content argument. Expected "
+                "one of str, bytes, File, Iterable[File], or Filesystem, "
+                f"got {type(content)}."
+            )
 
     def __repr__(self) -> str:
         content_encoded = b64encode(self.encode()).decode()
@@ -59,7 +67,17 @@ class Filesystem(Encodeable):
                 zip_file.writestr(file.name, file.content)
         return zip_buffer.getvalue()
 
+    def to_dict(self) -> dict:
+        """Pack the Filesystem object to a dictionary."""
+        return {"filesystem": str(self)}
+
+    @staticmethod
+    def from_dict(filesystem_dict: dict) -> "Filesystem":
+        """Create a Filesystem object from dictionary."""
+        return Filesystem(filesystem_dict.get("filesystem"))
+
     def __str__(self) -> str:
+        """Create string representation of Filesystem object."""
         return b64encode(self.encode()).decode()
 
     def __iter__(self):

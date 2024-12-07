@@ -2,7 +2,7 @@ from base64 import b64decode, b64encode
 from itertools import islice
 from typing import Union
 
-from .base_types import Encodeable
+from judge0.base_types import Encodeable
 
 
 def encode(content: Union[bytes, str, Encodeable]) -> str:
@@ -26,7 +26,7 @@ def decode(content: Union[bytes, str]) -> str:
 
 
 def batched(iterable, n):
-    """Utility function for batching submissions.
+    """Iterate over an iterable in batches of a specified size.
 
     Adapted from https://docs.python.org/3/library/itertools.html#itertools.batched.
     """
