@@ -2,10 +2,11 @@ import copy
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from judge0.filesystem import Filesystem
+from pydantic import BaseModel
 
 from .base_types import Iterable, LanguageAlias, Status
 from .common import decode, encode
+from .filesystem import Filesystem
 
 ENCODED_REQUEST_FIELDS = {
     "source_code",
@@ -65,7 +66,7 @@ FLOATING_POINT_FIELDS = {
 Submissions = Iterable["Submission"]
 
 
-class Submission:
+class Submission(BaseModel):
     """
     Stores a representation of a Submission to/from Judge0.
 
@@ -125,72 +126,42 @@ class Submission:
         URL for a callback to report execution results or status.
     """
 
-    def __init__(
-        self,
-        *,
-        source_code: Optional[str] = None,
-        language: Union[LanguageAlias, int] = LanguageAlias.PYTHON,
-        additional_files: Optional[str] = None,
-        compiler_options: Optional[str] = None,
-        command_line_arguments: Optional[str] = None,
-        stdin: Optional[str] = None,
-        expected_output: Optional[str] = None,
-        cpu_time_limit: Optional[float] = None,
-        cpu_extra_time: Optional[float] = None,
-        wall_time_limit: Optional[float] = None,
-        memory_limit: Optional[float] = None,
-        stack_limit: Optional[int] = None,
-        max_processes_and_or_threads: Optional[int] = None,
-        enable_per_process_and_thread_time_limit: Optional[bool] = None,
-        enable_per_process_and_thread_memory_limit: Optional[bool] = None,
-        max_file_size: Optional[int] = None,
-        redirect_stderr_to_stdout: Optional[bool] = None,
-        enable_network: Optional[bool] = None,
-        number_of_runs: Optional[int] = None,
-        callback_url: Optional[str] = None,
-    ):
-        self.source_code = source_code
-        self.language = language
-        self.additional_files = additional_files
+    source_code: Optional[str] = None
+    language: Union[LanguageAlias, int] = LanguageAlias.PYTHON
+    additional_files: Optional[str] = None
+    compiler_options: Optional[str] = None
+    command_line_arguments: Optional[str] = None
+    stdin: Optional[str] = None
+    expected_output: Optional[str] = None
+    cpu_time_limit: Optional[float] = None
+    cpu_extra_time: Optional[float] = None
+    wall_time_limit: Optional[float] = None
+    memory_limit: Optional[float] = None
+    stack_limit: Optional[int] = None
+    max_processes_and_or_threads: Optional[int] = None
+    enable_per_process_and_thread_time_limit: Optional[bool] = None
+    enable_per_process_and_thread_memory_limit: Optional[bool] = None
+    max_file_size: Optional[int] = None
+    redirect_stderr_to_stdout: Optional[bool] = None
+    enable_network: Optional[bool] = None
+    number_of_runs: Optional[int] = None
+    callback_url: Optional[str] = None
 
-        # Extra pre-execution submission attributes.
-        self.compiler_options = compiler_options
-        self.command_line_arguments = command_line_arguments
-        self.stdin = stdin
-        self.expected_output = expected_output
-        self.cpu_time_limit = cpu_time_limit
-        self.cpu_extra_time = cpu_extra_time
-        self.wall_time_limit = wall_time_limit
-        self.memory_limit = memory_limit
-        self.stack_limit = stack_limit
-        self.max_processes_and_or_threads = max_processes_and_or_threads
-        self.enable_per_process_and_thread_time_limit = (
-            enable_per_process_and_thread_time_limit
-        )
-        self.enable_per_process_and_thread_memory_limit = (
-            enable_per_process_and_thread_memory_limit
-        )
-        self.max_file_size = max_file_size
-        self.redirect_stderr_to_stdout = redirect_stderr_to_stdout
-        self.enable_network = enable_network
-        self.number_of_runs = number_of_runs
-        self.callback_url = callback_url
-
-        # Post-execution submission attributes.
-        self.stdout: Optional[str] = None
-        self.stderr: Optional[str] = None
-        self.compile_output: Optional[str] = None
-        self.message: Optional[str] = None
-        self.exit_code: Optional[int] = None
-        self.exit_signal: Optional[int] = None
-        self.status: Optional[Status] = None
-        self.created_at: Optional[datetime] = None
-        self.finished_at: Optional[datetime] = None
-        self.token: str = ""
-        self.time: Optional[float] = None
-        self.wall_time: Optional[float] = None
-        self.memory: Optional[float] = None
-        self.post_execution_filesystem: Optional[Filesystem] = None
+    # Post-execution submission attributes.
+    stdout: Optional[str] = None
+    stderr: Optional[str] = None
+    compile_output: Optional[str] = None
+    message: Optional[str] = None
+    exit_code: Optional[int] = None
+    exit_signal: Optional[int] = None
+    status: Optional[Status] = None
+    created_at: Optional[datetime] = None
+    finished_at: Optional[datetime] = None
+    token: str = ""
+    time: Optional[float] = None
+    wall_time: Optional[float] = None
+    memory: Optional[float] = None
+    post_execution_filesystem: Optional[Filesystem] = None
 
     def set_attributes(self, attributes: dict[str, Any]) -> None:
         """Set Submissions attributes while taking into account different
@@ -215,7 +186,7 @@ class Submission:
             elif attr in FLOATING_POINT_FIELDS and value is not None:
                 value = float(value)
             elif attr == "post_execution_filesystem":
-                value = Filesystem(value)
+                value = Filesystem(content=value)
 
             setattr(self, attr, value)
 
@@ -239,43 +210,6 @@ class Submission:
                 body[field] = value
 
         return body
-
-    def to_dict(self) -> dict:
-        encoded_request_fields = {
-            field_name: encode(getattr(self, field_name))
-            for field_name in ENCODED_REQUEST_FIELDS
-            if getattr(self, field_name) is not None
-        }
-        extra_request_fields = {
-            field_name: getattr(self, field_name)
-            for field_name in EXTRA_REQUEST_FIELDS
-            if getattr(self, field_name) is not None
-        }
-        encoded_response_fields = {
-            field_name: encode(getattr(self, field_name))
-            for field_name in ENCODED_RESPONSE_FIELDS
-            if getattr(self, field_name) is not None
-        }
-        extra_response_fields = {
-            field_name: getattr(self, field_name)
-            for field_name in EXTRA_RESPONSE_FIELDS
-            if getattr(self, field_name) is not None
-        }
-
-        submission_dict = (
-            encoded_request_fields
-            | extra_request_fields
-            | encoded_response_fields
-            | extra_response_fields
-        )
-
-        return submission_dict
-
-    @staticmethod
-    def from_dict(submission_dict) -> "Submission":
-        submission = Submission()
-        submission.set_attributes(submission_dict)
-        return submission
 
     def is_done(self) -> bool:
         """Check if submission is finished processing.
