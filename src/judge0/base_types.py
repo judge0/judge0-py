@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional, Protocol, runtime_checkable, Sequence, Union
 
+from pydantic import BaseModel
+
 Iterable = Sequence
 
 TestCaseType = Union["TestCase", list, tuple, dict]
@@ -15,6 +17,7 @@ class TestCase:
 
     @staticmethod
     def from_record(test_case: Optional[TestCaseType] = None) -> "TestCase":
+        """Create a TestCase from built-in types."""
         if isinstance(test_case, (tuple, list)):
             test_case = {
                 field: value
@@ -39,8 +42,7 @@ class Encodeable(Protocol):
         ...
 
 
-@dataclass(frozen=True)
-class Language:
+class Language(BaseModel):
     id: int
     name: str
 
@@ -85,8 +87,9 @@ class Status(IntEnum):
         return self.name.lower().replace("_", " ").title()
 
 
-@dataclass(frozen=True)
-class Config:
+class Config(BaseModel):
+    """Client config data."""
+
     allow_enable_network: bool
     allow_enable_per_process_and_thread_memory_limit: bool
     allow_enable_per_process_and_thread_time_limit: bool
