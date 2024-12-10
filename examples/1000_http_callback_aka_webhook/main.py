@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
-from fastapi import FastAPI, Depends
-from pydantic import BaseModel
-
-import uvicorn
 import asyncio
+
 import judge0
 
-
-class CallbackResponse(BaseModel):
-    created_at: str
-    finished_at: str
-    language: dict
-    status: dict
-    stdout: str
+import uvicorn
+from fastapi import Depends, FastAPI
 
 
 class AppContext:
@@ -47,13 +39,14 @@ async def root(app_context=Depends(get_app_context)):
 
 
 @app.put("/callback")
-async def callback(response: CallbackResponse):
+async def callback(response: judge0.Submission):
     print(f"Received: {response}")
 
 
-# We are using free service from https://localhost.run to get a public URL for our local server.
-# This approach is not recommended for production use. It is only for demonstration purposes
-# since domain names change regularly and there is a speed limit for the free service.
+# We are using free service from https://localhost.run to get a public URL for
+# our local server. This approach is not recommended for production use. It is
+# only for demonstration purposes since domain names change regularly and there
+# is a speed limit for the free service.
 async def run_ssh_tunnel():
     app_context = get_app_context()
 
@@ -69,7 +62,9 @@ async def run_ssh_tunnel():
     ]
 
     process = await asyncio.create_subprocess_exec(
-        *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
+        *command,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
     )
 
     while True:
@@ -86,7 +81,11 @@ async def run_ssh_tunnel():
 
 async def run_server():
     config = uvicorn.Config(
-        app, host="127.0.0.1", port=LOCAL_SERVER_PORT, workers=5, loop="asyncio"
+        app,
+        host="127.0.0.1",
+        port=LOCAL_SERVER_PORT,
+        workers=5,
+        loop="asyncio",
     )
     server = uvicorn.Server(config)
     await server.serve()

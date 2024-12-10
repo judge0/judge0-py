@@ -2,7 +2,7 @@ import copy
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field, field_validator, UUID4
 
 from .base_types import Iterable, LanguageAlias, Status
 from .common import decode, encode
@@ -18,7 +18,7 @@ ENCODED_RESPONSE_FIELDS = {
     "stdout",
     "stderr",
     "compile_output",
-    "post_execution_filesystem",
+    # "post_execution_filesystem",
 }
 ENCODED_FIELDS = ENCODED_REQUEST_FIELDS | ENCODED_RESPONSE_FIELDS
 EXTRA_REQUEST_FIELDS = {
@@ -126,42 +126,86 @@ class Submission(BaseModel):
         URL for a callback to report execution results or status.
     """
 
-    source_code: Optional[str] = None
-    language: Union[LanguageAlias, int] = LanguageAlias.PYTHON
-    additional_files: Optional[str] = None
-    compiler_options: Optional[str] = None
-    command_line_arguments: Optional[str] = None
-    stdin: Optional[str] = None
-    expected_output: Optional[str] = None
-    cpu_time_limit: Optional[float] = None
-    cpu_extra_time: Optional[float] = None
-    wall_time_limit: Optional[float] = None
-    memory_limit: Optional[float] = None
-    stack_limit: Optional[int] = None
-    max_processes_and_or_threads: Optional[int] = None
-    enable_per_process_and_thread_time_limit: Optional[bool] = None
-    enable_per_process_and_thread_memory_limit: Optional[bool] = None
-    max_file_size: Optional[int] = None
-    redirect_stderr_to_stdout: Optional[bool] = None
-    enable_network: Optional[bool] = None
-    number_of_runs: Optional[int] = None
-    callback_url: Optional[str] = None
+    source_code: Optional[str] = Field(default=None, repr=True)
+    language: Union[LanguageAlias, int] = Field(
+        default=LanguageAlias.PYTHON,
+        repr=True,
+    )
+    additional_files: Optional[str] = Field(default=None, repr=True)
+    compiler_options: Optional[str] = Field(default=None, repr=True)
+    command_line_arguments: Optional[str] = Field(default=None, repr=True)
+    stdin: Optional[str] = Field(default=None, repr=True)
+    expected_output: Optional[str] = Field(default=None, repr=True)
+    cpu_time_limit: Optional[float] = Field(default=None, repr=True)
+    cpu_extra_time: Optional[float] = Field(default=None, repr=True)
+    wall_time_limit: Optional[float] = Field(default=None, repr=True)
+    memory_limit: Optional[float] = Field(default=None, repr=True)
+    stack_limit: Optional[int] = Field(default=None, repr=True)
+    max_processes_and_or_threads: Optional[int] = Field(default=None, repr=True)
+    enable_per_process_and_thread_time_limit: Optional[bool] = Field(
+        default=None, repr=True
+    )
+    enable_per_process_and_thread_memory_limit: Optional[bool] = Field(
+        default=None, repr=True
+    )
+    max_file_size: Optional[int] = Field(default=None, repr=True)
+    redirect_stderr_to_stdout: Optional[bool] = Field(default=None, repr=True)
+    enable_network: Optional[bool] = Field(default=None, repr=True)
+    number_of_runs: Optional[int] = Field(default=None, repr=True)
+    callback_url: Optional[str] = Field(default=None, repr=True)
 
     # Post-execution submission attributes.
-    stdout: Optional[str] = None
-    stderr: Optional[str] = None
-    compile_output: Optional[str] = None
-    message: Optional[str] = None
-    exit_code: Optional[int] = None
-    exit_signal: Optional[int] = None
-    status: Optional[Status] = None
-    created_at: Optional[datetime] = None
-    finished_at: Optional[datetime] = None
-    token: str = ""
-    time: Optional[float] = None
-    wall_time: Optional[float] = None
-    memory: Optional[float] = None
-    post_execution_filesystem: Optional[Filesystem] = None
+    stdout: Optional[str] = Field(default=None, repr=True)
+    stderr: Optional[str] = Field(default=None, repr=True)
+    compile_output: Optional[str] = Field(default=None, repr=True)
+    message: Optional[str] = Field(default=None, repr=True)
+    exit_code: Optional[int] = Field(default=None, repr=True)
+    exit_signal: Optional[int] = Field(default=None, repr=True)
+    status: Optional[Status] = Field(default=None, repr=True)
+    created_at: Optional[datetime] = Field(default=None, repr=True)
+    finished_at: Optional[datetime] = Field(default=None, repr=True)
+    token: Optional[UUID4] = Field(default=None, repr=True)
+    time: Optional[float] = Field(default=None, repr=True)
+    wall_time: Optional[float] = Field(default=None, repr=True)
+    memory: Optional[float] = Field(default=None, repr=True)
+    post_execution_filesystem: Optional[Filesystem] = Field(default=None, repr=True)
+
+    model_config = ConfigDict(extra="ignore")
+
+    @field_validator(*ENCODED_FIELDS, mode="before")
+    @classmethod
+    def process_encoded_fields(cls, value: str) -> Optional[str]:
+        """Validate all encoded attributes."""
+        if value is None:
+            return None
+        else:
+            try:
+                return decode(value)
+            except Exception:
+                return value
+
+    @field_validator("post_execution_filesystem", mode="before")
+    @classmethod
+    def process_post_execution_filesystem(cls, content: str) -> Filesystem:
+        """Validate post_execution_filesystem attribute."""
+        return Filesystem(content=content)
+
+    @field_validator("status", mode="before")
+    @classmethod
+    def process_status(cls, value: dict) -> Status:
+        """Validate status attribute."""
+        return Status(value["id"])
+
+    @field_validator("language", mode="before")
+    @classmethod
+    def process_language(
+        cls, value: Union[LanguageAlias, dict]
+    ) -> Union[LanguageAlias, int]:
+        """Validate status attribute."""
+        if isinstance(value, dict):
+            return value["id"]
+        else:
+            return value
 
     def set_attributes(self, attributes: dict[str, Any]) -> None:
         """Set Submissions attributes while taking into account different
@@ -177,7 +221,7 @@ class Submission(BaseModel):
             if attr in SKIP_FIELDS:
                 continue
 
-            if attr in ENCODED_FIELDS and attr not in ("post_execution_filesystem",):
+            if attr in ENCODED_FIELDS:
                 value = decode(value) if value else None
             elif attr == "status":
                 value = Status(value["id"])
@@ -228,10 +272,6 @@ class Submission(BaseModel):
         for attr in REQUEST_FIELDS:
             setattr(new_submission, attr, copy.deepcopy(getattr(self, attr)))
         return new_submission
-
-    def __repr__(self) -> str:
-        arguments = ", ".join(f"{field}={getattr(self, field)!r}" for field in FIELDS)
-        return f"{self.__class__.__name__}({arguments})"
 
     def __iter__(self):
         if self.post_execution_filesystem is None:

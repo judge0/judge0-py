@@ -17,11 +17,13 @@ def encode(content: Union[bytes, str, Encodeable]) -> str:
 
 def decode(content: Union[bytes, str]) -> str:
     if isinstance(content, bytes):
-        return b64decode(content.decode(errors="backslashreplace")).decode(
+        return b64decode(
+            content.decode(errors="backslashreplace"), validate=True
+        ).decode(errors="backslashreplace")
+    if isinstance(content, str):
+        return b64decode(content.encode(), validate=True).decode(
             errors="backslashreplace"
         )
-    if isinstance(content, str):
-        return b64decode(content.encode()).decode(errors="backslashreplace")
     raise ValueError(f"Unsupported type. Expected bytes or str, got {type(content)}!")
 
 
