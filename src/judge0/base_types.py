@@ -45,6 +45,10 @@ class Encodeable(Protocol):
 class Language(BaseModel):
     id: int
     name: str
+    is_archived: Optional[bool] = None
+    source_file: Optional[str] = None
+    compile_cmd: Optional[str] = None
+    run_cmd: Optional[str] = None
 
 
 class LanguageAlias(IntEnum):

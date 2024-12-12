@@ -26,8 +26,8 @@ class Client:
 
         # TODO: Should be handled differently.
         try:
-            self.languages = tuple(Language(**lang) for lang in self.get_languages())
-            self.config = Config(**self.get_config_info())
+            self.languages = self.get_languages()
+            self.config = self.get_config_info()
         except Exception as e:
             raise RuntimeError(
                 f"Authentication failed. Visit {self.HOME_URL} to get or "
@@ -47,27 +47,27 @@ class Client:
         return response.json()
 
     @handle_too_many_requests_error_for_preview_client
-    def get_config_info(self) -> dict:
+    def get_config_info(self) -> Config:
         response = self.session.get(
             f"{self.endpoint}/config_info",
             headers=self.auth_headers,
         )
         response.raise_for_status()
-        return response.json()
+        return Config(**response.json())
 
     @handle_too_many_requests_error_for_preview_client
-    def get_language(self, language_id) -> dict:
+    def get_language(self, language_id: int) -> Language:
         request_url = f"{self.endpoint}/languages/{language_id}"
         response = self.session.get(request_url, headers=self.auth_headers)
         response.raise_for_status()
-        return response.json()
+        return Language(**response.json())
 
     @handle_too_many_requests_error_for_preview_client
-    def get_languages(self) -> list[dict]:
+    def get_languages(self) -> list[Language]:
         request_url = f"{self.endpoint}/languages"
         response = self.session.get(request_url, headers=self.auth_headers)
         response.raise_for_status()
-        return response.json()
+        return [Language(**lang_dict) for lang_dict in response.json()]
 
     @handle_too_many_requests_error_for_preview_client
     def get_statuses(self) -> list[dict]:
@@ -249,8 +249,6 @@ class Client:
         Submissions
             A sequence of submissions with updated attributes.
         """
-        # TODO: Maybe raise an exception if the number of submissions is bigger
-        # than the batch size a client supports?
         params = {
             "base64_encoded": "true",
         }
@@ -263,7 +261,7 @@ class Client:
         else:
             params["fields"] = "*"
 
-        tokens = ",".join(submission.token for submission in submissions)
+        tokens = ",".join([submission.token for submission in submissions])
         params["tokens"] = tokens
 
         response = self.session.get(
@@ -300,6 +298,8 @@ class ATD(Client):
 
 
 class ATDJudge0CE(ATD):
+    """AllThingsDev client for CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-ce.proxy-production.allthingsdev.co"
     DEFAULT_HOST: str = "Judge0-CE.allthingsdev.co"
     HOME_URL: str = (
@@ -328,15 +328,15 @@ class ATDJudge0CE(ATD):
         self._update_endpoint_header(self.DEFAULT_ABOUT_ENDPOINT)
         return super().get_about()
 
-    def get_config_info(self) -> dict:
+    def get_config_info(self) -> Config:
         self._update_endpoint_header(self.DEFAULT_CONFIG_INFO_ENDPOINT)
         return super().get_config_info()
 
-    def get_language(self, language_id) -> dict:
+    def get_language(self, language_id) -> Language:
         self._update_endpoint_header(self.DEFAULT_LANGUAGE_ENDPOINT)
         return super().get_language(language_id)
 
-    def get_languages(self) -> list[dict]:
+    def get_languages(self) -> list[Language]:
         self._update_endpoint_header(self.DEFAULT_LANGUAGES_ENDPOINT)
         return super().get_languages()
 
@@ -372,6 +372,8 @@ class ATDJudge0CE(ATD):
 
 
 class ATDJudge0ExtraCE(ATD):
+    """AllThingsDev client for Extra CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.proxy-production.allthingsdev.co"
     DEFAULT_HOST: str = "Judge0-Extra-CE.allthingsdev.co"
     HOME_URL: str = (
@@ -401,15 +403,15 @@ class ATDJudge0ExtraCE(ATD):
         self._update_endpoint_header(self.DEFAULT_ABOUT_ENDPOINT)
         return super().get_about()
 
-    def get_config_info(self) -> dict:
+    def get_config_info(self) -> Config:
         self._update_endpoint_header(self.DEFAULT_CONFIG_INFO_ENDPOINT)
         return super().get_config_info()
 
-    def get_language(self, language_id) -> dict:
+    def get_language(self, language_id) -> Language:
         self._update_endpoint_header(self.DEFAULT_LANGUAGE_ENDPOINT)
         return super().get_language(language_id)
 
-    def get_languages(self) -> list[dict]:
+    def get_languages(self) -> list[Language]:
         self._update_endpoint_header(self.DEFAULT_LANGUAGES_ENDPOINT)
         return super().get_languages()
 
@@ -462,6 +464,8 @@ class Rapid(Client):
 
 
 class RapidJudge0CE(Rapid):
+    """RapidAPI client for CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.rapidapi.com"
     DEFAULT_HOST: str = "judge0-ce.p.rapidapi.com"
     HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-ce"
@@ -476,6 +480,8 @@ class RapidJudge0CE(Rapid):
 
 
 class RapidJudge0ExtraCE(Rapid):
+    """RapidAPI client for Extra CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.rapidapi.com"
     DEFAULT_HOST: str = "judge0-extra-ce.p.rapidapi.com"
     HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-extra-ce"
@@ -504,6 +510,8 @@ class Sulu(Client):
 
 
 class SuluJudge0CE(Sulu):
+    """Sulu client for CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
 
@@ -516,6 +524,8 @@ class SuluJudge0CE(Sulu):
 
 
 class SuluJudge0ExtraCE(Sulu):
+    """Sulu client for Extra CE flavor."""
+
     DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
     HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
 
