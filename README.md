@@ -1,3 +1,3 @@
 # Judge0 Python SDK
 
-The official Python library for Judge0.
+The official Python SDK for Judge0.
