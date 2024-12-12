@@ -9,12 +9,12 @@
 project = "Judge0 Python SDK"
 copyright = "2024, Judge0"
 author = "Judge0"
-release = "0.1.0"
+release = "0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.githubpages"]
+extensions = []
 
 templates_path = ["_templates"]
 exclude_patterns = []
@@ -23,6 +23,5 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_baseurl = "https://docs.judge0.com/python/"
 html_theme = "alabaster"
 html_static_path = ["_static"]
