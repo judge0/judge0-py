@@ -3,6 +3,7 @@ name: Test judge0-python
 on:
   push:
     branches: ["master"]
+    paths: ["src/**", "tests/**"]
 
 permissions:
   contents: read
