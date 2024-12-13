@@ -30,7 +30,7 @@ exclude_patterns = []
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
-sys.path.insert(0, os.path.abspath("../src/judge0"))  # Adjust as needed
+sys.path.insert(0, os.path.abspath("../src/"))  # Adjust as needed
 
 html_theme_options = {
     # Toc options
