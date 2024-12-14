@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import ClassVar, Optional, Union
 
 import requests
 
@@ -10,7 +10,7 @@ from .utils import handle_too_many_requests_error_for_preview_client
 
 
 class Client:
-    API_KEY_ENV = None
+    API_KEY_ENV: ClassVar[str] = None
 
     def __init__(
         self,
@@ -280,7 +280,7 @@ class Client:
 class ATD(Client):
     """Base class for all AllThingsDev clients."""
 
-    API_KEY_ENV = "JUDGE0_ATD_API_KEY"
+    API_KEY_ENV: ClassVar[str] = "JUDGE0_ATD_API_KEY"
 
     def __init__(self, endpoint, host_header_value, api_key, **kwargs):
         self.api_key = api_key
@@ -300,21 +300,31 @@ class ATD(Client):
 class ATDJudge0CE(ATD):
     """AllThingsDev client for CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-ce.proxy-production.allthingsdev.co"
-    DEFAULT_HOST: str = "Judge0-CE.allthingsdev.co"
-    HOME_URL: str = (
+    DEFAULT_ENDPOINT: ClassVar[str] = (
+        "https://judge0-ce.proxy-production.allthingsdev.co"
+    )
+    DEFAULT_HOST: ClassVar[str] = "Judge0-CE.allthingsdev.co"
+    HOME_URL: ClassVar[str] = (
         "https://www.allthingsdev.co/apimarketplace/judge0-ce/66b683c8b7b7ad054eb6ff8f"
     )
 
-    DEFAULT_ABOUT_ENDPOINT: str = "01fc1c98-ceee-4f49-8614-f2214703e25f"
-    DEFAULT_CONFIG_INFO_ENDPOINT: str = "b7aab45d-5eb0-4519-b092-89e5af4fc4f3"
-    DEFAULT_LANGUAGE_ENDPOINT: str = "a50ae6b1-23c1-40eb-b34c-88bc8cf2c764"
-    DEFAULT_LANGUAGES_ENDPOINT: str = "03824deb-bd18-4456-8849-69d78e1383cc"
-    DEFAULT_STATUSES_ENDPOINT: str = "c37b603f-6f99-4e31-a361-7154c734f19b"
-    DEFAULT_CREATE_SUBMISSION_ENDPOINT: str = "6e65686d-40b0-4bf7-a12f-1f6d033c4473"
-    DEFAULT_GET_SUBMISSION_ENDPOINT: str = "b7032b8b-86da-40b4-b9d3-b1f5e2b4ee1e"
-    DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: str = "402b857c-1126-4450-bfd8-22e1f2cbff2f"
-    DEFAULT_GET_SUBMISSIONS_ENDPOINT: str = "e42f2a26-5b02-472a-80c9-61c4bdae32ec"
+    DEFAULT_ABOUT_ENDPOINT: ClassVar[str] = "01fc1c98-ceee-4f49-8614-f2214703e25f"
+    DEFAULT_CONFIG_INFO_ENDPOINT: ClassVar[str] = "b7aab45d-5eb0-4519-b092-89e5af4fc4f3"
+    DEFAULT_LANGUAGE_ENDPOINT: ClassVar[str] = "a50ae6b1-23c1-40eb-b34c-88bc8cf2c764"
+    DEFAULT_LANGUAGES_ENDPOINT: ClassVar[str] = "03824deb-bd18-4456-8849-69d78e1383cc"
+    DEFAULT_STATUSES_ENDPOINT: ClassVar[str] = "c37b603f-6f99-4e31-a361-7154c734f19b"
+    DEFAULT_CREATE_SUBMISSION_ENDPOINT: ClassVar[str] = (
+        "6e65686d-40b0-4bf7-a12f-1f6d033c4473"
+    )
+    DEFAULT_GET_SUBMISSION_ENDPOINT: ClassVar[str] = (
+        "b7032b8b-86da-40b4-b9d3-b1f5e2b4ee1e"
+    )
+    DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: ClassVar[str] = (
+        "402b857c-1126-4450-bfd8-22e1f2cbff2f"
+    )
+    DEFAULT_GET_SUBMISSIONS_ENDPOINT: ClassVar[str] = (
+        "e42f2a26-5b02-472a-80c9-61c4bdae32ec"
+    )
 
     def __init__(self, api_key, **kwargs):
         super().__init__(
@@ -374,22 +384,32 @@ class ATDJudge0CE(ATD):
 class ATDJudge0ExtraCE(ATD):
     """AllThingsDev client for Extra CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.proxy-production.allthingsdev.co"
-    DEFAULT_HOST: str = "Judge0-Extra-CE.allthingsdev.co"
-    HOME_URL: str = (
+    DEFAULT_ENDPOINT: ClassVar[str] = (
+        "https://judge0-extra-ce.proxy-production.allthingsdev.co"
+    )
+    DEFAULT_HOST: ClassVar[str] = "Judge0-Extra-CE.allthingsdev.co"
+    HOME_URL: ClassVar[str] = (
         "https://www.allthingsdev.co/apimarketplace/judge0-extra-ce/"
         "66b68838b7b7ad054eb70690"
     )
 
-    DEFAULT_ABOUT_ENDPOINT: str = "1fd631a1-be6a-47d6-bf4c-987e357e3096"
-    DEFAULT_CONFIG_INFO_ENDPOINT: str = "46e05354-2a43-436a-9458-5d111456f0ff"
-    DEFAULT_LANGUAGE_ENDPOINT: str = "10465a84-2a2c-4213-845f-45e3c04a5867"
-    DEFAULT_LANGUAGES_ENDPOINT: str = "774ecece-1200-41f7-a992-38f186c90803"
-    DEFAULT_STATUSES_ENDPOINT: str = "a2843b3c-673d-4966-9a14-2e7d76dcd0cb"
-    DEFAULT_CREATE_SUBMISSION_ENDPOINT: str = "be2d195e-dd58-4770-9f3c-d6c0fbc2b6e5"
-    DEFAULT_GET_SUBMISSION_ENDPOINT: str = "c3a457cd-37a6-4106-97a8-9e60a223abbc"
-    DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: str = "c64df5d3-edfd-4b08-8687-561af2f80d2f"
-    DEFAULT_GET_SUBMISSIONS_ENDPOINT: str = "5d173718-8e6a-4cf5-9d8c-db5e6386d037"
+    DEFAULT_ABOUT_ENDPOINT: ClassVar[str] = "1fd631a1-be6a-47d6-bf4c-987e357e3096"
+    DEFAULT_CONFIG_INFO_ENDPOINT: ClassVar[str] = "46e05354-2a43-436a-9458-5d111456f0ff"
+    DEFAULT_LANGUAGE_ENDPOINT: ClassVar[str] = "10465a84-2a2c-4213-845f-45e3c04a5867"
+    DEFAULT_LANGUAGES_ENDPOINT: ClassVar[str] = "774ecece-1200-41f7-a992-38f186c90803"
+    DEFAULT_STATUSES_ENDPOINT: ClassVar[str] = "a2843b3c-673d-4966-9a14-2e7d76dcd0cb"
+    DEFAULT_CREATE_SUBMISSION_ENDPOINT: ClassVar[str] = (
+        "be2d195e-dd58-4770-9f3c-d6c0fbc2b6e5"
+    )
+    DEFAULT_GET_SUBMISSION_ENDPOINT: ClassVar[str] = (
+        "c3a457cd-37a6-4106-97a8-9e60a223abbc"
+    )
+    DEFAULT_CREATE_SUBMISSIONS_ENDPOINT: ClassVar[str] = (
+        "c64df5d3-edfd-4b08-8687-561af2f80d2f"
+    )
+    DEFAULT_GET_SUBMISSIONS_ENDPOINT: ClassVar[str] = (
+        "5d173718-8e6a-4cf5-9d8c-db5e6386d037"
+    )
 
     def __init__(self, api_key, **kwargs):
         super().__init__(
@@ -449,7 +469,7 @@ class ATDJudge0ExtraCE(ATD):
 class Rapid(Client):
     """Base class for all RapidAPI clients."""
 
-    API_KEY_ENV = "JUDGE0_RAPID_API_KEY"
+    API_KEY_ENV: ClassVar[str] = "JUDGE0_RAPID_API_KEY"
 
     def __init__(self, endpoint, host_header_value, api_key, **kwargs):
         self.api_key = api_key
@@ -466,9 +486,9 @@ class Rapid(Client):
 class RapidJudge0CE(Rapid):
     """RapidAPI client for CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-ce.p.rapidapi.com"
-    DEFAULT_HOST: str = "judge0-ce.p.rapidapi.com"
-    HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-ce"
+    DEFAULT_ENDPOINT: ClassVar[str] = "https://judge0-ce.p.rapidapi.com"
+    DEFAULT_HOST: ClassVar[str] = "judge0-ce.p.rapidapi.com"
+    HOME_URL: ClassVar[str] = "https://rapidapi.com/judge0-official/api/judge0-ce"
 
     def __init__(self, api_key, **kwargs):
         super().__init__(
@@ -482,9 +502,9 @@ class RapidJudge0CE(Rapid):
 class RapidJudge0ExtraCE(Rapid):
     """RapidAPI client for Extra CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.rapidapi.com"
-    DEFAULT_HOST: str = "judge0-extra-ce.p.rapidapi.com"
-    HOME_URL: str = "https://rapidapi.com/judge0-official/api/judge0-extra-ce"
+    DEFAULT_ENDPOINT: ClassVar[str] = "https://judge0-extra-ce.p.rapidapi.com"
+    DEFAULT_HOST: ClassVar[str] = "judge0-extra-ce.p.rapidapi.com"
+    HOME_URL: ClassVar[str] = "https://rapidapi.com/judge0-official/api/judge0-extra-ce"
 
     def __init__(self, api_key, **kwargs):
         super().__init__(
@@ -498,7 +518,7 @@ class RapidJudge0ExtraCE(Rapid):
 class Sulu(Client):
     """Base class for all Sulu clients."""
 
-    API_KEY_ENV = "JUDGE0_SULU_API_KEY"
+    API_KEY_ENV: ClassVar[str] = "JUDGE0_SULU_API_KEY"
 
     def __init__(self, endpoint, api_key=None, **kwargs):
         self.api_key = api_key
@@ -512,8 +532,8 @@ class Sulu(Client):
 class SuluJudge0CE(Sulu):
     """Sulu client for CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-ce.p.sulu.sh"
-    HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
+    DEFAULT_ENDPOINT: ClassVar[str] = "https://judge0-ce.p.sulu.sh"
+    HOME_URL: ClassVar[str] = "https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme"
 
     def __init__(self, api_key=None, **kwargs):
         super().__init__(
@@ -526,8 +546,10 @@ class SuluJudge0CE(Sulu):
 class SuluJudge0ExtraCE(Sulu):
     """Sulu client for Extra CE flavor."""
 
-    DEFAULT_ENDPOINT: str = "https://judge0-extra-ce.p.sulu.sh"
-    HOME_URL: str = "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
+    DEFAULT_ENDPOINT: ClassVar[str] = "https://judge0-extra-ce.p.sulu.sh"
+    HOME_URL: ClassVar[str] = (
+        "https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme"
+    )
 
     def __init__(self, api_key=None, **kwargs):
         super().__init__(self.DEFAULT_ENDPOINT, api_key, **kwargs)
