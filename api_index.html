@@ -1,24 +1,25 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; Judge0 Python SDK 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="_static/jquery.js"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-      <script src="_static/doctools.js"></script>
-      <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
     <link rel="prev" title="Judge0 Python SDK documentation" href="index.html" /> 
 </head>
 
@@ -44,10 +45,138 @@
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#submission">Submission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-judge0.api">API Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.async_execute"><code class="docutils literal notranslate"><span class="pre">async_execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.async_run"><code class="docutils literal notranslate"><span class="pre">async_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.create_submissions"><code class="docutils literal notranslate"><span class="pre">create_submissions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.create_submissions_from_test_cases"><code class="docutils literal notranslate"><span class="pre">create_submissions_from_test_cases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.execute"><code class="docutils literal notranslate"><span class="pre">execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.get_submissions"><code class="docutils literal notranslate"><span class="pre">get_submissions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.sync_execute"><code class="docutils literal notranslate"><span class="pre">sync_execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.sync_run"><code class="docutils literal notranslate"><span class="pre">sync_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.api.wait"><code class="docutils literal notranslate"><span class="pre">wait()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-judge0.submission">Submission Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.submission.Submission"><code class="docutils literal notranslate"><span class="pre">Submission</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.as_body"><code class="docutils literal notranslate"><span class="pre">Submission.as_body()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.is_done"><code class="docutils literal notranslate"><span class="pre">Submission.is_done()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.pre_execution_copy"><code class="docutils literal notranslate"><span class="pre">Submission.pre_execution_copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.process_encoded_fields"><code class="docutils literal notranslate"><span class="pre">Submission.process_encoded_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.process_language"><code class="docutils literal notranslate"><span class="pre">Submission.process_language()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.process_post_execution_filesystem"><code class="docutils literal notranslate"><span class="pre">Submission.process_post_execution_filesystem()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.process_status"><code class="docutils literal notranslate"><span class="pre">Submission.process_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.submission.Submission.set_attributes"><code class="docutils literal notranslate"><span class="pre">Submission.set_attributes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-judge0.clients">Clients Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.ATD"><code class="docutils literal notranslate"><span class="pre">ATD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATD.API_KEY_ENV"><code class="docutils literal notranslate"><span class="pre">ATD.API_KEY_ENV</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.ATDJudge0CE"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.create_submission"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.create_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.create_submissions"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.create_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_about"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_about()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_config_info"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_config_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_language"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_language()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_languages"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_languages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_statuses"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_statuses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_submission"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.get_submissions"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.get_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_ABOUT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_ABOUT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_CONFIG_INFO_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_CONFIG_INFO_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSION_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_CREATE_SUBMISSION_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSIONS_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_GET_SUBMISSIONS_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSION_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_GET_SUBMISSION_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_HOST"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_HOST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGES_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_LANGUAGES_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGE_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_LANGUAGE_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.DEFAULT_STATUSES_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.DEFAULT_STATUSES_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0CE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">ATDJudge0CE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.create_submission"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.create_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.create_submissions"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.create_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_about"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_about()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_config_info"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_config_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_language"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_language()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_languages"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_languages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_statuses"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_statuses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_submission"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.get_submissions"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.get_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_ABOUT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_ABOUT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CONFIG_INFO_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_CONFIG_INFO_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSION_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSION_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSIONS_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSIONS_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSION_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSION_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_HOST"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_HOST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGES_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_LANGUAGES_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGE_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_LANGUAGE_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_STATUSES_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.DEFAULT_STATUSES_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.ATDJudge0ExtraCE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">ATDJudge0ExtraCE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.create_submission"><code class="docutils literal notranslate"><span class="pre">Client.create_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.create_submissions"><code class="docutils literal notranslate"><span class="pre">Client.create_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_about"><code class="docutils literal notranslate"><span class="pre">Client.get_about()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_config_info"><code class="docutils literal notranslate"><span class="pre">Client.get_config_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_language"><code class="docutils literal notranslate"><span class="pre">Client.get_language()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_language_id"><code class="docutils literal notranslate"><span class="pre">Client.get_language_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_languages"><code class="docutils literal notranslate"><span class="pre">Client.get_languages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_statuses"><code class="docutils literal notranslate"><span class="pre">Client.get_statuses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_submission"><code class="docutils literal notranslate"><span class="pre">Client.get_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.get_submissions"><code class="docutils literal notranslate"><span class="pre">Client.get_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.is_language_supported"><code class="docutils literal notranslate"><span class="pre">Client.is_language_supported()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.API_KEY_ENV"><code class="docutils literal notranslate"><span class="pre">Client.API_KEY_ENV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Client.version"><code class="docutils literal notranslate"><span class="pre">Client.version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.Rapid"><code class="docutils literal notranslate"><span class="pre">Rapid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Rapid.API_KEY_ENV"><code class="docutils literal notranslate"><span class="pre">Rapid.API_KEY_ENV</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.RapidJudge0CE"><code class="docutils literal notranslate"><span class="pre">RapidJudge0CE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0CE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">RapidJudge0CE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0CE.DEFAULT_HOST"><code class="docutils literal notranslate"><span class="pre">RapidJudge0CE.DEFAULT_HOST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0CE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">RapidJudge0CE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.RapidJudge0ExtraCE"><code class="docutils literal notranslate"><span class="pre">RapidJudge0ExtraCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0ExtraCE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">RapidJudge0ExtraCE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0ExtraCE.DEFAULT_HOST"><code class="docutils literal notranslate"><span class="pre">RapidJudge0ExtraCE.DEFAULT_HOST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.RapidJudge0ExtraCE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">RapidJudge0ExtraCE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.Sulu"><code class="docutils literal notranslate"><span class="pre">Sulu</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.Sulu.API_KEY_ENV"><code class="docutils literal notranslate"><span class="pre">Sulu.API_KEY_ENV</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.SuluJudge0CE"><code class="docutils literal notranslate"><span class="pre">SuluJudge0CE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.SuluJudge0CE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">SuluJudge0CE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.SuluJudge0CE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">SuluJudge0CE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#judge0.clients.SuluJudge0ExtraCE"><code class="docutils literal notranslate"><span class="pre">SuluJudge0ExtraCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.SuluJudge0ExtraCE.DEFAULT_ENDPOINT"><code class="docutils literal notranslate"><span class="pre">SuluJudge0ExtraCE.DEFAULT_ENDPOINT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#judge0.clients.SuluJudge0ExtraCE.HOME_URL"><code class="docutils literal notranslate"><span class="pre">SuluJudge0ExtraCE.HOME_URL</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 
         </div>
@@ -75,14 +204,1071 @@
            <div itemprop="articleBody">
              
   <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-</div>
-<section id="id1">
-<h2>API<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<section id="module-judge0.api">
+<span id="api-module"></span><h2>API Module<a class="headerlink" href="#module-judge0.api" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.async_execute">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">async_execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.async_execute" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s).</p>
+<p>Aliases: <cite>async_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.async_run">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">async_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.async_run" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s).</p>
+<p>Aliases: <cite>async_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.create_submissions">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">create_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.create_submissions" title="Link to this definition"></a></dt>
+<dd><p>Create submissions to a client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em>, </em><em>optional</em>) – A Client where submissions should be created. If None, will try to
+be automatically resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em>, </em><em>Submissions</em>) – A submission or submissions to create.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ClientResolutionError</strong> – Raised if client resolution fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.create_submissions_from_test_cases">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">create_submissions_from_test_cases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.create_submissions_from_test_cases" title="Link to this definition"></a></dt>
+<dd><p>Create submissions from the (submission, test_case) pairs.</p>
+<p>This function always returns a deep copy so make sure you are using the
+returned submission(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em>) – Base submission(s) that need to be expanded with test cases.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em>) – Test cases.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions or Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.execute">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.execute" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s) and wait for their finish.</p>
+<p>Aliases: <cite>execute</cite>, <cite>run</cite>, <cite>sync_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.get_client">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">get_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flavor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Flavor.CE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.get_client" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.get_submissions">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">get_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.get_submissions" title="Link to this definition"></a></dt>
+<dd><p>Create submissions to a client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em>, </em><em>optional</em>) – A Client where submissions should be created. If None, will try to
+be automatically resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em>, </em><em>Submissions</em>) – A submission or submissions to create.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ClientResolutionError</strong> – Raised if client resolution fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.run">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.run" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s) and wait for their finish.</p>
+<p>Aliases: <cite>execute</cite>, <cite>run</cite>, <cite>sync_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.sync_execute">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">sync_execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.sync_execute" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s) and wait for their finish.</p>
+<p>Aliases: <cite>execute</cite>, <cite>run</cite>, <cite>sync_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.sync_run">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">sync_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.sync_run" title="Link to this definition"></a></dt>
+<dd><p>Create submission(s) and wait for their finish.</p>
+<p>Aliases: <cite>execute</cite>, <cite>run</cite>, <cite>sync_run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+resolved.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
+<li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single submission if submissions arguments is of type Submission or
+source_code argument is provided, and test_cases argument is of type
+TestCase. Otherwise returns a list of submissions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a> or Submissions</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ClientResolutionError</strong> – If client cannot be resolved from the submissions or the flavor.</p></li>
+<li><p><strong>ValueError</strong> – If both or neither submissions and source_code arguments are provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="judge0.api.wait">
+<span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.wait" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="submission">
-<h2>Submission<a class="headerlink" href="#submission" title="Permalink to this heading"></a></h2>
+<section id="module-judge0.submission">
+<span id="submission-module"></span><h2>Submission Module<a class="headerlink" href="#module-judge0.submission" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.submission.Submission">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.submission.</span></span><span class="sig-name descname"><span class="pre">Submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission" title="Link to this definition"></a></dt>
+<dd><p>Stores a representation of a Submission to/from Judge0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – The source code to be executed.</p></li>
+<li><p><strong>language</strong> (<em>LanguageAlias</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – The programming language of the source code. Defaults to <cite>LanguageAlias.PYTHON</cite>.</p></li>
+<li><p><strong>additional_files</strong> (<em>base64 encoded string</em><em>, </em><em>optional</em>) – Additional files that should be available alongside the source code.
+Value of this string should represent the content of a .zip that
+contains additional files. This attribute is required for multi-file
+programs.</p></li>
+<li><p><strong>compiler_options</strong> (<em>str</em><em>, </em><em>optional</em>) – Options for the compiler (i.e. compiler flags).</p></li>
+<li><p><strong>command_line_arguments</strong> (<em>str</em><em>, </em><em>optional</em>) – Command line arguments for the program.</p></li>
+<li><p><strong>stdin</strong> (<em>str</em><em>, </em><em>optional</em>) – Input to be fed via standard input during execution.</p></li>
+<li><p><strong>expected_output</strong> (<em>str</em><em>, </em><em>optional</em>) – The expected output of the program.</p></li>
+<li><p><strong>cpu_time_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum CPU time allowed for execution, in seconds. Time in which the
+OS assigns the processor to different tasks is not counted. Depends on
+configuration.</p></li>
+<li><p><strong>cpu_extra_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Additional CPU time allowance in case of time extension. Depends on
+configuration.</p></li>
+<li><p><strong>wall_time_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum wall clock time allowed for execution, in seconds. Depends on
+configuration.</p></li>
+<li><p><strong>memory_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum memory allocation allowed for the process, in kilobytes.
+Depends on configuration.</p></li>
+<li><p><strong>stack_limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum stack size allowed, in kilobytes. Depends on configuration.</p></li>
+<li><p><strong>max_processes_and_or_threads</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of processes and/or threads program can create. Depends
+on configuration.</p></li>
+<li><p><strong>enable_per_process_and_thread_time_limit</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, enforces time limits per process/thread. Depends on
+configuration.</p></li>
+<li><p><strong>enable_per_process_and_thread_memory_limit</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, enforces memory limits per process/thread. Depends on
+configuration.</p></li>
+<li><p><strong>max_file_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum file size allowed for output files, in kilobytes. Depends on
+configuration.</p></li>
+<li><p><strong>redirect_stderr_to_stdout</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, redirects standard error output to standard output.</p></li>
+<li><p><strong>enable_network</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, enables network access during execution.</p></li>
+<li><p><strong>number_of_runs</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of times the code should be executed.</p></li>
+<li><p><strong>callback_url</strong> (<em>str</em><em>, </em><em>optional</em>) – URL for a callback to report execution results or status.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.as_body">
+<span class="sig-name descname"><span class="pre">as_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.as_body" title="Link to this definition"></a></dt>
+<dd><p>Prepare Submission as a dictionary while taking into account
+the <cite>client</cite>’s restrictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.is_done">
+<span class="sig-name descname"><span class="pre">is_done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.is_done" title="Link to this definition"></a></dt>
+<dd><p>Check if submission is finished processing.</p>
+<p>Submission is considered finished if the submission status is not
+IN_QUEUE and not PROCESSING.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.pre_execution_copy">
+<span class="sig-name descname"><span class="pre">pre_execution_copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.pre_execution_copy" title="Link to this definition"></a></dt>
+<dd><p>Create a deep copy of a submission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.process_encoded_fields">
+<span class="sig-name descname"><span class="pre">process_encoded_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.process_encoded_fields" title="Link to this definition"></a></dt>
+<dd><p>Validate all encoded attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.process_language">
+<span class="sig-name descname"><span class="pre">process_language</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.process_language" title="Link to this definition"></a></dt>
+<dd><p>Validate status attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.process_post_execution_filesystem">
+<span class="sig-name descname"><span class="pre">process_post_execution_filesystem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.process_post_execution_filesystem" title="Link to this definition"></a></dt>
+<dd><p>Validate post_execution_filesystem attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.process_status">
+<span class="sig-name descname"><span class="pre">process_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.process_status" title="Link to this definition"></a></dt>
+<dd><p>Validate status attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.submission.Submission.set_attributes">
+<span class="sig-name descname"><span class="pre">set_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attributes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.submission.Submission.set_attributes" title="Link to this definition"></a></dt>
+<dd><p>Set Submissions attributes while taking into account different
+attribute’s types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>attributes</strong> (<em>dict</em>) – Key-value pairs of Submission attributes and the corresponding
+value.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-judge0.clients">
+<span id="clients-module"></span><h2>Clients Module<a class="headerlink" href="#module-judge0.clients" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.ATD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">ATD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_header_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATD" title="Link to this definition"></a></dt>
+<dd><p>Base class for all AllThingsDev clients.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATD.API_KEY_ENV">
+<span class="sig-name descname"><span class="pre">API_KEY_ENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JUDGE0_ATD_API_KEY'</span></em><a class="headerlink" href="#judge0.clients.ATD.API_KEY_ENV" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">ATDJudge0CE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE" title="Link to this definition"></a></dt>
+<dd><p>AllThingsDev client for CE flavor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.create_submission">
+<span class="sig-name descname"><span class="pre">create_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.create_submission" title="Link to this definition"></a></dt>
+<dd><p>Send submission for execution to a client.</p>
+<p>Directly send a submission to create_submission route for execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – A submission to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A submission with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.create_submissions">
+<span class="sig-name descname"><span class="pre">create_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.create_submissions" title="Link to this definition"></a></dt>
+<dd><p>Send submissions for execution to a client.</p>
+<p>Directly send submissions to create_submissions route for execution.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – A sequence of submissions to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_about">
+<span class="sig-name descname"><span class="pre">get_about</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_about" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_config_info">
+<span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_config_info" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_language">
+<span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_language" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_languages">
+<span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_languages" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_statuses">
+<span class="sig-name descname"><span class="pre">get_statuses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_statuses" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_submission">
+<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_submission" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submission’s token to get_submission route for status
+check. By default, all submissions attributes (fields) are requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – Submission to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Submission with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.get_submissions">
+<span class="sig-name descname"><span class="pre">get_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_submissions" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submissions’ tokens to get_submissions route for status
+check. By default, all submissions attributes (fields) are requested.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – Submissions to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_ABOUT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ABOUT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'01fc1c98-ceee-4f49-8614-f2214703e25f'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_ABOUT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_CONFIG_INFO_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CONFIG_INFO_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'b7aab45d-5eb0-4519-b092-89e5af4fc4f3'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_CONFIG_INFO_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CREATE_SUBMISSIONS_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'402b857c-1126-4450-bfd8-22e1f2cbff2f'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSION_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CREATE_SUBMISSION_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'6e65686d-40b0-4bf7-a12f-1f6d033c4473'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_CREATE_SUBMISSION_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-ce.proxy-production.allthingsdev.co'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSIONS_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_GET_SUBMISSIONS_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'e42f2a26-5b02-472a-80c9-61c4bdae32ec'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSIONS_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSION_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_GET_SUBMISSION_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'b7032b8b-86da-40b4-b9d3-b1f5e2b4ee1e'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_GET_SUBMISSION_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_HOST">
+<span class="sig-name descname"><span class="pre">DEFAULT_HOST</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Judge0-CE.allthingsdev.co'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_HOST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGES_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_LANGUAGES_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'03824deb-bd18-4456-8849-69d78e1383cc'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGES_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGE_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_LANGUAGE_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'a50ae6b1-23c1-40eb-b34c-88bc8cf2c764'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_LANGUAGE_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.DEFAULT_STATUSES_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_STATUSES_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'c37b603f-6f99-4e31-a361-7154c734f19b'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.DEFAULT_STATUSES_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0CE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.allthingsdev.co/apimarketplace/judge0-ce/66b683c8b7b7ad054eb6ff8f'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0CE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">ATDJudge0ExtraCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE" title="Link to this definition"></a></dt>
+<dd><p>AllThingsDev client for Extra CE flavor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.create_submission">
+<span class="sig-name descname"><span class="pre">create_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.create_submission" title="Link to this definition"></a></dt>
+<dd><p>Send submission for execution to a client.</p>
+<p>Directly send a submission to create_submission route for execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – A submission to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A submission with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.create_submissions">
+<span class="sig-name descname"><span class="pre">create_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.create_submissions" title="Link to this definition"></a></dt>
+<dd><p>Send submissions for execution to a client.</p>
+<p>Directly send submissions to create_submissions route for execution.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – A sequence of submissions to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_about">
+<span class="sig-name descname"><span class="pre">get_about</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_about" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_config_info">
+<span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_config_info" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_language">
+<span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_language" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_languages">
+<span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_languages" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_statuses">
+<span class="sig-name descname"><span class="pre">get_statuses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_statuses" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_submission">
+<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_submission" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submission’s token to get_submission route for status
+check. By default, all submissions attributes (fields) are requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – Submission to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Submission with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.get_submissions">
+<span class="sig-name descname"><span class="pre">get_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_submissions" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submissions’ tokens to get_submissions route for status
+check. By default, all submissions attributes (fields) are requested.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – Submissions to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_ABOUT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ABOUT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1fd631a1-be6a-47d6-bf4c-987e357e3096'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_ABOUT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_CONFIG_INFO_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CONFIG_INFO_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'46e05354-2a43-436a-9458-5d111456f0ff'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CONFIG_INFO_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CREATE_SUBMISSIONS_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'c64df5d3-edfd-4b08-8687-561af2f80d2f'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSIONS_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSION_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_CREATE_SUBMISSION_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'be2d195e-dd58-4770-9f3c-d6c0fbc2b6e5'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_CREATE_SUBMISSION_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-extra-ce.proxy-production.allthingsdev.co'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSIONS_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_GET_SUBMISSIONS_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'5d173718-8e6a-4cf5-9d8c-db5e6386d037'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSIONS_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSION_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_GET_SUBMISSION_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'c3a457cd-37a6-4106-97a8-9e60a223abbc'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_GET_SUBMISSION_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_HOST">
+<span class="sig-name descname"><span class="pre">DEFAULT_HOST</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Judge0-Extra-CE.allthingsdev.co'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_HOST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGES_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_LANGUAGES_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'774ecece-1200-41f7-a992-38f186c90803'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGES_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGE_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_LANGUAGE_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'10465a84-2a2c-4213-845f-45e3c04a5867'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_LANGUAGE_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.DEFAULT_STATUSES_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_STATUSES_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'a2843b3c-673d-4966-9a14-2e7d76dcd0cb'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.DEFAULT_STATUSES_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.ATDJudge0ExtraCE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.allthingsdev.co/apimarketplace/judge0-extra-ce/66b68838b7b7ad054eb70690'</span></em><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.Client">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">Client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.create_submission">
+<span class="sig-name descname"><span class="pre">create_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.create_submission" title="Link to this definition"></a></dt>
+<dd><p>Send submission for execution to a client.</p>
+<p>Directly send a submission to create_submission route for execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – A submission to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A submission with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.create_submissions">
+<span class="sig-name descname"><span class="pre">create_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.create_submissions" title="Link to this definition"></a></dt>
+<dd><p>Send submissions for execution to a client.</p>
+<p>Directly send submissions to create_submissions route for execution.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – A sequence of submissions to create.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated token attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_about">
+<span class="sig-name descname"><span class="pre">get_about</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_about" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_config_info">
+<span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_config_info" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_language">
+<span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_language" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_language_id">
+<span class="sig-name descname"><span class="pre">get_language_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_language_id" title="Link to this definition"></a></dt>
+<dd><p>Get language id corresponding to the language alias for the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_languages">
+<span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_languages" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_statuses">
+<span class="sig-name descname"><span class="pre">get_statuses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_statuses" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_submission">
+<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_submission" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submission’s token to get_submission route for status
+check. By default, all submissions attributes (fields) are requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submission</strong> (<a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a>) – Submission to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Submission with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#judge0.submission.Submission" title="judge0.submission.Submission">Submission</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.get_submissions">
+<span class="sig-name descname"><span class="pre">get_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_submissions" title="Link to this definition"></a></dt>
+<dd><p>Get submissions status.</p>
+<p>Directly send submissions’ tokens to get_submissions route for status
+check. By default, all submissions attributes (fields) are requested.
+Cannot handle more submissions than the client supports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>submissions</strong> (<em>Submissions</em>) – Submissions to update.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sequence of submissions with updated attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Submissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="judge0.clients.Client.is_language_supported">
+<span class="sig-name descname"><span class="pre">is_language_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.is_language_supported" title="Link to this definition"></a></dt>
+<dd><p>Check if language is supported by the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.Client.API_KEY_ENV">
+<span class="sig-name descname"><span class="pre">API_KEY_ENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#judge0.clients.Client.API_KEY_ENV" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="judge0.clients.Client.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#judge0.clients.Client.version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.Rapid">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">Rapid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_header_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Rapid" title="Link to this definition"></a></dt>
+<dd><p>Base class for all RapidAPI clients.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.Rapid.API_KEY_ENV">
+<span class="sig-name descname"><span class="pre">API_KEY_ENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JUDGE0_RAPID_API_KEY'</span></em><a class="headerlink" href="#judge0.clients.Rapid.API_KEY_ENV" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0CE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">RapidJudge0CE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.RapidJudge0CE" title="Link to this definition"></a></dt>
+<dd><p>RapidAPI client for CE flavor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0CE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-ce.p.rapidapi.com'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0CE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0CE.DEFAULT_HOST">
+<span class="sig-name descname"><span class="pre">DEFAULT_HOST</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'judge0-ce.p.rapidapi.com'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0CE.DEFAULT_HOST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0CE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://rapidapi.com/judge0-official/api/judge0-ce'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0CE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0ExtraCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">RapidJudge0ExtraCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.RapidJudge0ExtraCE" title="Link to this definition"></a></dt>
+<dd><p>RapidAPI client for Extra CE flavor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0ExtraCE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-extra-ce.p.rapidapi.com'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0ExtraCE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0ExtraCE.DEFAULT_HOST">
+<span class="sig-name descname"><span class="pre">DEFAULT_HOST</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'judge0-extra-ce.p.rapidapi.com'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0ExtraCE.DEFAULT_HOST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.RapidJudge0ExtraCE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://rapidapi.com/judge0-official/api/judge0-extra-ce'</span></em><a class="headerlink" href="#judge0.clients.RapidJudge0ExtraCE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.Sulu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">Sulu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Sulu" title="Link to this definition"></a></dt>
+<dd><p>Base class for all Sulu clients.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.Sulu.API_KEY_ENV">
+<span class="sig-name descname"><span class="pre">API_KEY_ENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JUDGE0_SULU_API_KEY'</span></em><a class="headerlink" href="#judge0.clients.Sulu.API_KEY_ENV" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0CE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">SuluJudge0CE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.SuluJudge0CE" title="Link to this definition"></a></dt>
+<dd><p>Sulu client for CE flavor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0CE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-ce.p.sulu.sh'</span></em><a class="headerlink" href="#judge0.clients.SuluJudge0CE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0CE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://sparkhub.sulu.sh/apis/judge0/judge0-ce/readme'</span></em><a class="headerlink" href="#judge0.clients.SuluJudge0CE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0ExtraCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">judge0.clients.</span></span><span class="sig-name descname"><span class="pre">SuluJudge0ExtraCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.SuluJudge0ExtraCE" title="Link to this definition"></a></dt>
+<dd><p>Sulu client for Extra CE flavor.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0ExtraCE.DEFAULT_ENDPOINT">
+<span class="sig-name descname"><span class="pre">DEFAULT_ENDPOINT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://judge0-extra-ce.p.sulu.sh'</span></em><a class="headerlink" href="#judge0.clients.SuluJudge0ExtraCE.DEFAULT_ENDPOINT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="judge0.clients.SuluJudge0ExtraCE.HOME_URL">
+<span class="sig-name descname"><span class="pre">HOME_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://sparkhub.sulu.sh/apis/judge0/judge0-extra-ce/readme'</span></em><a class="headerlink" href="#judge0.clients.SuluJudge0ExtraCE.HOME_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -91,6 +1277,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Judge0 Python SDK documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
