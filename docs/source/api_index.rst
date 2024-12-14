@@ -1,19 +1,18 @@
 API
 ===
 
-.. toctree::
-   :maxdepth: 2
-   :caption: API
+.. autosummary::
+   :toctree: generated
 
-API
----
+API Module
+----------
 
 .. automodule:: judge0.api
    :members:
    :undoc-members:
 
-Submission
-----------
+Submission Module
+-----------------
 
 .. automodule:: judge0.submission
    :members:
