@@ -32,20 +32,11 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_rtd_theme"
-html_static_path = ["_static"]
+html_theme = "sphinxawesome_theme"
 html_show_sphinx = False
 
 sys.path.insert(0, os.path.abspath("../../src/"))  # Adjust as needed
 
-html_theme_options = {
-    # Toc options
-    "collapse_navigation": True,
-    "sticky_navigation": True,
-    "navigation_depth": 4,
-    "includehidden": True,
-    "titles_only": False,
-}
 
 autodoc_default_options = {
     "members": True,
