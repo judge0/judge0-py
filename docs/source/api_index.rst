@@ -16,4 +16,11 @@ Submission Module
 
 .. automodule:: judge0.submission
    :members:
-   :undoc-members:
+   :member-order: groupwise
+
+Clients Module
+-----------------
+
+.. automodule:: judge0.clients
+   :members:
+   :member-order: groupwise

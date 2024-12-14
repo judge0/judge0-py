@@ -188,19 +188,25 @@ def wait(
 def create_submissions_from_test_cases(
     submissions: Union[Submission, Submissions],
     test_cases: Optional[Union[TestCaseType, TestCases]] = None,
-):
+) -> Union[Submission, list[Submission]]:
     """Create submissions from the (submission, test_case) pairs.
 
-    The following table contains the return type based on the types of
-    `submissions` and `test_cases` arguments:
+    This function always returns a deep copy so make sure you are using the
+    returned submission(s).
 
-    | submissions | test_cases | returns     |
-    |:------------|:-----------|:------------|
-    | Submission  | TestCase   | Submission  |
-    | Submission  | TestCases  | Submissions |
-    | Submissions | TestCase   | Submissions |
-    | Submissions | TestCases  | Submissions |
+    Parameters
+    ----------
+    submissions : Submission or Submissions
+        Base submission(s) that need to be expanded with test cases.
+    test_cases: TestCaseType or TestCases
+        Test cases.
 
+    Returns
+    -------
+    Submissions or Submissions
+        A single submission if submissions arguments is of type Submission or
+        source_code argument is provided, and test_cases argument is of type
+        TestCase. Otherwise returns a list of submissions.
     """
     if isinstance(submissions, Submission):
         submissions_list = [submissions]
@@ -275,16 +281,6 @@ def async_execute(
 
     Aliases: `async_run`.
 
-    The following table contains the return type based on the types of
-    `submissions` (or `source_code`) and `test_cases` arguments:
-
-    | submissions | test_cases | returns     |
-    |:------------|:-----------|:------------|
-    | Submission  | TestCase   | Submission  |
-    | Submission  | TestCases  | Submissions |
-    | Submissions | TestCase   | Submissions |
-    | Submissions | TestCases  | Submissions |
-
     Parameters
     ----------
     client : Client or Flavor, optional
@@ -300,7 +296,9 @@ def async_execute(
     Returns
     -------
     Submission or Submissions
-        A single submission or a list of submissions.
+        A single submission if submissions arguments is of type Submission or
+        source_code argument is provided, and test_cases argument is of type
+        TestCase. Otherwise returns a list of submissions.
 
     Raises
     ------
@@ -331,16 +329,6 @@ def sync_execute(
 
     Aliases: `execute`, `run`, `sync_run`.
 
-    The following table contains the return type based on the types of
-    `submissions` (or `source_code`) and `test_cases` arguments:
-
-    | submissions | test_cases | returns     |
-    |:------------|:-----------|:------------|
-    | Submission  | TestCase   | Submission  |
-    | Submission  | TestCases  | Submissions |
-    | Submissions | TestCase   | Submissions |
-    | Submissions | TestCases  | Submissions |
-
     Parameters
     ----------
     client : Client or Flavor, optional
@@ -356,7 +344,9 @@ def sync_execute(
     Returns
     -------
     Submission or Submissions
-        A single submission or a list of submissions.
+        A single submission if submissions arguments is of type Submission or
+        source_code argument is provided, and test_cases argument is of type
+        TestCase. Otherwise returns a list of submissions.
 
     Raises
     ------

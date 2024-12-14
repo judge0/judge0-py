@@ -22,6 +22,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.autosummary",
+    "sphinx_autodoc_typehints",
 ]
 
 templates_path = ["_templates"]
@@ -52,5 +53,6 @@ autodoc_default_options = {
     "special-members": False,
     "inherited-members": False,
 }
+autodoc_mock_imports = ["requests", "pydantic"]
 
 napoleon_google_docstring = False
