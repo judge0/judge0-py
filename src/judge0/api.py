@@ -9,6 +9,18 @@ from .submission import Submission, Submissions
 
 
 def get_client(flavor: Flavor = Flavor.CE) -> Client:
+    """Resolve client from API keys from environment or default to preview client.
+
+    Parameters
+    ----------
+    flavor : Flavor
+        Flavor of Judge0 Client.
+
+    Returns
+    -------
+    Client
+        An object of base type Client and the specified flavor.
+    """
     from . import _get_implicit_client
 
     if isinstance(flavor, Flavor):
@@ -26,14 +38,31 @@ def _resolve_client(
 ) -> Client:
     """Resolve a client from flavor or submission(s) arguments.
 
+    Parameters
+    ----------
+    client : Client or Flavor, optional
+        A Client object or flavor of client. Returns the client if not None.
+    submissions: Submission or Submissions, optional
+        Submission(s) used to determine the suitable client.
+
+    Returns
+    -------
+    Client
+        An object of base type Client.
+
     Raises
     ------
     ClientResolutionError
-        Raised if client resolution fails.
+        If there is no implemented client that supports all the languages specified
+        in the submissions.
     """
     # User explicitly passed a client.
     if isinstance(client, Client):
         return client
+
+    # NOTE: At the moment, we do not support the option to check if explicit
+    # flavor of a client supports the submissions, i.e. submissions argument is
+    # ignored if flavor argument is provided.
 
     if isinstance(client, Flavor):
         return get_client(client)
@@ -42,7 +71,7 @@ def _resolve_client(
         raise ValueError("Client cannot be determined from empty submissions.")
 
     # client is None and we have to determine a flavor of the client from the
-    # submissions and the languages.
+    # the submission's languages.
     if isinstance(submissions, Submission):
         submissions = [submissions]
 
@@ -65,18 +94,17 @@ def _resolve_client(
 
 def create_submissions(
     *,
-    client: Optional[Client] = None,
+    client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
 ) -> Union[Submission, Submissions]:
-    """Create submissions to a client.
+    """Universal function for creating submissions to the client.
 
     Parameters
     ----------
-    client : Client, optional
-        A Client where submissions should be created. If None, will try to
-        be automatically resolved.
-    submissions: Submission, Submissions
-        A submission or submissions to create.
+    client : Client or Flavor, optional
+        A client or client flavor where submissions should be created.
+    submissions: Submission or Submissions, optional
+        Submission(s) to create.
 
     Raises
     ------
@@ -102,19 +130,20 @@ def create_submissions(
 
 def get_submissions(
     *,
-    client: Optional[Client] = None,
+    client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
     fields: Optional[Union[str, Iterable[str]]] = None,
 ) -> Union[Submission, Submissions]:
-    """Create submissions to a client.
+    """Get submission (status) from a client.
 
     Parameters
     ----------
-    client : Client, optional
-        A Client where submissions should be created. If None, will try to
-        be automatically resolved.
-    submissions: Submission, Submissions
-        A submission or submissions to create.
+    client : Client or Flavor, optional
+        A client or client flavor where submissions should be checked.
+    submissions : Submission or Submissions, optional
+        Submission(s) to update.
+    fields : str or sequence of str, optional
+        Submission attributes that need to be updated. Defaults to all attributes.
 
     Raises
     ------
@@ -144,10 +173,26 @@ def get_submissions(
 
 def wait(
     *,
-    client: Optional[Client] = None,
+    client: Optional[Union[Client, Flavor]] = None,
     submissions: Optional[Union[Submission, Submissions]] = None,
     retry_strategy: Optional[RetryStrategy] = None,
 ) -> Union[Submission, Submissions]:
+    """Wait for all the submissions to finish.
+
+    Parameters
+    ----------
+    client : Client or Flavor, optional
+        A client or client flavor where submissions should be checked.
+    submissions : Submission or Submissions
+        Submission(s) to wait for.
+    retry_strategy : RetryStrategy, optional
+        A retry strategy.
+
+    Raises
+    ------
+    ClientResolutionError
+        Raised if client resolution fails.
+    """
     client = _resolve_client(client, submissions)
 
     if retry_strategy is None:
@@ -189,9 +234,9 @@ def create_submissions_from_test_cases(
     submissions: Union[Submission, Submissions],
     test_cases: Optional[Union[TestCaseType, TestCases]] = None,
 ) -> Union[Submission, list[Submission]]:
-    """Create submissions from the (submission, test_case) pairs.
+    """Create submissions from the submission and test case pairs.
 
-    This function always returns a deep copy so make sure you are using the
+    Function always returns a deep copy so make sure you are using the
     returned submission(s).
 
     Parameters
@@ -335,7 +380,7 @@ def sync_execute(
         A client where submissions should be created. If None, will try to be
         resolved.
     submissions : Submission or Submissions, optional
-        Submission or submissions for execution.
+        Submission(s) for execution.
     source_code: str, optional
         A source code of a program.
     test_cases: TestCaseType or TestCases, optional
