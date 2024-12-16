@@ -68,16 +68,17 @@
 </a>
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/release_notes.html">How to create a release candidate</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="submission.html">Submission Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clients.html">Clients Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types Module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/release_notes.html">How to create a release candidate</a></li>
 </ul>
 </nav>
 </div>
@@ -111,7 +112,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
 <li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
@@ -142,7 +143,7 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
 <li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
@@ -168,13 +169,12 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="judge0.api.create_submissions">
 <span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">create_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.create_submissions" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.api.create_submissions'">¶</a></dt>
-<dd><p>Create submissions to a client.</p>
+<dd><p>Universal function for creating submissions to the client.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em>, </em><em>optional</em>) – A Client where submissions should be created. If None, will try to
-be automatically resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em>, </em><em>Submissions</em>) – A submission or submissions to create.</p></li>
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client or client flavor where submissions should be created.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) to create.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -188,8 +188,8 @@ be automatically resolved.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="judge0.api.create_submissions_from_test_cases">
 <span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">create_submissions_from_test_cases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submissions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.create_submissions_from_test_cases" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.api.create_submissions_from_test_cases'">¶</a></dt>
-<dd><p>Create submissions from the (submission, test_case) pairs.</p>
-<p>This function always returns a deep copy so make sure you are using the
+<dd><p>Create submissions from the submission and test case pairs.</p>
+<p>Function always returns a deep copy so make sure you are using the
 returned submission(s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -216,9 +216,9 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
 <li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
 </ul>
@@ -242,22 +242,29 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="judge0.api.get_client">
 <span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">get_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flavor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Flavor.CE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.get_client" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.api.get_client'">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Resolve client from API keys from environment or default to preview client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>flavor</strong> (<a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a>) – Flavor of Judge0 Client.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An object of base type Client and the specified flavor.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a></span></p>
+<dd class="field-odd"><p><a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client">Client</a></p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="judge0.api.get_submissions">
 <span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">get_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.get_submissions" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.api.get_submissions'">¶</a></dt>
-<dd><p>Create submissions to a client.</p>
+<dd><p>Get submission (status) from a client.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em>, </em><em>optional</em>) – A Client where submissions should be created. If None, will try to
-be automatically resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em>, </em><em>Submissions</em>) – A submission or submissions to create.</p></li>
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client or client flavor where submissions should be checked.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) to update.</p></li>
+<li><p><strong>fields</strong> (<em>str</em><em> or </em><em>sequence</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Submission attributes that need to be updated. Defaults to all attributes.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -276,9 +283,9 @@ be automatically resolved.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
 <li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
 </ul>
@@ -307,9 +314,9 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
 <li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
 </ul>
@@ -338,9 +345,9 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><em>Flavor</em><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client where submissions should be created. If None, will try to be
 resolved.</p></li>
-<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission or submissions for execution.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em><em>, </em><em>optional</em>) – Submission(s) for execution.</p></li>
 <li><p><strong>source_code</strong> (<em>str</em><em>, </em><em>optional</em>) – A source code of a program.</p></li>
 <li><p><strong>test_cases</strong> (<em>TestCaseType</em><em> or </em><em>TestCases</em><em>, </em><em>optional</em>) – A single test or a list of test cases</p></li>
 </ul>
@@ -364,7 +371,18 @@ TestCase. Otherwise returns a list of submissions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="judge0.api.wait">
 <span class="sig-prename descclassname"><span class="pre">judge0.api.</span></span><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submissions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.api.wait" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.api.wait'">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Wait for all the submissions to finish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="clients.html#judge0.clients.Client" title="judge0.clients.Client"><em>Client</em></a><em> or </em><a class="reference internal" href="types.html#judge0.base_types.Flavor" title="judge0.base_types.Flavor"><em>Flavor</em></a><em>, </em><em>optional</em>) – A client or client flavor where submissions should be checked.</p></li>
+<li><p><strong>submissions</strong> (<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><em>Submission</em></a><em> or </em><em>Submissions</em>) – Submission(s) to wait for.</p></li>
+<li><p><strong>retry_strategy</strong> (<em>RetryStrategy</em><em>, </em><em>optional</em>) – A retry strategy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ClientResolutionError</strong> – Raised if client resolution fails.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="submission.html#judge0.submission.Submission" title="judge0.submission.Submission"><code class="xref py py-class docutils literal notranslate"><span class="pre">Submission</span></code></a>]]</span></p>
 </dd>

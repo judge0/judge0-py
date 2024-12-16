@@ -99,16 +99,17 @@
 
     <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
       <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-  <p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="contributors_guide/contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributors_guide/release_notes.html">How to create a release candidate</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">API</span></p>
+  <p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/api.html">API Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/submission.html">Submission Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/clients.html">Clients Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/types.html">Types Module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors_guide/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors_guide/release_notes.html">How to create a release candidate</a></li>
 </ul>
 
 </nav>
@@ -152,6 +153,16 @@
   <h2 id="A">A</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Status.ACCEPTED">ACCEPTED (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.allow_enable_network">allow_enable_network (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.allow_enable_per_process_and_thread_memory_limit">allow_enable_per_process_and_thread_memory_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.allow_enable_per_process_and_thread_time_limit">allow_enable_per_process_and_thread_time_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.allowed_languages_for_compile_options">allowed_languages_for_compile_options (judge0.base_types.Config attribute)</a>
+</li>
       <li><a href="api/clients.html#judge0.clients.ATD.API_KEY_ENV">API_KEY_ENV (judge0.clients.ATD attribute)</a>
 
       <ul style="list-style-type:none">
@@ -162,10 +173,10 @@
         <li><a href="api/clients.html#judge0.clients.Sulu.API_KEY_ENV">(judge0.clients.Sulu attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/submission.html#judge0.submission.Submission.as_body">as_body() (judge0.submission.Submission method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/submission.html#judge0.submission.Submission.as_body">as_body() (judge0.submission.Submission method)</a>
+</li>
       <li><a href="api/api.html#judge0.api.async_execute">async_execute() (in module judge0.api)</a>
 </li>
       <li><a href="api/api.html#judge0.api.async_run">async_run() (in module judge0.api)</a>
@@ -183,7 +194,31 @@
   <h2 id="C">C</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.callbacks_max_tries">callbacks_max_tries (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.callbacks_timeout">callbacks_timeout (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Flavor.CE">CE (judge0.base_types.Flavor attribute)</a>
+</li>
       <li><a href="api/clients.html#judge0.clients.Client">Client (class in judge0.clients)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.COMPILATION_ERROR">COMPILATION_ERROR (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Language.compile_cmd">compile_cmd (judge0.base_types.Language attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config">Config (class in judge0.base_types)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.CPP">CPP (judge0.base_types.LanguageAlias attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.CPP_CLANG">CPP_CLANG (judge0.base_types.LanguageAlias attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.CPP_GCC">CPP_GCC (judge0.base_types.LanguageAlias attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.cpu_extra_time">cpu_extra_time (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.cpu_time_limit">cpu_time_limit (judge0.base_types.Config attribute)</a>
 </li>
       <li><a href="api/clients.html#judge0.clients.ATDJudge0CE.create_submission">create_submission() (judge0.clients.ATDJudge0CE method)</a>
 
@@ -193,8 +228,6 @@
         <li><a href="api/clients.html#judge0.clients.Client.create_submission">(judge0.clients.Client method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li><a href="api/api.html#judge0.api.create_submissions">create_submissions() (in module judge0.api)</a>
 
       <ul style="list-style-type:none">
@@ -301,7 +334,52 @@
   <h2 id="E">E</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.enable_additional_files">enable_additional_files (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_batched_submissions">enable_batched_submissions (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_callbacks">enable_callbacks (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_command_line_arguments">enable_command_line_arguments (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_compiler_options">enable_compiler_options (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_network">enable_network (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_per_process_and_thread_memory_limit">enable_per_process_and_thread_memory_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_per_process_and_thread_time_limit">enable_per_process_and_thread_time_limit (judge0.base_types.Config attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.enable_submission_delete">enable_submission_delete (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.enable_wait_result">enable_wait_result (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Encodeable.encode">encode() (judge0.base_types.Encodeable method)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Encodeable">Encodeable (class in judge0.base_types)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.EXEC_FORMAT_ERROR">EXEC_FORMAT_ERROR (judge0.base_types.Status attribute)</a>
+</li>
       <li><a href="api/api.html#judge0.api.execute">execute() (in module judge0.api)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.TestCase.expected_output">expected_output (judge0.base_types.TestCase attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Flavor.EXTRA_CE">EXTRA_CE (judge0.base_types.Flavor attribute)</a>
+</li>
+  </ul></td>
+  </tr>
+      </table>
+  
+  <h2 id="F">F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Flavor">Flavor (class in judge0.base_types)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.TestCase.from_record">from_record() (judge0.base_types.TestCase static method)</a>
 </li>
   </ul></td>
   </tr>
@@ -402,10 +480,20 @@
   <h2 id="I">I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
-      <li><a href="api/submission.html#judge0.submission.Submission.is_done">is_done() (judge0.submission.Submission method)</a>
+      <li><a href="api/types.html#judge0.base_types.Language.id">id (judge0.base_types.Language attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.IN_QUEUE">IN_QUEUE (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.TestCase.input">input (judge0.base_types.TestCase attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Status.INTERNAL_ERROR">INTERNAL_ERROR (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Language.is_archived">is_archived (judge0.base_types.Language attribute)</a>
+</li>
+      <li><a href="api/submission.html#judge0.submission.Submission.is_done">is_done() (judge0.submission.Submission method)</a>
+</li>
       <li><a href="api/clients.html#judge0.clients.Client.is_language_supported">is_language_supported() (judge0.clients.Client method)</a>
 </li>
   </ul></td>
@@ -415,6 +503,8 @@
   <h2 id="J">J</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.JAVA">JAVA (judge0.base_types.LanguageAlias attribute)</a>
+</li>
       <li>
     judge0.api
 
@@ -423,14 +513,21 @@
 </li>
       </ul></li>
       <li>
+    judge0.base_types
+
+      <ul style="list-style-type:none">
+        <li><a href="api/types.html#module-judge0.base_types">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li>
     judge0.clients
 
       <ul style="list-style-type:none">
         <li><a href="api/clients.html#module-judge0.clients">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li>
     judge0.submission
 
@@ -442,20 +539,80 @@
   </tr>
       </table>
   
+  <h2 id="L">L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Language">Language (class in judge0.base_types)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias">LanguageAlias (class in judge0.base_types)</a>
+</li>
+  </ul></td>
+  </tr>
+      </table>
+  
   <h2 id="M">M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.maintenance_mode">maintenance_mode (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_cpu_extra_time">max_cpu_extra_time (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_cpu_time_limit">max_cpu_time_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_extract_size">max_extract_size (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_file_size">max_file_size (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_max_file_size">max_max_file_size (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_max_processes_and_or_threads">max_max_processes_and_or_threads (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_memory_limit">max_memory_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_number_of_runs">max_number_of_runs (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_processes_and_or_threads">max_processes_and_or_threads (judge0.base_types.Config attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.max_queue_size">max_queue_size (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_stack_limit">max_stack_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_submission_batch_size">max_submission_batch_size (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.max_wall_time_limit">max_wall_time_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Config.memory_limit">memory_limit (judge0.base_types.Config attribute)</a>
+</li>
       <li>
     module
 
       <ul style="list-style-type:none">
         <li><a href="api/api.html#module-judge0.api">judge0.api</a>
 </li>
+        <li><a href="api/types.html#module-judge0.base_types">judge0.base_types</a>
+</li>
         <li><a href="api/clients.html#module-judge0.clients">judge0.clients</a>
 </li>
         <li><a href="api/submission.html#module-judge0.submission">judge0.submission</a>
 </li>
       </ul></li>
+  </ul></td>
+  </tr>
+      </table>
+  
+  <h2 id="N">N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Language.name">name (judge0.base_types.Language attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.number_of_runs">number_of_runs (judge0.base_types.Config attribute)</a>
+</li>
   </ul></td>
   </tr>
       </table>
@@ -467,13 +624,19 @@
 </li>
       <li><a href="api/submission.html#judge0.submission.Submission.process_encoded_fields">process_encoded_fields() (judge0.submission.Submission method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li><a href="api/submission.html#judge0.submission.Submission.process_language">process_language() (judge0.submission.Submission method)</a>
 </li>
       <li><a href="api/submission.html#judge0.submission.Submission.process_post_execution_filesystem">process_post_execution_filesystem() (judge0.submission.Submission method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li><a href="api/submission.html#judge0.submission.Submission.process_status">process_status() (judge0.submission.Submission method)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.PROCESSING">PROCESSING (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.PYTHON">PYTHON (judge0.base_types.LanguageAlias attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.LanguageAlias.PYTHON_FOR_ML">PYTHON_FOR_ML (judge0.base_types.LanguageAlias attribute)</a>
 </li>
   </ul></td>
   </tr>
@@ -486,11 +649,27 @@
 </li>
       <li><a href="api/clients.html#judge0.clients.RapidJudge0CE">RapidJudge0CE (class in judge0.clients)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li><a href="api/clients.html#judge0.clients.RapidJudge0ExtraCE">RapidJudge0ExtraCE (class in judge0.clients)</a>
 </li>
+      <li><a href="api/types.html#judge0.base_types.Config.redirect_stderr_to_stdout">redirect_stderr_to_stdout (judge0.base_types.Config attribute)</a>
+</li>
       <li><a href="api/api.html#judge0.api.run">run() (in module judge0.api)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Language.run_cmd">run_cmd (judge0.base_types.Language attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_NZEC">RUNTIME_ERROR_NZEC (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_OTHER">RUNTIME_ERROR_OTHER (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_SIGABRT">RUNTIME_ERROR_SIGABRT (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_SIGFPE">RUNTIME_ERROR_SIGFPE (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_SIGSEGV">RUNTIME_ERROR_SIGSEGV (judge0.base_types.Status attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.RUNTIME_ERROR_SIGXFSZ">RUNTIME_ERROR_SIGXFSZ (judge0.base_types.Status attribute)</a>
 </li>
   </ul></td>
   </tr>
@@ -501,12 +680,20 @@
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
       <li><a href="api/submission.html#judge0.submission.Submission.set_attributes">set_attributes() (judge0.submission.Submission method)</a>
 </li>
-      <li><a href="api/submission.html#judge0.submission.Submission">Submission (class in judge0.submission)</a>
+      <li><a href="api/types.html#judge0.base_types.Language.source_file">source_file (judge0.base_types.Language attribute)</a>
 </li>
-      <li><a href="api/clients.html#judge0.clients.Sulu">Sulu (class in judge0.clients)</a>
+      <li><a href="api/types.html#judge0.base_types.Config.stack_limit">stack_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status">Status (class in judge0.base_types)</a>
+</li>
+      <li><a href="api/submission.html#judge0.submission.Submission">Submission (class in judge0.submission)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.submission_cache_duration">submission_cache_duration (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/clients.html#judge0.clients.Sulu">Sulu (class in judge0.clients)</a>
+</li>
       <li><a href="api/clients.html#judge0.clients.SuluJudge0CE">SuluJudge0CE (class in judge0.clients)</a>
 </li>
       <li><a href="api/clients.html#judge0.clients.SuluJudge0ExtraCE">SuluJudge0ExtraCE (class in judge0.clients)</a>
@@ -514,6 +701,28 @@
       <li><a href="api/api.html#judge0.api.sync_execute">sync_execute() (in module judge0.api)</a>
 </li>
       <li><a href="api/api.html#judge0.api.sync_run">sync_run() (in module judge0.api)</a>
+</li>
+  </ul></td>
+  </tr>
+      </table>
+  
+  <h2 id="T">T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.TestCase">TestCase (class in judge0.base_types)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Status.TIME_LIMIT_EXCEEDED">TIME_LIMIT_EXCEEDED (judge0.base_types.Status attribute)</a>
+</li>
+  </ul></td>
+  </tr>
+      </table>
+  
+  <h2 id="U">U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.use_docs_as_homepage">use_docs_as_homepage (judge0.base_types.Config attribute)</a>
 </li>
   </ul></td>
   </tr>
@@ -534,6 +743,12 @@
       <li><a href="api/api.html#judge0.api.wait">wait() (in module judge0.api)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul style="margin-left:0;list-style-type:none">
+      <li><a href="api/types.html#judge0.base_types.Config.wall_time_limit">wall_time_limit (judge0.base_types.Config attribute)</a>
+</li>
+      <li><a href="api/types.html#judge0.base_types.Status.WRONG_ANSWER">WRONG_ANSWER (judge0.base_types.Status attribute)</a>
+</li>
+  </ul></td>
   </tr>
       </table>
   
@@ -541,7 +756,7 @@
 </div></div>
 <aside id="right-sidebar" class="hidden text-sm xl:block">
 <div class="sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-6 space-y-2">
-<a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#A">A</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#C">C</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#D">D</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#E">E</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#G">G</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#H">H</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#I">I</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#J">J</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#M">M</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#P">P</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#R">R</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#S">S</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#V">V</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#W">W</a>
+<a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#A">A</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#C">C</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#D">D</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#E">E</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#F">F</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#G">G</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#H">H</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#I">I</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#J">J</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#L">L</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#M">M</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#N">N</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#P">P</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#R">R</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#S">S</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#T">T</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#U">U</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#V">V</a><a class="pt-2 block text-muted-foreground no-underline transition-colors hover:text-foreground focus-visible:outline-offset-[-1px]" href="#W">W</a>
 </div>
 </aside>
         </main>

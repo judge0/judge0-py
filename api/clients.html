@@ -14,6 +14,7 @@
 <link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../genindex.html" rel="index" title="Index"/>
+<link href="types.html" rel="next" title="Types Module"/>
 <link href="submission.html" rel="prev" title="Submission Module"/>
 <script>
     <!-- Prevent Flash of wrong theme -->
@@ -67,16 +68,17 @@
 </a>
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/release_notes.html">How to create a release candidate</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="submission.html">Submission Module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Clients Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types Module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors_guide/release_notes.html">How to create a release candidate</a></li>
 </ul>
 </nav>
 </div>
@@ -164,7 +166,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_config_info" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0CE.get_config_info'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Config" title="judge0.base_types.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -173,7 +175,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_language" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0CE.get_language'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,7 +184,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0CE.get_languages" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0CE.get_languages'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -334,7 +336,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_config_info" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0ExtraCE.get_config_info'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Config" title="judge0.base_types.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -343,7 +345,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_language" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0ExtraCE.get_language'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -352,7 +354,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.ATDJudge0ExtraCE.get_languages" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.ATDJudge0ExtraCE.get_languages'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,7 +505,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_config_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_config_info" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.Client.get_config_info'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Config" title="judge0.base_types.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -512,7 +514,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_language" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.Client.get_language'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -531,7 +533,7 @@ Cannot handle more submissions than the client supports.</p>
 <span class="sig-name descname"><span class="pre">get_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#judge0.clients.Client.get_languages" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#judge0.clients.Client.get_languages'">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<a class="reference internal" href="types.html#judge0.base_types.Language" title="judge0.base_types.Language"><code class="xref py py-class docutils literal notranslate"><span class="pre">Language</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>

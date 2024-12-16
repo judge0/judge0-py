@@ -38,17 +38,17 @@ Getting Involved
 TODO
 
 .. toctree::
-      :caption: Getting Involved
-      :glob:
-      :titlesonly:
-      :hidden:
-
-      contributors_guide/index
-
-.. toctree::
       :caption: API
       :glob:
       :titlesonly:
       :hidden:
 
       api/index
+
+.. toctree::
+      :caption: Getting Involved
+      :glob:
+      :titlesonly:
+      :hidden:
+
+      contributors_guide/index
