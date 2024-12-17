@@ -174,7 +174,7 @@ class Submission(BaseModel):
 
     @field_validator(*ENCODED_FIELDS, mode="before")
     @classmethod
-    def process_encoded_fields(cls, value: str) -> Optional[str]:
+    def process_encoded_fields(cls, value: Union[str, None]) -> Optional[str]:
         """Validate all encoded attributes."""
         if value is None:
             return None
@@ -271,6 +271,7 @@ class Submission(BaseModel):
         new_submission = Submission()
         for attr in REQUEST_FIELDS:
             setattr(new_submission, attr, copy.deepcopy(getattr(self, attr)))
+        new_submission.language = self.language
         return new_submission
 
     def __iter__(self):
