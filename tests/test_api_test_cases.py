@@ -1,4 +1,4 @@
-"""Separate file containg tests related to test case functionality."""
+"""Separate file containing tests related to test case functionality."""
 
 import judge0
 import pytest
@@ -65,6 +65,94 @@ def test_create_submissions_from_test_cases_return_type(
 ):
     output = create_submissions_from_test_cases(submissions, test_cases)
     assert type(output) is expected_type
+
+
+class TestCreateSubmissionsFromTestCases:
+    @pytest.mark.parametrize(
+        "test_case,stdin,expected_output",
+        [
+            [TestCase(), None, None],
+            [[], None, None],
+            [{}, None, None],
+            [tuple([]), None, None],
+        ],
+    )
+    def test_empty_test_case(self, test_case, stdin, expected_output):
+        submission = create_submissions_from_test_cases(
+            Submission(), test_cases=test_case
+        )
+
+        assert (
+            submission.stdin == stdin and submission.expected_output == expected_output
+        )
+
+    @pytest.mark.parametrize(
+        "test_case,stdin,expected_output",
+        [
+            [TestCase(), None, None],
+            [TestCase(input="input"), "input", None],
+            [TestCase(expected_output="output"), None, "output"],
+            [["input_list"], "input_list", None],
+            [["input_list", "output_list"], "input_list", "output_list"],
+            [{"input": "input_dict"}, "input_dict", None],
+            [
+                {"input": "input_dict", "expected_output": "output_dict"},
+                "input_dict",
+                "output_dict",
+            ],
+            [("input_tuple",), "input_tuple", None],
+            [("input_tuple", "output_tuple"), "input_tuple", "output_tuple"],
+        ],
+    )
+    def test_single_test_case(self, test_case, stdin, expected_output):
+        submission = create_submissions_from_test_cases(
+            Submission(), test_cases=test_case
+        )
+
+        assert (
+            submission.stdin == stdin and submission.expected_output == expected_output
+        )
+
+    @pytest.mark.parametrize(
+        "test_cases,stdin,expected_output",
+        [
+            [[TestCase()], None, None],
+            [[TestCase(input="input")], "input", None],
+            [[TestCase(expected_output="output")], None, "output"],
+            [(["input_list"],), "input_list", None],
+            [(["input_list", "output_list"],), "input_list", "output_list"],
+            [({"input": "input_dict"},), "input_dict", None],
+            [
+                ({"input": "input_dict", "expected_output": "output_dict"},),
+                "input_dict",
+                "output_dict",
+            ],
+            [
+                [
+                    ("input_tuple",),
+                ],
+                "input_tuple",
+                None,
+            ],
+            [
+                [
+                    ("input_tuple", "output_tuple"),
+                ],
+                "input_tuple",
+                "output_tuple",
+            ],
+        ],
+    )
+    def test_single_test_case_in_iterable(self, test_cases, stdin, expected_output):
+        submissions = create_submissions_from_test_cases(
+            Submission(), test_cases=test_cases
+        )
+
+        for submission in submissions:
+            assert (
+                submission.stdin == stdin
+                and submission.expected_output == expected_output
+            )
 
 
 @pytest.mark.parametrize(

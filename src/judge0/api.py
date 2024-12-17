@@ -260,10 +260,27 @@ def create_submissions_from_test_cases(
 
     if isinstance(test_cases, TestCase) or test_cases is None:
         test_cases_list = [test_cases]
+        multiple_test_cases = False
     else:
-        test_cases_list = test_cases
+        try:
+            # Let's assume that we are dealing with multiple test_cases that
+            # can be created from test_cases argument. If this fails, i.e.
+            # raises a ValueError, we know we are dealing with a test_cases=dict,
+            # or test_cases=["in", "out"], or test_cases=tuple("in", "out").
+            test_cases_list = [TestCase.from_record(tc) for tc in test_cases]
 
-    test_cases_list = [TestCase.from_record(tc) for tc in test_cases_list]
+            # It is possible to send test_cases={}, or test_cases=[], or
+            # test_cases=tuple([]). In this case, we are treating that as None.
+            if len(test_cases) > 0:
+                multiple_test_cases = True
+            else:
+                multiple_test_cases = False
+                test_cases_list = [None]
+        except ValueError:
+            test_cases_list = [test_cases]
+            multiple_test_cases = False
+
+    test_cases_list = [TestCase.from_record(test_case=tc) for tc in test_cases_list]
 
     all_submissions = []
     for submission in submissions_list:
@@ -274,9 +291,7 @@ def create_submissions_from_test_cases(
                 submission_copy.expected_output = test_case.expected_output
             all_submissions.append(submission_copy)
 
-    if isinstance(submissions, Submission) and (
-        isinstance(test_cases, TestCase) or test_cases is None
-    ):
+    if isinstance(submissions, Submission) and (not multiple_test_cases):
         return all_submissions[0]
     else:
         return all_submissions
