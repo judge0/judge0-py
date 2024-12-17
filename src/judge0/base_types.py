@@ -18,7 +18,9 @@ class TestCase:
     expected_output: Optional[str] = None
 
     @classmethod
-    def from_record(cls, test_case: TestCaseType) -> "TestCase":
+    def from_record(
+        cls, test_case: Union[TestCaseType, None]
+    ) -> Union["TestCase", None]:
         """Create a TestCase from built-in types."""
         if isinstance(test_case, (tuple, list)):
             test_case = {
@@ -33,7 +35,7 @@ class TestCase:
         if isinstance(test_case, cls):
             return copy.deepcopy(test_case)
         if test_case is None:
-            return cls()
+            return None
         raise ValueError(
             f"Cannot create TestCase object from object of type {type(test_case)}."
         )

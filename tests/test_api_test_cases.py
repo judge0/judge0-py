@@ -43,7 +43,7 @@ from judge0.api import create_submissions_from_test_cases
         ],
         [
             None,
-            TestCase(),
+            None,
         ],
     ],
 )
