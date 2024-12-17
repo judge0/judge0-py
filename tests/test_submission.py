@@ -90,5 +90,5 @@ def test_language_before_and_after_execution(request):
     )
 
     assert submission.language == LanguageAlias.JAVA
-    run(client=client, submissions=submission)
+    submission = run(client=client, submissions=submission)
     assert submission.language == LanguageAlias.JAVA
