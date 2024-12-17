@@ -131,7 +131,7 @@ class Submission(BaseModel):
         default=LanguageAlias.PYTHON,
         repr=True,
     )
-    additional_files: Optional[str] = Field(default=None, repr=True)
+    additional_files: Optional[Union[str, Filesystem]] = Field(default=None, repr=True)
     compiler_options: Optional[str] = Field(default=None, repr=True)
     command_line_arguments: Optional[str] = Field(default=None, repr=True)
     stdin: Optional[str] = Field(default=None, repr=True)
