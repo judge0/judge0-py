@@ -271,6 +271,7 @@ class Submission(BaseModel):
         new_submission = Submission()
         for attr in REQUEST_FIELDS:
             setattr(new_submission, attr, copy.deepcopy(getattr(self, attr)))
+        new_submission.language = self.language
         return new_submission
 
     def __iter__(self):

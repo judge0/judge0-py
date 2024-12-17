@@ -1,4 +1,5 @@
-from judge0 import Status, Submission, wait
+from judge0 import run, Status, Submission, wait
+from judge0.base_types import LanguageAlias
 
 
 def test_from_json():
@@ -71,3 +72,23 @@ def test_is_done(request):
     wait(client=client, submissions=submission)
 
     assert submission.is_done()
+
+
+def test_language_before_and_after_execution(request):
+    client = request.getfixturevalue("judge0_ce_client")
+    code = """\
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World");
+        }
+    }
+    """
+
+    submission = Submission(
+        source_code=code,
+        language=LanguageAlias.JAVA,
+    )
+
+    assert submission.language == LanguageAlias.JAVA
+    submission = run(client=client, submissions=submission)
+    assert submission.language == LanguageAlias.JAVA
