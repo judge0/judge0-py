@@ -7,6 +7,51 @@ from judge0.api import create_submissions_from_test_cases
 
 
 @pytest.mark.parametrize(
+    "test_case,expected_output",
+    [
+        [
+            TestCase(input="input_1", expected_output="output_1"),
+            TestCase(input="input_1", expected_output="output_1"),
+        ],
+        [
+            tuple([]),
+            TestCase(input=None, expected_output=None),
+        ],
+        [
+            ("input_tuple",),
+            TestCase(input="input_tuple", expected_output=None),
+        ],
+        [
+            ("input_tuple", "output_tuple"),
+            TestCase(input="input_tuple", expected_output="output_tuple"),
+        ],
+        [
+            [],
+            TestCase(input=None, expected_output=None),
+        ],
+        [
+            ["input_list"],
+            TestCase(input="input_list", expected_output=None),
+        ],
+        [
+            ["input_list", "output_list"],
+            TestCase(input="input_list", expected_output="output_list"),
+        ],
+        [
+            {"input": "input_dict", "expected_output": "output_dict"},
+            TestCase(input="input_dict", expected_output="output_dict"),
+        ],
+        [
+            None,
+            TestCase(),
+        ],
+    ],
+)
+def test_test_case_from_record(test_case, expected_output):
+    assert TestCase.from_record(test_case) == expected_output
+
+
+@pytest.mark.parametrize(
     "submissions,test_cases,expected_type",
     [
         [Submission(source_code=""), TestCase(), Submission],
@@ -19,7 +64,7 @@ def test_create_submissions_from_test_cases_return_type(
     submissions, test_cases, expected_type
 ):
     output = create_submissions_from_test_cases(submissions, test_cases)
-    assert type(output) == expected_type
+    assert type(output) is expected_type
 
 
 @pytest.mark.parametrize(

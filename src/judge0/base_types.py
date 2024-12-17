@@ -1,3 +1,5 @@
+import copy
+
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional, Protocol, runtime_checkable, Sequence, Union
@@ -15,8 +17,8 @@ class TestCase:
     input: Optional[str] = None
     expected_output: Optional[str] = None
 
-    @staticmethod
-    def from_record(test_case: Optional[TestCaseType] = None) -> "TestCase":
+    @classmethod
+    def from_record(cls, test_case: TestCaseType) -> "TestCase":
         """Create a TestCase from built-in types."""
         if isinstance(test_case, (tuple, list)):
             test_case = {
@@ -24,12 +26,14 @@ class TestCase:
                 for field, value in zip(("input", "expected_output"), test_case)
             }
         if isinstance(test_case, dict):
-            return TestCase(
+            return cls(
                 input=test_case.get("input", None),
                 expected_output=test_case.get("expected_output", None),
             )
-        if isinstance(test_case, TestCase) or test_case is None:
-            return test_case
+        if isinstance(test_case, cls):
+            return copy.deepcopy(test_case)
+        if test_case is None:
+            return cls()
         raise ValueError(
             f"Cannot create TestCase object from object of type {type(test_case)}."
         )
