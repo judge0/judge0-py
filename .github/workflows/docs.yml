@@ -34,6 +34,18 @@ jobs:
     - name: Build documentation
       run: sphinx-multiversion docs/source docs/build/html --keep-going --no-color
 
+    - name: Generate index.html for judge0.github.io/judge0-python.
+      run: |
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+            <meta http-equiv="refresh" content="0; URL=master/index.html">
+        </head>
+        <body>
+            <p>Redirecting to <a href="master/index.html">master/index.html</a></p>
+        </body>
+        </html>' > docs/build/html/index.html
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
