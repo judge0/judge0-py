@@ -1,4 +1,4 @@
-How to create a release candidate
-=================================
+How to create a release
+=======================
 
 TODO
