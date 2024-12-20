@@ -15,7 +15,7 @@ You can run minimal Hello World example in three easy steps:
 
 2. Create a minimal script:
 
-.. code-block:: Python
+.. code-block:: python
 
     import judge0
 
