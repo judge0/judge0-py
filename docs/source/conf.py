@@ -63,7 +63,7 @@ smv_branch_whitelist = r"^master$"
 # Whitelist pattern for remotes (set to None to use local branches only)
 smv_remote_whitelist = None
 # Pattern for released versions
-smv_released_pattern = r"^tags/.*$"
+smv_released_pattern = ""  # r"^tags/.*$"
 # Format for versioned output directories inside the build directory
 smv_outputdir_format = "{ref.name}"
 # Determines whether remote or local git branches/tags are preferred if their

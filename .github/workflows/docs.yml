@@ -15,7 +15,12 @@ jobs:
     - uses: actions/checkout@v4
       with:
         persist-credentials: false
-
+        fetch-depth: 0       # Fetch the full history
+        ref: ${{ github.ref }} # Check out the current branch or tag
+  
+    - name: Fetch tags only
+      run: git fetch --tags --no-recurse-submodules
+    
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
