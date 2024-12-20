@@ -27,7 +27,7 @@ jobs:
         pip install sphinx==7.4.7 sphinxawesome-theme==5.3.2 sphinx-autodoc-typehints==2.3.0 sphinx-multiversion==0.2.4
 
     - name: Build documentation
-      run: sphinx-multiversion docs/source docs/build/html --keep-going --no-color"
+      run: sphinx-multiversion docs/source docs/build/html --keep-going --no-color
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
